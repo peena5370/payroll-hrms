@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>HR Payroll Management System - Employee Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/main.css}">
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:inline="javascript"> var $contextPath = /*[[@{/}]]*/ ''; </script>
+  </head>
+
+  <body>
+    <div class="d-flex flex-row">
+      <nav class="nav flex-column text-white bg-dark vh-100" style="width: 15%;">
+        <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+          <span style="margin-left: 25px; padding-top: 10px;">Payroll Management System</span>
+        </a>
+        <hr>
+        <a class="nav-link active" aria-current="page" th:href="@{/home/dashboard}">Dashboard</a>
+        <a class="nav-link" th:href="@{/home/leave}">Leave</a>
+        <a class="nav-link" th:href="@{/home/loan}">Loan</a>
+        <a class="nav-link" th:href="@{/home/training}">Training</a>
+        <div class="dropdown">
+          <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img th:src="@{/img/avatar/user-img02.jpg}" alt="" width="35" height="35" class="rounded-circle me-2">
+            <strong>Setting</strong>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+            <li><span id="full-name" style="margin-left: 15px;"></span></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" th:href="@{/home/logout}">Sign out</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Body Container -->
+      <div class="d-flex flex-column" style="width: 85%;">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-8 vh-100">
+              <form id="Profile1">
+                <div class="row  mt-2">
+                  <div class="col-sm-12">
+                    <legend>Basic Information</legend>
+                    <hr>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="sapid" class="col-sm-2 col-form-label">System ID</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control-plaintext" name="sapid" readonly/>
+                  </div>
+                  <label for="title" class="col-sm-2 col-form-label">Position</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control-plaintext" name="title-name" readonly/>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="name" class="col-sm-2 col-form-label">Full Name</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="fullname" required/>
+                  </div>
+                  <label for="dept-list" class="col-sm-2 col-form-label">Department</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control-plaintext" name="dept-name" readonly/>
+                  </div>
+                  
+                </div>
+                <div class="row mb-3">
+                  <label for="gender" class="col-sm-2 col-form-label">Gender</label>
+                  <div class="col-sm-4 d-flex align-items-center">
+                    <div class="form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" value="MALE" style="margin-top: .2rem;">
+                      <label class="form-check-label" for="inlineCheckbox">Male</label>
+                    </div>
+                    <div class="form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" value="FEMALE">
+                      <label class="form-check-label" for="inlineCheckbox">Female</label>
+                    </div>
+                    <div class="form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" value="OTHER">
+                      <label class="form-check-label" for="inlineCheckbox">Other</label>
+                    </div>
+                  </div>
+                  <label for="age" class="col-sm-2 col-form-label">Age</label>
+                  <div class="col-sm-2">
+                    <input type="number" class="form-control" name="age" min="18" max="99" required/>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>
+                  <div class="col-sm-4">
+                    <input type="date" class="form-control" name="dob" required/>
+                  </div>
+                  <label for="martial-status" class="col-sm-2 col-form-label">Martial Status</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="martial-status" required/>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="education" class="col-sm-2 col-form-label">Education Level</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="education" required/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <legend>Contact Information</legend>
+                    <hr>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="addr" class="col-sm-2 col-form-label">Address</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" name="addr" row="3" required></textarea>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="state" class="col-sm-2 col-form-label">State</label>
+                  <div class="col-sm-4">
+                    <select name="state" class="form-select">
+                      <option value="Johor">Johor</option>
+                      <option value="Kedah">Kedah</option>
+                      <option value="Kelantan">Kelantan</option>
+                      <option value="Kuala Lumpur">Kuala Lumpur</option>
+                      <option value="Labuan">Labuan</option>
+                      <option value="Malacca">Melaka</option>
+                      <option value="Negeri Sembilan">Negeri Sembilan</option>
+                      <option value="Pahang">Pahang</option>
+                      <option value="Perak">Perak</option>
+                      <option value="Perlis">Perlis</option>
+                      <option value="Pulau Pinang">Pulau Pinang</option>
+                      <option value="Putrajaya">Putrajaya</option>
+                      <option value="Selangor">Selangor</option>
+                      <option value="Terengganu">Terengganu</option>
+                      <option value="Sabah">Sabah</option>
+                      <option value="Sarawak">Sarawak</option>
+                    </select>
+                  </div>
+                  <label for="country" class="col-sm-2 col-form-label">Country</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="country" required/>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="phone" class="col-sm-2 col-form-label">Phone Number</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="phone" required/>
+                  </div>
+                  <label for="email" class="col-sm-2 col-form-label">Email</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" name="email" required/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <legend>Salary Information</legend>
+                    <hr>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="monthly-salary" class="col-sm-2 col-form-label">Monthly Salary</label>
+                  <div class="col-sm-3">
+                    <input type="text" name="monthly-salary" class="form-control-plaintext" readonly/>
+                  </div>
+                  <div class="col-sm-1"></div>
+                  <label for="annual-salary" class="col-sm-2 col-form-label">Annual Salary</label>
+                  <div class="col-sm-3">
+                    <input type="text" name="annual-salary" class="form-control-plaintext" readonly/>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="date-hire" class="col-sm-2 col-form-label">Date hired</label>
+                  <div class="col-sm-4">
+                    <input type="date" class="form-control-plaintext" name="date-hire" readonly/>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-success" onclick="javascript:submitEditProfile();">Update</button>
+              </form>
+              
+            </div>
+            <div class="col-4">
+              <div class="row mb-3">
+                <div class="col mt-2 border rounded">
+                  <legend>Update Password</legend>
+                  <hr>
+                  <form id="Profile2">
+                    <div class="row mb-3">
+                      <label for="monthly-salary" class="col-sm-4 col-form-label">New Password</label>
+                      <div class="col-sm-6">
+                        <input type="password" name="n-pass" class="form-control" required/>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="annual-salary" class="col-sm-4 col-form-label">Confirmed Password</label>
+                      <div class="col-sm-6">
+                        <input type="password" name="c-pass" class="form-control" required/>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-success mb-2" onclick="javascript:submitUpdatePassword();">Change</button>
+                  </form>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col border rounded">
+                  <div class="row">
+                    <div class="col">
+                      <legend>Payslip Statements</legend>
+                      <hr>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col overflow-auto" style="height: 300px;">
+                      <table id="table" class="table table-borderless">
+                        <tr>
+                          <th>Date</th>
+                          <th>Name</th>
+                          <th>View</th>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/home/main.js}"></script>
+    <script th:inline="javascript">
+      $(document).ready(function() {
+        loadProfile(/*[[${session.sapid}]]*/);
+        loadSalary(/*[[${session.sapid}]]*/);
+        loadStatementDate(/*[[${session.sapid}]]*/);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.ManagerMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.Manager">
+    <id column="m_id" jdbcType="INTEGER" property="mId" />
+    <result column="fullname" jdbcType="VARCHAR" property="fullname" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="dob" jdbcType="DATE" property="dob" />
+    <result column="age" jdbcType="SMALLINT" property="age" />
+    <result column="martialstatus" jdbcType="VARCHAR" property="martialstatus" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="company_email" jdbcType="VARCHAR" property="companyEmail" />
+    <result column="datehired" jdbcType="DATE" property="datehired" />
+    <result column="dateresign" jdbcType="DATE" property="dateresign" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+    <result column="img_user" jdbcType="VARCHAR" property="imgUser" />
+    <result column="deptno" jdbcType="INTEGER" property="deptno" />
+    <result column="titleno" jdbcType="INTEGER" property="titleno" />
+    <result column="s_id" jdbcType="INTEGER" property="sId" />
+    <result column="b_id" jdbcType="INTEGER" property="bId" />
+    <result column="resign_id" jdbcType="INTEGER" property="resignId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    m_id, fullname, gender, dob, age, martialstatus, education, address, state, country, 
+    phone, company_email, datehired, dateresign, attachment, img_user, deptno, titleno, 
+    s_id, b_id, resign_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from manager
+    where m_id = #{mId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from manager
+    where m_id = #{mId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.Manager">
+    insert into manager (m_id, fullname, gender, 
+      dob, age, martialstatus, 
+      education, address, state, 
+      country, phone, company_email, 
+      datehired, dateresign, attachment, 
+      img_user, deptno, titleno, 
+      s_id, b_id, resign_id)
+    values (#{mId,jdbcType=INTEGER}, #{fullname,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{dob,jdbcType=DATE}, #{age,jdbcType=SMALLINT}, #{martialstatus,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{companyEmail,jdbcType=VARCHAR}, 
+      #{datehired,jdbcType=DATE}, #{dateresign,jdbcType=DATE}, #{attachment,jdbcType=VARCHAR}, 
+      #{imgUser,jdbcType=VARCHAR}, #{deptno,jdbcType=INTEGER}, #{titleno,jdbcType=INTEGER}, 
+      #{sId,jdbcType=INTEGER}, #{bId,jdbcType=INTEGER}, #{resignId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.Manager">
+    insert into manager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mId != null">
+        m_id,
+      </if>
+      <if test="fullname != null">
+        fullname,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="dob != null">
+        dob,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="martialstatus != null">
+        martialstatus,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="companyEmail != null">
+        company_email,
+      </if>
+      <if test="datehired != null">
+        datehired,
+      </if>
+      <if test="dateresign != null">
+        dateresign,
+      </if>
+      <if test="attachment != null">
+        attachment,
+      </if>
+      <if test="imgUser != null">
+        img_user,
+      </if>
+      <if test="deptno != null">
+        deptno,
+      </if>
+      <if test="titleno != null">
+        titleno,
+      </if>
+      <if test="sId != null">
+        s_id,
+      </if>
+      <if test="bId != null">
+        b_id,
+      </if>
+      <if test="resignId != null">
+        resign_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mId != null">
+        #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="fullname != null">
+        #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="dob != null">
+        #{dob,jdbcType=DATE},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="martialstatus != null">
+        #{martialstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyEmail != null">
+        #{companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="datehired != null">
+        #{datehired,jdbcType=DATE},
+      </if>
+      <if test="dateresign != null">
+        #{dateresign,jdbcType=DATE},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUser != null">
+        #{imgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null">
+        #{deptno,jdbcType=INTEGER},
+      </if>
+      <if test="titleno != null">
+        #{titleno,jdbcType=INTEGER},
+      </if>
+      <if test="sId != null">
+        #{sId,jdbcType=INTEGER},
+      </if>
+      <if test="bId != null">
+        #{bId,jdbcType=INTEGER},
+      </if>
+      <if test="resignId != null">
+        #{resignId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.Manager">
+    update manager
+    <set>
+      <if test="fullname != null">
+        fullname = #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="dob != null">
+        dob = #{dob,jdbcType=DATE},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="martialstatus != null">
+        martialstatus = #{martialstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyEmail != null">
+        company_email = #{companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="datehired != null">
+        datehired = #{datehired,jdbcType=DATE},
+      </if>
+      <if test="dateresign != null">
+        dateresign = #{dateresign,jdbcType=DATE},
+      </if>
+      <if test="attachment != null">
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUser != null">
+        img_user = #{imgUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null">
+        deptno = #{deptno,jdbcType=INTEGER},
+      </if>
+      <if test="titleno != null">
+        titleno = #{titleno,jdbcType=INTEGER},
+      </if>
+      <if test="sId != null">
+        s_id = #{sId,jdbcType=INTEGER},
+      </if>
+      <if test="bId != null">
+        b_id = #{bId,jdbcType=INTEGER},
+      </if>
+      <if test="resignId != null">
+        resign_id = #{resignId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where m_id = #{mId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.Manager">
+    update manager
+    set fullname = #{fullname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      dob = #{dob,jdbcType=DATE},
+      age = #{age,jdbcType=SMALLINT},
+      martialstatus = #{martialstatus,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      company_email = #{companyEmail,jdbcType=VARCHAR},
+      datehired = #{datehired,jdbcType=DATE},
+      dateresign = #{dateresign,jdbcType=DATE},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      img_user = #{imgUser,jdbcType=VARCHAR},
+      deptno = #{deptno,jdbcType=INTEGER},
+      titleno = #{titleno,jdbcType=INTEGER},
+      s_id = #{sId,jdbcType=INTEGER},
+      b_id = #{bId,jdbcType=INTEGER},
+      resign_id = #{resignId,jdbcType=INTEGER}
+    where m_id = #{mId,jdbcType=INTEGER}
+  </update>
+</mapper>

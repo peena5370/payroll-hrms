@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Payslip</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/main.css}">
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:inline="javascript"> var $contextPath = /*[[@{/}]]*/ ''; </script>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <p class="mt-2">Payslip for <span id="fullname"></span></p>
+      <form id="Form1">
+        <div class="row mb-2">
+          <label for="name" class="col-sm-2 col-form-label text-end">Name</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="name" readonly/>
+          </div>
+          <label for="sapid" class="col-sm-3 col-form-label text-end">System ID</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="sapid" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <label for="dept-name" class="col-sm-2 col-form-label text-end">Department</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="dept-name" readonly/>
+          </div>
+          <label for="epf-no" class="col-sm-3 col-form-label text-end">EPF Account</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="epf-no" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <label for="title-name" class="col-sm-2 col-form-label text-end">Position</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="title-name" readonly/>
+          </div>
+          <label for="income-tax" class="col-sm-3 col-form-label text-end">Income Tax No</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="income-tax" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+          </div>
+          <label for="bank-acc" class="col-sm-3 col-form-label text-end">Bank A/C</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="bank-acc" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <label for="period" class="col-sm-2 col-form-label text-end">Pay Period</label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control-plaintext" name="period" readonly/>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="period" class="col-sm-2 col-form-label"><u><strong>Income</strong></u></label>
+          </div>
+          <div class="col-sm-6">
+            <label for="period" class="col-sm-2 col-form-label"><u><strong>Deduction</strong></u></label>
+          </div>
+        </div>
+        <div class="row">
+          <label for="basic-salary" class="col-sm-3 col-form-label text-end">Basic Pay</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="basic-salary" readonly/>
+          </div>
+          <label for="emp-epf" class="col-sm-3 col-form-label text-end">Employee EPF</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="emp-epf" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <label for="ot-pay" class="col-sm-3 col-form-label text-end">Overtime Pay</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="ot-pay" readonly/>
+          </div>
+          <label for="emp-socso" class="col-sm-3 col-form-label text-end">Employee SOCSO</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="emp-socso" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <label for="allowance" class="col-sm-3 col-form-label text-end">Allowance</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="allowance" readonly/>
+          </div>
+          <label for="emp-eis" class="col-sm-3 col-form-label text-end">Employee EIS</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="emp-eis" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <label for="transport" class="col-sm-3 col-form-label text-end">Transport</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="transport" readonly/>
+          </div>
+          <label for="mtd-pcb" class="col-sm-3 col-form-label text-end">MTD/PCB</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="mtd-pcb" readonly/>
+          </div>
+        </div>
+        <div class="row mb-0">
+          <div class="col-sm-6"> 
+          </div>
+          <label for="other-deduction" class="col-sm-3 col-form-label text-end">Others</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control-plaintext" name="other-deduction" readonly/>
+          </div>
+          <hr style="margin: 0;">
+        </div>
+        <div class="row">
+          <div class="col-sm-8"> 
+          </div>
+          <label for="total" class="col-sm-2 col-form-label mt-0 text-end">Nett Pay</label>
+          <div class="col-sm-2 mt-0">
+            <input type="text" class="form-control-plaintext" name="total" readonly/>
+          </div>
+          <hr style="margin: 0;">
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="period" class="col-sm-2 col-form-label"><u><strong>Others</strong></u></label>
+          </div>
+        </div>
+        <div class="row">
+          <label for="empr-epf" class="col-sm-3 col-form-label mt-0 text-end">Employer EPF</label>
+          <div class="col-sm-3 mt-0">
+            <input type="text" class="form-control-plaintext" name="empr-epf" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <label for="empr-socso" class="col-sm-3 col-form-label mt-0 text-end">Employer SOCSO</label>
+          <div class="col-sm-3 mt-0">
+            <input type="text" class="form-control-plaintext" name="empr-socso" readonly/>
+          </div>
+        </div>
+        <div class="row">
+          <label for="empr-eis" class="col-sm-3 col-form-label mt-0 text-end">Employer EIS</label>
+          <div class="col-sm-3 mt-0">
+            <input type="text" class="form-control-plaintext" name="empr-eis" readonly/>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/home/main.js}"></script>
+    <script th:inline="javascript">
+      var date = /*[[${param.date[0]}]]*/ '';
+      var id = /*[[${param.sapid[0]}]]*/ '';
+      
+      $(document).ready(function() {
+        loadPaySlip(date, id);
+      });
+    </script>
+  </body>
+</html>

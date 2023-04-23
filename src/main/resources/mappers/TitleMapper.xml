@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.TitleMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.Title">
+    <id column="titleno" jdbcType="INTEGER" property="titleno" />
+    <result column="titlename" jdbcType="VARCHAR" property="titlename" />
+    <result column="titledesc" jdbcType="VARCHAR" property="titledesc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    titleno, titlename, titledesc
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from title
+    where titleno = #{titleno,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from title
+    where titleno = #{titleno,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.Title">
+    insert into title (titleno, titlename, titledesc
+      )
+    values (#{titleno,jdbcType=INTEGER}, #{titlename,jdbcType=VARCHAR}, #{titledesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.Title">
+    insert into title
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="titleno != null">
+        titleno,
+      </if>
+      <if test="titlename != null">
+        titlename,
+      </if>
+      <if test="titledesc != null">
+        titledesc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="titleno != null">
+        #{titleno,jdbcType=INTEGER},
+      </if>
+      <if test="titlename != null">
+        #{titlename,jdbcType=VARCHAR},
+      </if>
+      <if test="titledesc != null">
+        #{titledesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.Title">
+    update title
+    <set>
+      <if test="titlename != null">
+        titlename = #{titlename,jdbcType=VARCHAR},
+      </if>
+      <if test="titledesc != null">
+        titledesc = #{titledesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where titleno = #{titleno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.Title">
+    update title
+    set titlename = #{titlename,jdbcType=VARCHAR},
+      titledesc = #{titledesc,jdbcType=VARCHAR}
+    where titleno = #{titleno,jdbcType=INTEGER}
+  </update>
+</mapper>

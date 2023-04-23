@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.TrainingMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.Training">
+    <id column="t_id" jdbcType="INTEGER" property="tId" />
+    <result column="trainingtitle" jdbcType="VARCHAR" property="trainingtitle" />
+    <result column="startdate" jdbcType="TIMESTAMP" property="startdate" />
+    <result column="enddate" jdbcType="TIMESTAMP" property="enddate" />
+    <result column="sessionstatus" jdbcType="TINYINT" property="sessionstatus" />
+    <result column="e_id" jdbcType="INTEGER" property="eId" />
+    <result column="m_id" jdbcType="INTEGER" property="mId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.company.payroll.model.Training">
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    t_id, trainingtitle, startdate, enddate, sessionstatus, e_id, m_id
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from training
+    where t_id = #{tId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from training
+    where t_id = #{tId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.Training">
+    insert into training (t_id, trainingtitle, startdate, 
+      enddate, sessionstatus, e_id, 
+      m_id, description)
+    values (#{tId,jdbcType=INTEGER}, #{trainingtitle,jdbcType=VARCHAR}, #{startdate,jdbcType=TIMESTAMP}, 
+      #{enddate,jdbcType=TIMESTAMP}, #{sessionstatus,jdbcType=TINYINT}, #{eId,jdbcType=INTEGER}, 
+      #{mId,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.Training">
+    insert into training
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tId != null">
+        t_id,
+      </if>
+      <if test="trainingtitle != null">
+        trainingtitle,
+      </if>
+      <if test="startdate != null">
+        startdate,
+      </if>
+      <if test="enddate != null">
+        enddate,
+      </if>
+      <if test="sessionstatus != null">
+        sessionstatus,
+      </if>
+      <if test="eId != null">
+        e_id,
+      </if>
+      <if test="mId != null">
+        m_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tId != null">
+        #{tId,jdbcType=INTEGER},
+      </if>
+      <if test="trainingtitle != null">
+        #{trainingtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null">
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null">
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sessionstatus != null">
+        #{sessionstatus,jdbcType=TINYINT},
+      </if>
+      <if test="eId != null">
+        #{eId,jdbcType=INTEGER},
+      </if>
+      <if test="mId != null">
+        #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.Training">
+    update training
+    <set>
+      <if test="trainingtitle != null">
+        trainingtitle = #{trainingtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null">
+        startdate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null">
+        enddate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sessionstatus != null">
+        sessionstatus = #{sessionstatus,jdbcType=TINYINT},
+      </if>
+      <if test="eId != null">
+        e_id = #{eId,jdbcType=INTEGER},
+      </if>
+      <if test="mId != null">
+        m_id = #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where t_id = #{tId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.company.payroll.model.Training">
+    update training
+    set trainingtitle = #{trainingtitle,jdbcType=VARCHAR},
+      startdate = #{startdate,jdbcType=TIMESTAMP},
+      enddate = #{enddate,jdbcType=TIMESTAMP},
+      sessionstatus = #{sessionstatus,jdbcType=TINYINT},
+      e_id = #{eId,jdbcType=INTEGER},
+      m_id = #{mId,jdbcType=INTEGER},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where t_id = #{tId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.Training">
+    update training
+    set trainingtitle = #{trainingtitle,jdbcType=VARCHAR},
+      startdate = #{startdate,jdbcType=TIMESTAMP},
+      enddate = #{enddate,jdbcType=TIMESTAMP},
+      sessionstatus = #{sessionstatus,jdbcType=TINYINT},
+      e_id = #{eId,jdbcType=INTEGER},
+      m_id = #{mId,jdbcType=INTEGER}
+    where t_id = #{tId,jdbcType=INTEGER}
+  </update>
+</mapper>

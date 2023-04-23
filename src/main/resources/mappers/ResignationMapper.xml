@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.ResignationMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.Resignation">
+    <id column="resign_id" jdbcType="INTEGER" property="resignId" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="resigndate" jdbcType="DATE" property="resigndate" />
+    <result column="resignstatus" jdbcType="TINYINT" property="resignstatus" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    resign_id, reason, resigndate, resignstatus, attachment
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from resignation
+    where resign_id = #{resignId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from resignation
+    where resign_id = #{resignId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.Resignation">
+    insert into resignation (resign_id, reason, resigndate, 
+      resignstatus, attachment)
+    values (#{resignId,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, #{resigndate,jdbcType=DATE}, 
+      #{resignstatus,jdbcType=TINYINT}, #{attachment,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.Resignation">
+    insert into resignation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resignId != null">
+        resign_id,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="resigndate != null">
+        resigndate,
+      </if>
+      <if test="resignstatus != null">
+        resignstatus,
+      </if>
+      <if test="attachment != null">
+        attachment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resignId != null">
+        #{resignId,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="resigndate != null">
+        #{resigndate,jdbcType=DATE},
+      </if>
+      <if test="resignstatus != null">
+        #{resignstatus,jdbcType=TINYINT},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.Resignation">
+    update resignation
+    <set>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="resigndate != null">
+        resigndate = #{resigndate,jdbcType=DATE},
+      </if>
+      <if test="resignstatus != null">
+        resignstatus = #{resignstatus,jdbcType=TINYINT},
+      </if>
+      <if test="attachment != null">
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where resign_id = #{resignId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.Resignation">
+    update resignation
+    set reason = #{reason,jdbcType=VARCHAR},
+      resigndate = #{resigndate,jdbcType=DATE},
+      resignstatus = #{resignstatus,jdbcType=TINYINT},
+      attachment = #{attachment,jdbcType=VARCHAR}
+    where resign_id = #{resignId,jdbcType=INTEGER}
+  </update>
+</mapper>

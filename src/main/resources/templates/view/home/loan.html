@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>HR Payroll Management System - Loan</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/main.css}">
+
+    <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:inline="javascript"> var $contextPath = /*[[@{/}]]*/ ''; </script>
+  </head>
+
+  <body>
+
+
+    <div class="d-flex flex-row">
+      <nav class="nav flex-column text-white bg-dark vh-100" style="width: 15%;">
+        <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+          <span style="margin-left: 25px; padding-top: 10px;">Payroll Management System</span>
+        </a>
+        <hr>
+        <a class="nav-link active" aria-current="page" th:href="@{/home/dashboard}">Dashboard</a>
+        <a class="nav-link" th:href="@{/home/leave}">Leave</a>
+        <a class="nav-link" th:href="@{/home/loan}">Loan</a>
+        <a class="nav-link" th:href="@{/home/training}">Training</a>
+        <div class="dropdown">
+          <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img th:src="@{/img/avatar/user-img02.jpg}" alt="" width="35" height="35" class="rounded-circle me-2">
+            <strong>Setting</strong>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+            <li><span id="full-name" style="margin-left: 15px;"></span></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" th:href="@{/home/logout}">Sign out</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Body Container -->
+      <div class="d-flex flex-column" style="width: 85%;">
+        <div class="container-fluid">
+          <div class="row mt-3">
+            <div class="col-sm-3">
+              <h3>Employee Loan Application</h3>
+              <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal1">
+                Apply Loan
+              </button>
+            </div>
+          </div>
+          <div id="loan-list" class="row ms-1 mt-2 overflow-auto"  style="height: 800px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Add -->
+    <div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="ModalLabel">Loan Application Form</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">            
+            <div class="container-fluid">
+              <form>
+                <div class="row mb-3">
+                  <label for="sapid" class="col-sm-3 col-form-label">Employee SAP ID</label>
+                  <div class="col-sm-4">
+                    <input type="number" class="form-control" name="sapid" required/>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="reason" class="col-sm-3 col-form-label">Reason</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" name="reason" required/>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="loan-amount" class="col-sm-3 col-form-label">Loan Amount</label>
+                  <div class="col-sm-4">
+                    <input type="number" class="form-control" name="loan-amount" required/>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="javascript:submitLoan();">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/home/main.js}"></script>
+    <script th:src="@{/js/home/loan.js}"></script>
+    <script th:inline="javascript">
+      $(document).ready(function() {
+        loadProfile(/*[[${session.sapid}]]*/);
+        loadLoanTable(/*[[${session.sapid}]]*/);
+      });
+    </script>
+  </body>
+</html>
