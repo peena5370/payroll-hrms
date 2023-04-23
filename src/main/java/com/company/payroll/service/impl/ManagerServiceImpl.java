@@ -10,7 +10,7 @@ import com.company.payroll.mapper.ManagerMapper;
 import com.company.payroll.model.Manager;
 import com.company.payroll.service.ManagerService;
 
-@Service
+//@Service
 public class ManagerServiceImpl implements ManagerService {
 
 	@Autowired

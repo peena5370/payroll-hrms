@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Promotion;
 import com.company.payroll.service.PromotionService;
 
-@RestController
-@RequestMapping("/promotion")
+//@RestController
+//@RequestMapping("/promotion")
 public class PromotionController {
 	
 	@Autowired

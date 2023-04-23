@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Employee;
 import com.company.payroll.service.EmployeeService;
-import com.company.payroll.utils.PasswordEncription;
+import com.company.payroll.utils.PasswordEncryption;
 
-@RestController
-@RequestMapping("/employee")
+//@RestController
+//@RequestMapping("/employee")
 public class EmployeeController {
 	
 	@Autowired
@@ -118,8 +118,8 @@ public class EmployeeController {
 	@PutMapping("/profile/{id}/update/password")
 	public Integer updateProfilePassword(@PathVariable("id")int id, @RequestBody Employee employee) {
 		String password = employee.getPassword();
-		String key = PasswordEncription.getSaltvalue(30);
-		String hash = PasswordEncription.generateSecurePassword(password, key);
+		String key = PasswordEncryption.getSaltvalue(30);
+		String hash = PasswordEncryption.generateSecurePassword(password, key);
 		
 		Employee emp = new Employee(id, hash, key, LocalDateTime.now());
 		

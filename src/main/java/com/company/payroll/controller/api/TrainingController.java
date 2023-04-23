@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Training;
 import com.company.payroll.service.TrainingService;
 
-@RestController
-@RequestMapping("/training")
+//@RestController
+//@RequestMapping("/training")
 public class TrainingController {
 	
 	@Autowired

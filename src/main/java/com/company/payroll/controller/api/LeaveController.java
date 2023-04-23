@@ -18,8 +18,8 @@ import com.company.payroll.model.Leave;
 import com.company.payroll.service.LeaveService;
 import com.company.payroll.utils.Generator;
 
-@RestController
-@RequestMapping("/leave")
+//@RestController
+//@RequestMapping("/leave")
 public class LeaveController {
 	
 	@Autowired

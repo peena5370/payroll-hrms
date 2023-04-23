@@ -9,7 +9,7 @@ import com.company.payroll.mapper.PromotionMapper;
 import com.company.payroll.model.Promotion;
 import com.company.payroll.service.PromotionService;
 
-@Service
+//@Service
 public class PromotionServiceImpl implements PromotionService {
 
 	@Autowired

@@ -9,7 +9,7 @@ import com.company.payroll.mapper.TrainingMapper;
 import com.company.payroll.model.Training;
 import com.company.payroll.service.TrainingService;
 
-@Service
+//@Service
 public class TrainingServiceImpl implements TrainingService {
 
 	@Autowired

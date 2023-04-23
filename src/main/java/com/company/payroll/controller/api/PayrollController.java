@@ -16,8 +16,8 @@ import com.company.payroll.model.Payroll;
 import com.company.payroll.service.PayrollService;
 import com.company.payroll.utils.DateTimeUtils;
 
-@RestController
-@RequestMapping("/payroll")
+//@RestController
+//@RequestMapping("/payroll")
 public class PayrollController {
 	
 	@Autowired

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Salary;
 import com.company.payroll.service.SalaryService;
 
-@RestController
-@RequestMapping("/salary")
+//@RestController
+//@RequestMapping("/salary")
 public class SalaryController {
 	
 	@Autowired

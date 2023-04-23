@@ -9,7 +9,7 @@ import com.company.payroll.mapper.LeaveMapper;
 import com.company.payroll.model.Leave;
 import com.company.payroll.service.LeaveService;
 
-@Service
+//@Service
 public class LeaveServiceImpl implements LeaveService {
 
 	@Autowired

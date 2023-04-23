@@ -9,7 +9,7 @@ import com.company.payroll.mapper.TitleMapper;
 import com.company.payroll.model.Title;
 import com.company.payroll.service.TitleService;
 
-@Service
+//@Service
 public class TitleServiceImpl implements TitleService {
 
 	@Autowired

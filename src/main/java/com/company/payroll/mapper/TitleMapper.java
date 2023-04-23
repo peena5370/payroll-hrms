@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.Title;
 
-@Repository
+//@Repository
 public interface TitleMapper {
     int deleteByPrimaryKey(Integer titleno);
 

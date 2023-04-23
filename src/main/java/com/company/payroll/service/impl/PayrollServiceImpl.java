@@ -10,7 +10,7 @@ import com.company.payroll.mapper.PayrollMapper;
 import com.company.payroll.model.Payroll;
 import com.company.payroll.service.PayrollService;
 
-@Service
+//@Service
 public class PayrollServiceImpl implements PayrollService {
 
 	@Autowired

@@ -14,9 +14,9 @@ import com.company.payroll.model.ResponseObject;
 import com.company.payroll.service.AccountService;
 import com.company.payroll.service.EmployeeService;
 import com.company.payroll.service.ManagerService;
-import com.company.payroll.utils.PasswordEncription;
+import com.company.payroll.utils.PasswordEncryption;
 
-@RestController
+//@RestController
 public class LoginController {
 	
 	@Autowired
@@ -28,7 +28,7 @@ public class LoginController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@PostMapping("/back-end/login/validate")
+//	@PostMapping("/back-end/login/validate")
 	public ResponseObject backendValidate(HttpSession session, @RequestBody Account account) {
 		String username = account.getUsername();
 		String password = account.getPassword();
@@ -41,7 +41,7 @@ public class LoginController {
 		// @TODO with null pointer exception for manager.getRole() that return status code 500
 		switch(manager.getRole()) {
 			case "Administrator":
-				Boolean validatePass1 = PasswordEncription.verifyUserPassword(password, acc.getPassword(), acc.getKey());
+				Boolean validatePass1 = PasswordEncryption.verifyUserPassword(password, acc.getPassword(), acc.getKey());
 				if(validatePass1==true && acc.getAccountStatus()==1) {
 					session.setAttribute("username", username);
 					resp.setCode(200);
@@ -54,7 +54,7 @@ public class LoginController {
 				}
 				break;
 			case "Manager":
-				Boolean validatePass2 = PasswordEncription.verifyUserPassword(password, acc.getPassword(), acc.getKey());
+				Boolean validatePass2 = PasswordEncryption.verifyUserPassword(password, acc.getPassword(), acc.getKey());
 				if(validatePass2==true && acc.getAccountStatus()==1) {
 					session.setAttribute("username", username);
 					resp.setCode(200);
@@ -73,7 +73,7 @@ public class LoginController {
 		return resp;
 	}
 	
-	@PostMapping("/home/login/validate")
+//	@PostMapping("/home/login/validate")
 	public ResponseObject homeValidate(HttpSession session, @RequestBody Employee employee) {
 		int sapid = employee.getESapId();
 		String password = employee.getPassword();
@@ -82,7 +82,7 @@ public class LoginController {
 		
 		Employee emp = employeeService.getEmployeePasswordBySapId(sapid);
 
-		Boolean validatePassword = PasswordEncription.verifyUserPassword(password, emp.getPassword(), emp.getKey());
+		Boolean validatePassword = PasswordEncryption.verifyUserPassword(password, emp.getPassword(), emp.getKey());
 		if(emp.getESapId() != 0 && validatePassword==true) {
 			session.setAttribute("sapid", sapid);
 			resp.setCode(200);

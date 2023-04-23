@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.Manager;
 
-@Repository
+//@Repository
 public interface ManagerMapper {
     int deleteByPrimaryKey(Integer mId);
 

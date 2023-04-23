@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.Training;
 
-@Repository
+//@Repository
 public interface TrainingMapper {
     int deleteByPrimaryKey(Integer tId);
 

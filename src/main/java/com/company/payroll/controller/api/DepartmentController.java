@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Department;
 import com.company.payroll.service.DepartmentService;
 
-@RestController
-@RequestMapping("/department")
+//@RestController
+//@RequestMapping("/department")
 public class DepartmentController {
 	
 	@Autowired

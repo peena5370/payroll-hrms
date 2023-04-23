@@ -9,7 +9,7 @@ import com.company.payroll.mapper.DepartmentMapper;
 import com.company.payroll.model.Department;
 import com.company.payroll.service.DepartmentService;
 
-@Service
+//@Service
 public class DepartmentServiceImpl implements DepartmentService {
 	
 	@Autowired

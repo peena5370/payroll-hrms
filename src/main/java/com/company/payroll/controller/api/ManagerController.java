@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Manager;
 import com.company.payroll.service.ManagerService;
 
-@RestController
-@RequestMapping("/manager")
+//@RestController
+//@RequestMapping("/manager")
 public class ManagerController {
 	
 	@Autowired

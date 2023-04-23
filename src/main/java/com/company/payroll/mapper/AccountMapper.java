@@ -1,5 +1,7 @@
 package com.company.payroll.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.Account;
@@ -11,6 +13,8 @@ public interface AccountMapper {
     int insert(Account row);
 
     int insertSelective(Account row);
+    
+    List<Account> selectList();
 
     Account selectByPrimaryKey(Integer aId);
 

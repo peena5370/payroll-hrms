@@ -10,65 +10,59 @@ public interface AccountService {
 	 * 
 	 * @return
 	 * */
-	List<Account> listAccount();
+	List<Account> getList();
 	
 	/** 
 	 * 
 	 * @return
 	 * */
-	List<Account> listAccountForEmployee();
+	Account getById(int aid);
 	
 	/** 
 	 * 
 	 * @return
 	 * */
-	Account getAccountById(int id);
+//	Integer countAccount();
 	
 	/** 
 	 * 
 	 * @return
 	 * */
-	Integer countAccount();
+//	Integer countAccountByStatus();
 	
 	/** 
 	 * 
 	 * @return
 	 * */
-	Integer countAccountByStatus();
+//	Account getAccountByUsername(String username);
 	
 	/** 
 	 * 
 	 * @return
 	 * */
-	Account getAccountByUsername(String username);
+	Integer insert(Account row);
 	
 	/** 
 	 * 
 	 * @return
 	 * */
-	Integer insertAccount(Account acc);
+//	Integer updateAccountByAdmin(Account acc);
 	
 	/** 
 	 * 
 	 * @return
 	 * */
-	Integer updateAccountByAdmin(Account acc);
+//	Integer updatePasswordByManager(Account acc);
 	
 	/** 
 	 * 
 	 * @return
 	 * */
-	Integer updatePasswordByManager(Account acc);
+//	Integer updateAccountStatus(Account acc);
 	
 	/** 
 	 * 
 	 * @return
 	 * */
-	Integer updateAccountStatus(Account acc);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer deleteAccount(int id);
+//	Integer deleteAccount(int id);
 }

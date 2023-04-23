@@ -9,7 +9,7 @@ import com.company.payroll.mapper.ResignationMapper;
 import com.company.payroll.model.Resignation;
 import com.company.payroll.service.ResignationService;
 
-@Service
+//@Service
 public class ResignationServiceImpl implements ResignationService {
 
 	@Autowired

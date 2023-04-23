@@ -17,8 +17,8 @@ import com.company.payroll.model.Loan;
 import com.company.payroll.service.LoanService;
 import com.company.payroll.utils.Generator;
 
-@RestController
-@RequestMapping("/loan")
+//@RestController
+//@RequestMapping("/loan")
 public class LoanController {
 	
 	@Autowired

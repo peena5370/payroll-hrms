@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.Leave;
 
-@Repository
+//@Repository
 public interface LeaveMapper {
     int deleteByPrimaryKey(Integer lId);
 

@@ -9,7 +9,7 @@ import com.company.payroll.mapper.BankingMapper;
 import com.company.payroll.model.Banking;
 import com.company.payroll.service.BankingService;
 
-@Service
+//@Service
 public class BankingServiceImpl implements BankingService {
 
 	@Autowired

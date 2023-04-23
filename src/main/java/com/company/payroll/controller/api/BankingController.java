@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Banking;
 import com.company.payroll.service.BankingService;
 
-@RestController
-@RequestMapping("/banking")
+//@RestController
+//@RequestMapping("/banking")
 public class BankingController {
 	
 	@Autowired

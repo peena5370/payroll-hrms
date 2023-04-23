@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Title;
 import com.company.payroll.service.TitleService;
 
-@RestController
-@RequestMapping("/title")
+//@RestController
+//@RequestMapping("/title")
 public class TitleController {
 	
 	@Autowired

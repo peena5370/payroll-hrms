@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.PayrollEmployee;
 
-@Repository
+//@Repository
 public interface PayrollEmployeeMapper {
     int deleteByPrimaryKey(Integer prId);
 

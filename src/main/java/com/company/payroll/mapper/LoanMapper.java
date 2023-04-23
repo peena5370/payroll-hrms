@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.Loan;
 
-@Repository
+//@Repository
 public interface LoanMapper {
     int deleteByPrimaryKey(Integer loanId);
 

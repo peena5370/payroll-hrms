@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Resignation;
 import com.company.payroll.service.ResignationService;
 
-@RestController
-@RequestMapping("/resign")
+//@RestController
+//@RequestMapping("/resign")
 public class ResignationController {
 	
 	@Autowired

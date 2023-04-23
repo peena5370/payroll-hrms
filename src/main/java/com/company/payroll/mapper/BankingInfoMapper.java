@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.BankingInfo;
 
-@Repository
+//@Repository
 public interface BankingInfoMapper {
     int deleteByPrimaryKey(Integer bId);
 
