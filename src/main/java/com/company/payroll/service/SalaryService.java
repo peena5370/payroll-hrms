@@ -6,27 +6,37 @@ import com.company.payroll.model.Salary;
 
 public interface SalaryService {
 	
-	/** 
+	/**
 	 * 
 	 * @return
-	 * */
-	List<Salary> listSalary();
+	 */
+	List<Salary> getList();
 	
-	/** 
+	/**
 	 * 
+	 * @param sid
 	 * @return
-	 * */
-	Salary getInfoBySapId(int esapid);
+	 */
+	Salary getById(int sid);
 	
-	/** 
+	/**
 	 * 
+	 * @param salary
 	 * @return
-	 * */
-	Integer insertSalary(Salary salary);
+	 */
+	Integer insert(Salary salary);
 	
-	/** 
+	/**
 	 * 
+	 * @param salary
 	 * @return
-	 * */
-	Integer updateSalary(Salary salary);
+	 */
+	Integer update(Salary salary);
+	
+	/**
+	 * 
+	 * @param sid
+	 * @return
+	 */
+	Integer delete(int sid);
 }

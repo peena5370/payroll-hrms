@@ -2,41 +2,48 @@ package com.company.payroll.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.LoanMapper;
 import com.company.payroll.model.Loan;
 import com.company.payroll.service.LoanService;
 
-//@Service
+@Service
 public class LoanServiceImpl implements LoanService {
 
-	@Autowired
 	private LoanMapper loanMapper;
 	
+	public LoanServiceImpl(LoanMapper loanMapper) {
+		this.loanMapper = loanMapper;
+	}
+	
 	@Override
-	public List<Loan> listLoan() {
-		// TODO Auto-generated method stub
-		return loanMapper.selectLoan();
+	public List<Loan> getList() {
+		return loanMapper.selectList();
 	}
 
 	@Override
-	public List<Loan> listLoanBySapId(int esapid) {
-		// TODO Auto-generated method stub
-		return loanMapper.selectLoanbySapId(esapid);
+	public List<Loan> getListByEId(int eid) {
+		return loanMapper.selectListByEId(eid);
 	}
 
 	@Override
-	public Integer insertLoan(Loan loan) {
-		// TODO Auto-generated method stub
-		return loanMapper.insertLoan(loan);
+	public Loan getById(int lid) {
+		return loanMapper.selectByPrimaryKey(lid);
+	}
+	
+	@Override
+	public Integer insert(Loan loan) {
+		return loanMapper.insertSelective(loan);
 	}
 
 	@Override
-	public Integer updateLoan(Loan loan) {
-		// TODO Auto-generated method stub
-		return loanMapper.updateLoan(loan);
+	public Integer update(Loan loan) {
+		return loanMapper.updateByPrimaryKeySelective(loan);
 	}
 
+	@Override
+	public Integer delete(int lid) {
+		return loanMapper.deleteByPrimaryKey(lid);
+	}
 }

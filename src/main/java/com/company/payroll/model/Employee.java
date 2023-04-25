@@ -2,6 +2,8 @@ package com.company.payroll.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -15,7 +17,8 @@ public class Employee {
     private String fullname;
 
     private String gender;
-
+    
+    @JsonProperty("date_of_birth")
     private LocalDate dob;
 
     private Short age;
@@ -32,6 +35,7 @@ public class Employee {
 
     private String phone;
 
+    @JsonProperty("company_email")
     private String companyEmail;
 
     private LocalDate datehired;

@@ -3,6 +3,8 @@ package com.company.payroll.controller.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,53 +17,64 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Title;
 import com.company.payroll.service.TitleService;
 
-//@RestController
-//@RequestMapping("/title")
+@RestController
+@RequestMapping("/title")
 public class TitleController {
 	
 	@Autowired
 	private TitleService titleService;
 	
+	public TitleController(TitleService titleService) {
+		this.titleService = titleService;
+	}
+	
 	@GetMapping("/list")
-	public List<Title> listBaseTitle() {
-		return titleService.listTitle();
+	public ResponseEntity<List<Title>> listTitle() {
+		return ResponseEntity.ok(titleService.getList());
 	}
-	
-	@GetMapping("/list/drop-down")
-	public List<Title> listTitlenoAndName() {
-		return titleService.listTitlenoAndName();
-	}
-	
+
 	@GetMapping("/list/information/{id}")
-	public Title getInfoByTitleno(@PathVariable("id")int id) {
-		return titleService.getInfoByTitleno(id);
-	}
-	
-	@GetMapping("/list/count/all")
-	public Integer countTitle() {
-		return titleService.countTitle();
+	public ResponseEntity<Title> getByTitleno(@PathVariable("id")int titleno) {
+		return ResponseEntity.ok(titleService.getByTitleno(titleno));
 	}
 	
 	@PostMapping("/insert")
-	public Integer insertTitle(@RequestBody Title title) {
-		String titleName = title.getTitleName();
-		String titleDesc = title.getTitleDesc();
+	public ResponseEntity<Integer> insert(@RequestBody Title title) {
+		Integer status = titleService.insert(title);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
 		
-		return titleService.insertTitle(titleName, titleDesc);
+		return ResponseEntity.ok(status);
 	}
 	
 	@PutMapping("/list/information/{id}/update")
-	public Integer updateTitle(@PathVariable("id")int id, @RequestBody Title title) {
-		String titleName = title.getTitleName();
-		String titleDesc = title.getTitleDesc();
+	public ResponseEntity<Integer> update(@RequestBody Title title) {
+		Integer status = titleService.update(title);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
 		
-		Title ttl = new Title(id, titleName, titleDesc);
-		
-		return titleService.updateTitle(ttl);
+		return ResponseEntity.ok(status);
 	}
 	
 	@DeleteMapping("/list/information/{id}/delete")
-	public Integer deleteTitle(@PathVariable("id")int id) {
-		return titleService.deleteTitle(id);
+	public ResponseEntity<Integer> delete(@PathVariable("id")int titleno) {
+		Integer status = titleService.delete(titleno);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
+		
+		return ResponseEntity.ok(status);
 	}
+	
+//	@GetMapping("/list/drop-down")
+//	public List<Title> listTitlenoAndName() {
+//		return titleService.listTitlenoAndName();
+//	}
+//	
+//	@GetMapping("/list/count/all")
+//	public Integer countTitle() {
+//		return titleService.countTitle();
+//	}
 }

@@ -22,7 +22,6 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.Secret
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 
 public class PasswordEncryption {
-	// Declaration of variables
 	private static final SecureRandom RANDOM = new SecureRandom();
 	private static final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	private static final int DEFAULT_ITERATIONS = 310000;
@@ -124,6 +123,7 @@ public class PasswordEncryption {
 	
 	/**
 	 * 
+	 * @param secretKey
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */

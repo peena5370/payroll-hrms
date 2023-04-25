@@ -1,12 +1,9 @@
 package com.company.payroll.controller.api;
 
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.crypto.SecretKey;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
@@ -29,60 +26,90 @@ import com.company.payroll.utils.PasswordEncryption;
 @RequestMapping("/account")
 public class AccountController {
 	
-	private static final PasswordEncryption passwordEncryption = new PasswordEncryption();
-	
-	@Autowired
 	private AccountService accountService;
+	
+	public AccountController(AccountService accountService) {
+		this.accountService = accountService;
+	}
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<Account>> listAccount(){
-		List<Account> list = accountService.getList();
-		return ResponseEntity.status(HttpStatus.OK).body(list);	
+		return ResponseEntity.ok(accountService.getList());	
 	}
 	
 	@GetMapping("/list/information/{id}")
 	public Account getById(@PathVariable("id")int id) {
 		return accountService.getById(id);
 	}
-//	
-//	@GetMapping("/list/count/all")
-//	public Integer getAllAccountCount() {
-//		return accountService.countAccount();
-//	}
-//	
-//	@GetMapping("/list/count/active")
-//	public Integer getActiveAccountCount() {
-//		return accountService.countAccountByStatus();
-//	}
-//	
+	
 	@PostMapping("/register")
-	public Integer registerAccount(@RequestBody Account account) throws NoSuchAlgorithmException {
+	public ResponseEntity<Integer> insert(@RequestBody Account account) throws NoSuchAlgorithmException {
 		String plainPassword = account.getPassword();
 		Byte accountStatus = 1;
 		String secretkey = PasswordEncryption.convertSecretKeyToString(PasswordEncryption.generateSecretKey("HmacSHA256", 256));
 		PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(secretkey));
 		String encodedPassword = passwordEncoder.encode(plainPassword);
 		
-		Account acc = new Account(account.getUsername(), encodedPassword, secretkey, account.getRoles(), account.getDateCreated(), 
+		Account row = new Account(account.getUsername(), encodedPassword, secretkey, account.getRoles(), account.getDateCreated(), 
 									accountStatus, account.getMId(), account.getEId());
 		
-		return accountService.insert(acc);
+		Integer status = accountService.insert(row);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
+		
+		return ResponseEntity.ok(status);
+	}
+	
+	@PutMapping("/list/information/{id}/password/update")
+	public ResponseEntity<Integer> listUpdatePassword(@RequestBody Account account) throws NoSuchAlgorithmException {
+		String plainPassword = account.getPassword();
+		String secretkey = PasswordEncryption.convertSecretKeyToString(PasswordEncryption.generateSecretKey("HmacSHA256", 256));
+		PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(secretkey));
+		String encodedPassword = passwordEncoder.encode(plainPassword);
+		
+		Account row = new Account(account.getAId(), account.getUsername(), encodedPassword, secretkey, account.getDateModified());
+
+		Integer status = accountService.updateListPassword(row);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
+		
+		return ResponseEntity.ok(status);
+	}
+	
+	@PutMapping("/list/information/{id}/update")
+	public ResponseEntity<Integer> update(@RequestBody Account account) {
+		Integer status = accountService.update(account);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
+		
+		return ResponseEntity.ok(status);
+	}
+	
+	@DeleteMapping("/list/information/{id}/delete")
+	public ResponseEntity<Integer> delete(@PathVariable("id") int aid) {
+		Integer status = accountService.delete(aid);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
+		
+		return ResponseEntity.ok(status);
 	}
 //	
-//	@PutMapping("/list/information/{id}/update/password")
-//	public Integer updateListPassword(@PathVariable("id")int id, @RequestBody Account account) {
-//		String username = account.getUsername();
-//		String password = account.getPassword();
-//		String key = PasswordEncription.getSaltvalue(30);
-//		String hash = PasswordEncription.generateSecurePassword(password, key);
-//		
-//		Account acc = new Account(id, username, hash, key, LocalDateTime.now());
-//
-//		return accountService.updateAccountByAdmin(acc);
+//	@GetMapping("/list/count/all")
+//	public Integer getAllAccountCount() {
+//		return accountService.countAccount();
 //	}
-//	
+
+//	@GetMapping("/list/count/active")
+//	public Integer getActiveAccountCount() {
+//		return accountService.countAccountByStatus();
+//	}
+
 //	@PutMapping("/profile/update/password")
-//	public Integer updateAccountPassword(@RequestBody Account account) {	
+//	public Integer profileUpdatePassword(@RequestBody Account account) {	
 //		String username = account.getUsername();
 //		String password = account.getPassword();
 //		String key = PasswordEncription.getSaltvalue(30);
@@ -91,20 +118,5 @@ public class AccountController {
 //		Account acc = new Account(username, hash, key, LocalDateTime.now());
 //
 //		return accountService.updatePasswordByManager(acc);
-//	}
-//	
-//	@PutMapping("/list/information/{id}/update/status")
-//	public Integer updateStatus(@PathVariable("id")int id, @RequestBody Account account) {
-//		String username = account.getUsername();
-//		int accStatus = account.getAccountStatus();
-//		
-//		Account acc = new Account(id, username, LocalDateTime.now(), accStatus);
-//
-//		return accountService.updateAccountStatus(acc);
-//	}
-//	
-//	@DeleteMapping("/list/delete/{id}")
-//	public Integer deleteAccount(@PathVariable("id") int id) {
-//		return accountService.deleteAccount(id);
 //	}
 }

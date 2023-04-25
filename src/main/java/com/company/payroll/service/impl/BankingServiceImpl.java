@@ -2,47 +2,43 @@ package com.company.payroll.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.company.payroll.mapper.BankingMapper;
-import com.company.payroll.model.Banking;
+import com.company.payroll.mapper.BankingInfoMapper;
+import com.company.payroll.model.BankingInfo;
 import com.company.payroll.service.BankingService;
 
-//@Service
+@Service
 public class BankingServiceImpl implements BankingService {
 
-	@Autowired
-	private BankingMapper bankingMapper;
+	private BankingInfoMapper bankingInfoMapper;
+	
+	public BankingServiceImpl(BankingInfoMapper bankingInfoMapper) {
+		this.bankingInfoMapper = bankingInfoMapper;
+	}
 	
 	@Override
-	public List<Banking> listBankInfo() {
-		// TODO Auto-generated method stub
-		return bankingMapper.selectBankInfo();
+	public List<BankingInfo> getList() {
+		return bankingInfoMapper.selectList();
 	}
 
 	@Override
-	public Banking getBankInfoById(int bid) {
-		// TODO Auto-generated method stub
-		return bankingMapper.selectBankInfobyId(bid);
+	public BankingInfo getById(int bid) {
+		return bankingInfoMapper.selectByPrimaryKey(bid);
 	}
 
 	@Override
-	public Integer insertBankInfo(Banking bank) {
-		// TODO Auto-generated method stub
-		return bankingMapper.insertBankInfo(bank);
+	public Integer insert(BankingInfo bankingInfo) {
+		return bankingInfoMapper.insertSelective(bankingInfo);
 	}
 
 	@Override
-	public Integer updateBankInfoById(Banking bank) {
-		// TODO Auto-generated method stub
-		return bankingMapper.updateBankInfobyId(bank);
+	public Integer updateById(BankingInfo bankingInfo) {
+		return bankingInfoMapper.updateByPrimaryKey(bankingInfo);
 	}
 
 	@Override
-	public Integer deleteBankInfo(int bid) {
-		// TODO Auto-generated method stub
-		return bankingMapper.deleteBankInfo(bid);
+	public Integer delete(int bid) {
+		return bankingInfoMapper.deleteByPrimaryKey(bid);
 	}
-
 }

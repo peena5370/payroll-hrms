@@ -29,6 +29,11 @@
     phone, company_email, datehired, dateresign, attachment, img_user, deptno, titleno, 
     s_id, b_id, resign_id
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from manager
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

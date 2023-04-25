@@ -2,65 +2,43 @@ package com.company.payroll.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.DepartmentMapper;
 import com.company.payroll.model.Department;
 import com.company.payroll.service.DepartmentService;
 
-//@Service
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
 	
-	@Autowired
 	private DepartmentMapper departmentMapper;
 	
+	public DepartmentServiceImpl(DepartmentMapper departmentMapper) {
+		this.departmentMapper = departmentMapper;
+	}
+	
 	@Override
-	public List<Department> listBaseDepartment() {
-		// TODO Auto-generated method stub
-		return departmentMapper.selectDepartment();
+	public List<Department> getList() {
+		return departmentMapper.selectList();
 	}
 
 	@Override
-	public Department getBaseDepartmentById(int deptno) {
-		// TODO Auto-generated method stub
-		return departmentMapper.selectDepartmentbyId(deptno);
+	public Department getById(int deptno) {
+		return departmentMapper.selectByPrimaryKey(deptno);
 	}
 
 	@Override
-	public List<Department> listDepartment() {
-		// TODO Auto-generated method stub
-		return departmentMapper.selectDeptList();
+	public Integer insert(Department department) {
+		return departmentMapper.insertSelective(department);
 	}
 
 	@Override
-	public List<Department> listDeptNoAndDeptName() {
-		// TODO Auto-generated method stub
-		return departmentMapper.selectDeptnoAndName();
+	public Integer update(Department department) {
+		return departmentMapper.updateByPrimaryKeySelective(department);
 	}
 
 	@Override
-	public Integer countDepartment() {
-		// TODO Auto-generated method stub
-		return departmentMapper.countDept();
+	public Integer delete(int deptno) {
+		return departmentMapper.deleteByPrimaryKey(deptno);
 	}
-
-	@Override
-	public Integer insertDepartment(Department dept) {
-		// TODO Auto-generated method stub
-		return departmentMapper.insertDept(dept);
-	}
-
-	@Override
-	public Integer updateDepartment(Department dept) {
-		// TODO Auto-generated method stub
-		return departmentMapper.updateDept(dept);
-	}
-
-	@Override
-	public Integer deleteDepartment(int deptno) {
-		// TODO Auto-generated method stub
-		return departmentMapper.deleteDept(deptno);
-	}
-
 }

@@ -6,33 +6,37 @@ import com.company.payroll.model.BankingInfo;
 
 public interface BankingService {
 
-	/** 
+	/**
 	 * 
 	 * @return
-	 * */
-	List<BankingInfo> listBankInfo();
+	 */
+	List<BankingInfo> getList();
 	
-	/** 
+	/**
 	 * 
+	 * @param bid
 	 * @return
-	 * */
-	BankingInfo getBankInfoById(int bid);
+	 */
+	BankingInfo getById(int bid);
 	
-	/** 
+	/**
 	 * 
+	 * @param bank
 	 * @return
-	 * */
-	Integer insertBankInfo(BankingInfo bank);
+	 */
+	Integer insert(BankingInfo bank);
 	
-	/** 
+	/**
 	 * 
+	 * @param bank
 	 * @return
-	 * */
-	Integer updateBankInfoById(BankingInfo bank);
+	 */
+	Integer updateById(BankingInfo bank);
 	
-	/** 
+	/**
 	 * 
+	 * @param bid
 	 * @return
-	 * */
-	Integer deleteBankInfo(int bid);
+	 */
+	Integer delete(int bid);
 }

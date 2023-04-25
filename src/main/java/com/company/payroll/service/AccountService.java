@@ -6,17 +6,53 @@ import com.company.payroll.model.Account;
 
 public interface AccountService {
 	
-	/** 
+	/**
 	 * 
 	 * @return
-	 * */
+	 */
 	List<Account> getList();
 	
-	/** 
+	/**
 	 * 
+	 * @param aid
 	 * @return
-	 * */
+	 */
 	Account getById(int aid);
+	
+	/**
+	 * 
+	 * @param row
+	 * @return
+	 */
+	Integer insert(Account row);
+	
+	/**
+	 * 
+	 * @param account
+	 * @return
+	 */
+	Integer updateListPassword(Account account);
+	
+	/**
+	 * 
+	 * @param account
+	 * @return
+	 */
+	Integer update(Account account);
+
+	/**
+	 * 
+	 * @param aid
+	 * @return
+	 */
+	Integer delete(int aid);
+	
+	/**
+	 * 
+	 * @param username
+	 * @return
+	 */
+	Account getByUsername(String username);
 	
 	/** 
 	 * 
@@ -29,40 +65,4 @@ public interface AccountService {
 	 * @return
 	 * */
 //	Integer countAccountByStatus();
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-//	Account getAccountByUsername(String username);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer insert(Account row);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-//	Integer updateAccountByAdmin(Account acc);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-//	Integer updatePasswordByManager(Account acc);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-//	Integer updateAccountStatus(Account acc);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-//	Integer deleteAccount(int id);
 }

@@ -6,45 +6,37 @@ import com.company.payroll.model.Title;
 
 public interface TitleService {
 	
-	/** 
+	/**
 	 * 
 	 * @return
-	 * */
-	List<Title> listTitle();
+	 */
+	List<Title> getList();
 	
-	/** 
+	/**
 	 * 
+	 * @param titleno
 	 * @return
-	 * */
-	List<Title> listTitlenoAndName();
+	 */
+	Title getByTitleno(int titleno);
 	
-	/** 
+	/**
 	 * 
+	 * @param title
 	 * @return
-	 * */
-	Title getInfoByTitleno(int titleno);
+	 */
+	Integer insert(Title title);
 	
-	/** 
+	/**
 	 * 
+	 * @param title
 	 * @return
-	 * */
-	Integer countTitle();
+	 */
+	Integer update(Title title);
 	
-	/** 
+	/**
 	 * 
+	 * @param titleno
 	 * @return
-	 * */
-	Integer insertTitle(String titlename, String titledesc);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer updateTitle(Title title);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer deleteTitle(int titleno);
+	 */
+	Integer delete(int titleno);
 }

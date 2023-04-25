@@ -6,27 +6,44 @@ import com.company.payroll.model.Leave;
 
 public interface LeaveService {
 	
-	/** 
+	/**
 	 * 
 	 * @return
-	 * */
-	List<Leave> listLeave();
+	 */
+	List<Leave> getList();
 	
-	/** 
+	/**
 	 * 
+	 * @param eid
 	 * @return
-	 * */
-	List<Leave> listLeaveBySapId(int esapid);
+	 */
+	List<Leave> getListByEId(int eid);
+	
+	/**
+	 * 
+	 * @param lid
+	 * @return
+	 */
+	Leave getById(int lid);
 
-	/** 
+	/**
 	 * 
+	 * @param leave
 	 * @return
-	 * */
-	Integer insertLeave(Leave leave);
+	 */
+	Integer insert(Leave leave);
 	
-	/** 
+	/**
 	 * 
+	 * @param leave
 	 * @return
-	 * */
-	Integer updateLeave(Leave leave);
+	 */
+	Integer update(Leave leave);
+	
+	/**
+	 * 
+	 * @param lid
+	 * @return
+	 */
+	Integer delete(int lid);
 }

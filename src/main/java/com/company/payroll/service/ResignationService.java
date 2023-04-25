@@ -6,39 +6,38 @@ import com.company.payroll.model.Resignation;
 
 public interface ResignationService {
 
-	/** 
+	/**
 	 * 
 	 * @return
-	 * */
-	List<Resignation> listResignation();
+	 */
+	List<Resignation> getList();
 	
-	/** 
+	/**
 	 * 
+	 * @param resignid
 	 * @return
-	 * */
-	Resignation getInfoById(int resignid);
+	 */
+	Resignation getById(int resignid);
 	
-	/** 
+	/**
 	 * 
+	 * @param resign
 	 * @return
-	 * */
-	Integer insertResignInfo(Resignation resign);
+	 */
+	Integer insert(Resignation resign);
 	
-	/** 
+	/**
 	 * 
+	 * @param resign
 	 * @return
-	 * */
-	Integer updateResignInfoById(Resignation resign);
+	 */
+	Integer update(Resignation resign);
+
 	
-	/** 
+	/**
 	 * 
+	 * @param resignid
 	 * @return
-	 * */
-	Integer updateResignStatus(Resignation resign);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer deleteResign(int resignid);
+	 */
+	Integer delete(int resignid);
 }

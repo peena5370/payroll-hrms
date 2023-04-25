@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
 
-@Controller
-@RequestMapping("/home")
+//@Controller
+//@RequestMapping("/home")
 public class HomeInterfaceController {
 	
 	@GetMapping("/login")

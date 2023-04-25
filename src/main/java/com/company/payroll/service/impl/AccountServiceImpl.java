@@ -26,53 +26,41 @@ public class AccountServiceImpl implements AccountService {
 	public Account getById(int aid) {
 		return accountMapper.selectByPrimaryKey(aid);
 	}
-//
+	
+	@Override
+	public Integer insert(Account row) {
+		return accountMapper.insertSelective(row);
+	}
+
+	@Override
+	public Integer updateListPassword(Account account) {
+		return accountMapper.updateByPrimaryKeySelective(account);
+	}
+	
+	@Override
+	public Integer update(Account account) {
+		return accountMapper.updateByPrimaryKeySelective(account);
+	}
+	
+	@Override
+	public Integer delete(int aid) {
+		return accountMapper.deleteByPrimaryKey(aid);
+	}
+
+	@Override
+	public Account getByUsername(String username) {
+		return accountMapper.selectByUsername(username);
+	}
+
 //	@Override
 //	public Integer countAccount() {
 //		// TODO Auto-generated method stub
 //		return accountMapper.countAccount();
 //	}
-//
+
 //	@Override
 //	public Integer countAccountByStatus() {
 //		// TODO Auto-generated method stub
 //		return accountMapper.countAccountbyStatus();
 //	}
-//
-//	@Override
-//	public Account getAccountByUsername(String username) {
-//		// TODO Auto-generated method stub
-//		return accountMapper.selectAccountbyUsername(username);
-//	}
-//
-	@Override
-	public Integer insert(Account row) {
-		// TODO Auto-generated method stub
-		return accountMapper.insertSelective(row);
-	}
-//
-//	@Override
-//	public Integer updateAccountByAdmin(Account acc) {
-//		// TODO Auto-generated method stub
-//		return accountMapper.updatePasswordbyAdmin(acc);
-//	}
-//
-//	@Override
-//	public Integer updatePasswordByManager(Account acc) {
-//		// TODO Auto-generated method stub
-//		return accountMapper.updatePasswordbyManager(acc);
-//	}
-//
-//	@Override
-//	public Integer updateAccountStatus(Account acc) {
-//		// TODO Auto-generated method stub
-//		return accountMapper.updateAccountStatus(acc);
-//	}
-//
-//	@Override
-//	public Integer deleteAccount(int id) {
-//		// TODO Auto-generated method stub
-//		return accountMapper.deleteAccount(id);
-//	}
-
 }

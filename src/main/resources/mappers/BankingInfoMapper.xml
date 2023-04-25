@@ -8,9 +8,16 @@
     <result column="incometaxno" jdbcType="VARCHAR" property="incometaxno" />
     <result column="epfno" jdbcType="INTEGER" property="epfno" />
   </resultMap>
+  <sql id="tb">banking_info</sql>
   <sql id="Base_Column_List">
     b_id, bankname, accountnum, incometaxno, epfno
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from
+  <include refid="tb" />
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

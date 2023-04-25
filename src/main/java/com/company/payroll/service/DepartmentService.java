@@ -6,51 +6,37 @@ import com.company.payroll.model.Department;
 
 public interface DepartmentService {
 	
-	/** 
+	/**
 	 * 
 	 * @return
-	 * */
-	List<Department> listBaseDepartment();
+	 */
+	List<Department> getList();
 	
-	/** 
+	/**
 	 * 
+	 * @param deptno
 	 * @return
-	 * */
-	Department getBaseDepartmentById(int deptno);
+	 */
+	Department getById(int deptno);
 	
-	/** 
+	/**
 	 * 
+	 * @param department
 	 * @return
-	 * */
-	List<Department> listDepartment();
+	 */
+	Integer insert(Department department);
 	
-	/** 
+	/**
 	 * 
+	 * @param department
 	 * @return
-	 * */
-	List<Department> listDeptNoAndDeptName();
+	 */
+	Integer update(Department department);
 	
-	/** 
+	/**
 	 * 
+	 * @param deptno
 	 * @return
-	 * */
-	Integer countDepartment();
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer insertDepartment(Department dept);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer updateDepartment(Department dept);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer deleteDepartment(int deptno);
+	 */
+	Integer delete(int deptno);
 }

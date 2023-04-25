@@ -2,53 +2,43 @@ package com.company.payroll.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.ResignationMapper;
 import com.company.payroll.model.Resignation;
 import com.company.payroll.service.ResignationService;
 
-//@Service
+@Service
 public class ResignationServiceImpl implements ResignationService {
 
-	@Autowired
 	private ResignationMapper resignationMapper;
 	
+	public ResignationServiceImpl(ResignationMapper resignationMapper) {
+		this.resignationMapper = resignationMapper;
+	}
+	
 	@Override
-	public List<Resignation> listResignation() {
-		// TODO Auto-generated method stub
-		return resignationMapper.selectResignList();
+	public List<Resignation> getList() {
+		return resignationMapper.selectList();
 	}
 
 	@Override
-	public Resignation getInfoById(int resignid) {
-		// TODO Auto-generated method stub
-		return resignationMapper.selectResignbyId(resignid);
+	public Resignation getById(int resignid) {
+		return resignationMapper.selectByPrimaryKey(resignid);
 	}
 
 	@Override
-	public Integer insertResignInfo(Resignation resign) {
-		// TODO Auto-generated method stub
-		return resignationMapper.insertResign(resign);
+	public Integer insert(Resignation resign) {
+		return resignationMapper.insertSelective(resign);
 	}
 
 	@Override
-	public Integer updateResignInfoById(Resignation resign) {
-		// TODO Auto-generated method stub
-		return resignationMapper.updateResignbyId(resign);
+	public Integer update(Resignation resign) {
+		return resignationMapper.updateByPrimaryKeySelective(resign);
 	}
 
 	@Override
-	public Integer updateResignStatus(Resignation resign) {
-		// TODO Auto-generated method stub
-		return resignationMapper.updateResignStatusbyManagerId(resign);
+	public Integer delete(int resignid) {
+		return resignationMapper.deleteByPrimaryKey(resignid);
 	}
-
-	@Override
-	public Integer deleteResign(int resignid) {
-		// TODO Auto-generated method stub
-		return resignationMapper.deleteResign(resignid);
-	}
-
 }

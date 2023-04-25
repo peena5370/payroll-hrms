@@ -1,6 +1,5 @@
 package com.company.payroll.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import com.company.payroll.model.PayrollEmployee;
@@ -46,19 +45,5 @@ public interface PayrollEmployeeService {
 	 * @param prid
 	 * @return
 	 */
-	Integer delete(int prid);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-//	List<PayrollEmployee> listPaymentDateAndSapId(int esapid);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-//	PayrollEmployee getPayslip(int esapid, LocalDate paymentdate);
-	
-	
+	Integer delete(int prid);	
 }

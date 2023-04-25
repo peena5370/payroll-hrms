@@ -32,10 +32,9 @@
     where a_id = #{aId,jdbcType=INTEGER}
   </select>
   <select id="selectByUsername" parameterType="String" resultMap="BaseResultMap">
-  select username, password, key, roles, last_attempt, account_status, img_path, m_id, e_id
-  from
-  <include refid="tb" />
-  where username = #{username,jdbcType=CHAR}
+    select a_id, username, password, secretkey, roles, last_attempt, account_status, img_path, m_id, e_id 
+    from account
+    where username = #{username,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from account

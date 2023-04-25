@@ -46,5 +46,4 @@ public class PayrollManagerServiceImpl implements PayrollManagerService {
 	public Integer delete(int prMgrId) {
 		return payrollManagerMapper.deleteByPrimaryKey(prMgrId);
 	}
-
 }

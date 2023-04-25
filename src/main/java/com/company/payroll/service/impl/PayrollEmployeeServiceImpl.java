@@ -1,6 +1,5 @@
 package com.company.payroll.service.impl;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -46,16 +45,4 @@ public class PayrollEmployeeServiceImpl implements PayrollEmployeeService {
 	public Integer delete(int prid) {
 		return payrollEmployeeMapper.deleteByPrimaryKey(prid);
 	}
-
-//	@Override
-//	public List<Payroll> listPaymentDateAndSapId(int esapid) {
-//		// TODO Auto-generated method stub
-//		return payrollMapper.selectpaymentDatebySapId(esapid);
-//	}
-//	
-//	@Override
-//	public Payroll getPayslip(int esapid, LocalDate paymentdate) {
-//		// TODO Auto-generated method stub
-//		return payrollMapper.selectPayslipbyDateAndSapId(esapid, paymentdate);
-//	}
 }

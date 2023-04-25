@@ -25,6 +25,17 @@
     manager_socso, manager_eis, employer_epf, employer_socso, employer_eis, mtd_pcb, 
     totalpay, payperiod, paymentdate, m_id
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from payroll_manager
+  </select>
+  <select id="selectListByMId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from payroll_manager
+    where m_id = #{mId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

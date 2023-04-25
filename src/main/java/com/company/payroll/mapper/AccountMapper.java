@@ -17,6 +17,8 @@ public interface AccountMapper {
     List<Account> selectList();
 
     Account selectByPrimaryKey(Integer aId);
+    
+    Account selectByUsername(String username);
 
     int updateByPrimaryKeySelective(Account row);
 

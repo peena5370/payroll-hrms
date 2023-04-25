@@ -6,51 +6,44 @@ import com.company.payroll.model.Training;
 
 public interface TrainingService {
 
-	/** 
+	/**
 	 * 
 	 * @return
-	 * */
-	List<Training> listTraining();
+	 */
+	List<Training> getList();
 	
-	/** 
+	/**
 	 * 
+	 * @param eid
 	 * @return
-	 * */
-	Training getInfoById(int tid);
+	 */
+	List<Training> getListByEId(int eId);
 	
-	/** 
+	/**
 	 * 
+	 * @param tid
 	 * @return
-	 * */
-	List<Training> listInfoBySapId(int esapid);
+	 */
+	Training getById(int tId);
 	
-	/** 
+	/**
 	 * 
+	 * @param training
 	 * @return
-	 * */
-	Integer insertTraining(Training training);
+	 */
+	Integer insert(Training training);
 	
-	/** 
+	/**
 	 * 
+	 * @param training
 	 * @return
-	 * */
-	Integer updateTraining(Training training);
+	 */
+	Integer update(Training training);
 	
-	/** 
+	/**
 	 * 
+	 * @param tid
 	 * @return
-	 * */
-	Integer updateStatusByManager(Training training);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer updateStatusByEmployee(int tid, int sessionstatus, int esapid);
-	
-	/** 
-	 * 
-	 * @return
-	 * */
-	Integer deleteTraining(int tid);
+	 */
+	Integer delete(int tId);
 }

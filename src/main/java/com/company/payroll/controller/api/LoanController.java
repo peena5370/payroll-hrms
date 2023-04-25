@@ -1,10 +1,10 @@
 package com.company.payroll.controller.api;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,46 +15,59 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Loan;
 import com.company.payroll.service.LoanService;
-import com.company.payroll.utils.Generator;
 
-//@RestController
-//@RequestMapping("/loan")
+@RestController
+@RequestMapping("/loan")
 public class LoanController {
 	
-	@Autowired
 	private LoanService loanService;
 	
+	public LoanController(LoanService loanService) {
+		this.loanService = loanService;
+	}
+	
 	@GetMapping("/list")
-	public List<Loan> listLoan() {
-		return loanService.listLoan();
+	public ResponseEntity<List<Loan>> listLoan() {
+		return ResponseEntity.ok(loanService.getList());
 	}
 	
-	@GetMapping("/list/employee/{id}")
-	public List<Loan> listLoanForEmployee(@PathVariable("id")int sapid) {
-		return loanService.listLoanBySapId(sapid);
+	@GetMapping("/{id}/list")
+	public ResponseEntity<List<Loan>> listLoanByEId(@PathVariable("id")int eid) {
+		return ResponseEntity.ok(loanService.getListByEId(eid));
 	}
 	
-	@PostMapping("/insert/{id}")
-	public Integer inserLoan(@PathVariable("id")int sapid, @RequestBody Loan loan) {
-		LocalDate ld = LocalDate.now();
-		String date = ld.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-		String refnum = date + "-" + Generator.generateRandomString(8);
-		String reason = loan.getReason();
-		Double loanamount = loan.getLoanamount();
+	@GetMapping("/list/information/{id}")
+	public ResponseEntity<Loan> getById(@PathVariable("id")int lid) {
+		return ResponseEntity.ok(loanService.getById(lid));
+	}
+	
+	@PostMapping("/insert")
+	public ResponseEntity<Integer> insert(@RequestBody Loan loan) {
+		Integer status = loanService.insert(loan);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
 		
-		Loan ln = new Loan(refnum, reason, loanamount, ld, sapid);
-		
-		return loanService.insertLoan(ln);
+		return ResponseEntity.ok(status);
 	}
 	
 	@PutMapping("/list/information/{id}/update")
-	public Integer updateLoan(@PathVariable("id")int lid, @RequestBody Loan loan) {
-		int loanStatus = loan.getLoanStatus();
-		int mid = loan.getMId();
-		LocalDate dateApproved = loan.getDateApproved();
+	public ResponseEntity<Integer> update(@RequestBody Loan loan) {
+		Integer status = loanService.update(loan);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
 		
-		Loan ln = new Loan(lid, loanStatus, dateApproved, mid);
+		return ResponseEntity.ok(status);
+	}
+	
+	@DeleteMapping("/list/information/{id}/delete")
+	public ResponseEntity<Integer> delete(@PathVariable("id")int lid) {
+		Integer status = loanService.delete(lid);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
 		
-		return loanService.updateLoan(ln);
+		return ResponseEntity.ok(status);
 	}
 }

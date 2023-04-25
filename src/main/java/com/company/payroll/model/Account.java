@@ -67,36 +67,6 @@ public class Account {
     private Integer mId;
 
     private Integer eId;
-    
-    public Account(String username, String password, String secretkey, LocalDateTime datecreated, Byte accountStatus) {
-		this.username = username;
-		this.password = password;
-		this.secretkey = secretkey;
-		this.dateCreated = datecreated;
-		this.accountStatus = accountStatus;
-	}
-	
-	public Account(int aId, String username, String password, String secretkey, LocalDateTime dateModified) {
-		this.aId = aId;
-		this.username = username;
-		this.password = password;
-		this.secretkey = secretkey;
-		this.dateModified = dateModified;
-	}
-
-	public Account(String username, String password, String secretkey, LocalDateTime dateModified) {
-		this.username = username;
-		this.password = password;
-		this.secretkey = secretkey;
-		this.dateModified = dateModified;
-	}
-	
-	public Account(int aId, String username, LocalDateTime dateModified, Byte accountStatus) {
-		this.aId = aId;
-		this.username = username;
-		this.dateModified = dateModified;
-		this.accountStatus = accountStatus;
-	}
 
 	public Account(String username, String password, String secretkey, String roles,
 			LocalDateTime dateCreated, Byte accountStatus, Integer mId, Integer eId) {
@@ -109,4 +79,33 @@ public class Account {
 		this.mId = mId;
 		this.eId = eId;
 	}
+	public Account(int aId, String username, String password, String secretkey, LocalDateTime dateModified) {
+		this.aId = aId;
+		this.username = username;
+		this.password = password;
+		this.secretkey = secretkey;
+		this.dateModified = dateModified;
+	}
+	
+	public Account(int aid, String username, String roles, Byte lastAttempt, Byte accountStatus) {
+		this.aId = aid;
+		this.username = username;
+		this.roles = roles;
+		this.lastAttempt = lastAttempt;
+		this.accountStatus = accountStatus;
+	}
+
+//	public Account(String username, String password, String secretkey, LocalDateTime dateModified) {
+//		this.username = username;
+//		this.password = password;
+//		this.secretkey = secretkey;
+//		this.dateModified = dateModified;
+//	}
+//	
+//	public Account(int aId, String username, LocalDateTime dateModified, Byte accountStatus) {
+//		this.aId = aId;
+//		this.username = username;
+//		this.dateModified = dateModified;
+//		this.accountStatus = accountStatus;
+//	}
 }

@@ -1,9 +1,9 @@
 package com.company.payroll.controller.api;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,53 +16,63 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Resignation;
 import com.company.payroll.service.ResignationService;
 
-//@RestController
-//@RequestMapping("/resign")
+@RestController
+@RequestMapping("/resign")
 public class ResignationController {
 	
-	@Autowired
 	private ResignationService resignationService;
 	
+	public ResignationController(ResignationService resignationService) {
+		this.resignationService = resignationService;
+	}
+	
 	@GetMapping("/list")
-	public List<Resignation> listResignation() {
-		return resignationService.listResignation();
+	public ResponseEntity<List<Resignation>> listResignation() {
+		return ResponseEntity.ok(resignationService.getList());
 	}
 	
 	@GetMapping("/list/information/{id}")
-	public Resignation getResignInfoById(@PathVariable("id")int id) {
-		return resignationService.getInfoById(id);
+	public ResponseEntity<Resignation> getById(@PathVariable("id")int id) {
+		return ResponseEntity.ok(resignationService.getById(id));
 	}
 	
 	@PostMapping("/insert")
-	public Integer insertResignInfo(@RequestBody Resignation resign) {
-		return resignationService.insertResignInfo(resign);
+	public ResponseEntity<Integer> insert(@RequestBody Resignation resignation) {
+		Integer status = resignationService.insert(resignation);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
+		
+		return ResponseEntity.ok(status);
 	}
 	
 	@PutMapping("/list/information/{id}/update")
-	public Integer updateResignInfo(@PathVariable("id")int id, @RequestBody Resignation resign) {
-		String reason = resign.getReason();
-		LocalDate resignDate = resign.getResignDate();
-		int resignStatus = resign.getResignStatus();
-		Integer eid = resign.getEId();
+	public ResponseEntity<Integer> update(@RequestBody Resignation resignation) {
+		Integer status = resignationService.update(resignation);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
 		
-		Resignation rs = new Resignation(id, reason, resignDate, resignStatus, eid);
-		
-		return resignationService.updateResignInfoById(rs);
-	}
-	
-	@PutMapping("/list/information/{id}/update/status")
-	public Integer updateResignStatus(@PathVariable("id")int id, @RequestBody Resignation resign) {
-		int resignStatus = resign.getResignStatus();
-		Integer mid = resign.getMId();
-		
-		Resignation rs = new Resignation(id, resignStatus, mid);
-		
-		return resignationService.updateResignStatus(rs);
+		return ResponseEntity.ok(status);
 	}
 	
 	@DeleteMapping("/list/information/{id}/delete")
-	public Integer deleteResignInfo(@PathVariable("id")int id) {
-		return resignationService.deleteResign(id);
+	public ResponseEntity<Integer> delete(@PathVariable("id")int id) {
+		Integer status = resignationService.delete(id);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
+		
+		return ResponseEntity.ok(status);
 	}
-
+	
+//	@PutMapping("/list/information/{id}/update/status")
+//	public Integer updateResignStatus(@PathVariable("id")int id, @RequestBody Resignation resign) {
+//		int resignStatus = resign.getResignStatus();
+//		Integer mid = resign.getMId();
+//		
+//		Resignation rs = new Resignation(id, resignStatus, mid);
+//		
+//		return resignationService.updateResignStatus(rs);
+//	}
 }

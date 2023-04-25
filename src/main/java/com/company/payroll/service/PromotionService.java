@@ -6,27 +6,37 @@ import com.company.payroll.model.Promotion;
 
 public interface PromotionService {
 	
-	/** 
+	/**
 	 * 
 	 * @return
-	 * */
-	List<Promotion> listPromotion();
+	 */
+	List<Promotion> getList();
 	
-	/** 
+	/**
 	 * 
+	 * @param pid
 	 * @return
-	 * */
-	Promotion getPromotionById(int pid);
+	 */
+	Promotion getById(int pid);
 	
-	/** 
+	/**
 	 * 
+	 * @param promotion
 	 * @return
-	 * */
-	Integer insertPromotion(Promotion promotion);
+	 */
+	Integer insert(Promotion promotion);
 	
-	/** 
+	/**
 	 * 
+	 * @param promotion
 	 * @return
-	 * */
-	Integer updatePromotion(Promotion promotion);
+	 */
+	Integer update(Promotion promotion);
+	
+	/**
+	 * 
+	 * @param pid
+	 * @return
+	 */
+	Integer delete(int pid);
 }

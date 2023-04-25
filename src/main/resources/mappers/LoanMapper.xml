@@ -16,6 +16,17 @@
     loan_id, refnum, reason, loanamount, applicationdate, loanstatus, dateapproved, e_id, 
     m_id
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from loan
+  </select>
+  <select id="selectListByEId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from loan
+    where e_id = #{eId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

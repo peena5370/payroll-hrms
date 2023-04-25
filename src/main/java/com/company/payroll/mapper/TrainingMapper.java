@@ -1,16 +1,22 @@
 package com.company.payroll.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.Training;
 
-//@Repository
+@Repository
 public interface TrainingMapper {
     int deleteByPrimaryKey(Integer tId);
 
     int insert(Training row);
 
     int insertSelective(Training row);
+    
+    List<Training> selectList();
+    
+    List<Training> selectListByEId(int eid);
 
     Training selectByPrimaryKey(Integer tId);
 

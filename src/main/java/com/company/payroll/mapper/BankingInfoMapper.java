@@ -1,16 +1,20 @@
 package com.company.payroll.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.BankingInfo;
 
-//@Repository
+@Repository
 public interface BankingInfoMapper {
     int deleteByPrimaryKey(Integer bId);
 
     int insert(BankingInfo row);
 
     int insertSelective(BankingInfo row);
+    
+    List<BankingInfo> selectList();
 
     BankingInfo selectByPrimaryKey(Integer bId);
 

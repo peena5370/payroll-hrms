@@ -14,6 +14,11 @@
   <sql id="Base_Column_List">
     p_id, currentsalary, promotesalary, promotedate, titleno, comment, e_id, m_id
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from promotion
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

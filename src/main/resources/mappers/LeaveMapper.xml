@@ -14,22 +14,35 @@
     <result column="e_id" jdbcType="INTEGER" property="eId" />
     <result column="m_id" jdbcType="INTEGER" property="mId" />
   </resultMap>
+  <sql id="tb">`leave`</sql>
   <sql id="Base_Column_List">
     l_id, refnum, leavetype, reason, applicationdate, datefrom, dateto, leavestatus, 
     approveddate, e_id, m_id
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from 
+    <include refid="tb" />
+  </select>
+  <select id="selectListByEId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from <include refid="tb" />
+    where e_id = #{eId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from leave
+    from <include refid="tb" />
     where l_id = #{lId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from leave
+    delete from <include refid="tb" />
     where l_id = #{lId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Leave">
-    insert into leave (l_id, refnum, leavetype, 
+    insert into <include refid="tb" /> (l_id, refnum, leavetype, 
       reason, applicationdate, datefrom, 
       dateto, leavestatus, approveddate, 
       e_id, m_id)
@@ -39,7 +52,7 @@
       #{eId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Leave">
-    insert into leave
+    insert into <include refid="tb" />
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="lId != null">
         l_id,
@@ -112,7 +125,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.Leave">
-    update leave
+    update <include refid="tb" />
     <set>
       <if test="refnum != null">
         refnum = #{refnum,jdbcType=VARCHAR},
@@ -148,7 +161,7 @@
     where l_id = #{lId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.Leave">
-    update leave
+    update <include refid="tb" />
     set refnum = #{refnum,jdbcType=VARCHAR},
       leavetype = #{leavetype,jdbcType=VARCHAR},
       reason = #{reason,jdbcType=VARCHAR},
