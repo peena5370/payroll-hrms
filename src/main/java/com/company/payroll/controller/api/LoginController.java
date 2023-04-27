@@ -23,11 +23,13 @@ import com.company.payroll.utils.JwtTokenUtils;
 import com.company.payroll.utils.PasswordEncryption;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 
 @RestController
+@Slf4j
 public class LoginController {
-	private static final Logger log = LoggerFactory.getLogger(LoginController.class);
+//	private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 	
 	private AccountService accountService;
 	private JwtTokenUtils jwtTokenUtils;
@@ -100,7 +102,7 @@ public class LoginController {
 					default:
 						break;
 				}
-			} else if(obj.getLastAttempt()==6) {
+			} else if(obj.getLastAttempt()>=6) {
 				Account obj3 = new Account();
 				obj3.setAId(obj.getAId());
 				obj3.setAccountStatus((byte) 2);
@@ -125,7 +127,7 @@ public class LoginController {
 			}
 			
 		} catch(NullPointerException | NoSuchAlgorithmException e) {
-			log.info("Error message: {}", e.getMessage());
+			log.error("Error message: {}", e.getMessage());
 			
 			resp.setCode(500);
 			resp.setMsg("The account does not exist.");
