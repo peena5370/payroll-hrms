@@ -35,10 +35,9 @@ public class PasswordEncryption {
     
     /**
      * Method to generate the salt value.
-     * @param	lentgh
-     * 			Salt value length
+     * @param	lentgh			Salt value length
      * @return	salt string
-     * */
+     */
     public static String getSaltvalue(int length) {  
         StringBuilder finalval = new StringBuilder(length);  
   
@@ -50,11 +49,10 @@ public class PasswordEncryption {
     
     /**
      * Method to generate the hash value
-     * @param	password
-     * 			Array character password
+     * @param	password		Array character password
      * @param	salt
      * 			Salt value
-     * */
+     */
     public static byte[] hash(char[] password, byte[] salt) {  
         PBEKeySpec spec = new PBEKeySpec(password, salt, DEFAULT_ITERATIONS, DEFAULT_KEY_LENGTH);
         Arrays.fill(password, Character.MIN_VALUE);
@@ -70,12 +68,10 @@ public class PasswordEncryption {
   
     /**
      * Method to encrypt the password using the original password and salt value.
-     * @param	password
-     * 			Get string password
-     * @param	salt
-     * 			Get salt value
+     * @param	password		Get string password
+     * @param	salt			Get salt value
      * @return	Base64 string
-     * */
+     */
     public static String generateSecurePassword(String password, String salt) {  
         String finalval = null;  
   
@@ -88,14 +84,11 @@ public class PasswordEncryption {
     
     /**
      * Method to verify if both password matches or not 
-     * @param	providedPassword
-     * 			Get password string
-     * @param	securePassword
-     * 			Get Encrypted password
-     * @param	salt
-     * 			Get salt value
+     * @param	providedPassword 	Get password string
+     * @param	securePassword 		Get Encrypted password
+     * @param	salt 				Get salt value
      * @return	boolean
-     * */
+     */
     public static boolean verifyUserPassword(String providedPassword, String securedPassword, String salt) {  
         boolean finalval = false;  
           
@@ -109,12 +102,14 @@ public class PasswordEncryption {
     
     /**
 	 * 
+	 * Created 22 Apr 2023
 	 * @param cipher
 	 * @param keySize	key length(128, 192, 256) in bits
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	public static SecretKey generateSecretKey(String cipher, int keySize) throws NoSuchAlgorithmException {
+	public static SecretKey generateSecretKey(String cipher, int keySize) 
+			throws NoSuchAlgorithmException {
 		KeyGenerator keyGenerator = KeyGenerator.getInstance(cipher);
 		keyGenerator.init(keySize, SecureRandom.getInstanceStrong());
 		
@@ -123,11 +118,13 @@ public class PasswordEncryption {
 	
 	/**
 	 * 
+	 * Created 22 Apr 2023
 	 * @param secretKey
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
-	public static Map<String, PasswordEncoder> generatePasswordEncoder(String secretKey) throws NoSuchAlgorithmException {
+	public static Map<String, PasswordEncoder> generatePasswordEncoder(String secretKey) 
+			throws NoSuchAlgorithmException {
 		Map<String, PasswordEncoder> encoders = new HashMap<>();
 		
 		encoders.put("bcrypt", new BCryptPasswordEncoder());
@@ -148,7 +145,8 @@ public class PasswordEncryption {
 	 * @throws NoSuchAlgorithmException
 	 * @throws InvalidKeySpecException
 	 */
-	public static SecretKey getKeyFromPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	public static SecretKey getKeyFromPassword(String password, String salt) 
+			throws NoSuchAlgorithmException, InvalidKeySpecException {
         SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 		PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), DEFAULT_ITERATIONS, DEFAULT_SALT_LENGTH);
 		SecretKey originalKey = new SecretKeySpec(skf.generateSecret(pbeKeySpec).getEncoded(), "AES");
@@ -158,6 +156,7 @@ public class PasswordEncryption {
 	
 	/**
 	 * Method of converting secret key to string
+	 * Created 22 Apr 2023
 	 * @param secretKey
 	 * @return
 	 */
@@ -170,6 +169,7 @@ public class PasswordEncryption {
 	
 	/**
 	 * Method of converting string to secret key
+	 * Created 22 Apr 2023
 	 * @param encodedKey
 	 * @return
 	 */
@@ -209,6 +209,7 @@ public class PasswordEncryption {
 	
 	/**
 	 * 
+	 * Created 22 Apr 2023
 	 * @param password
 	 * @return
 	 */
@@ -220,6 +221,7 @@ public class PasswordEncryption {
 	
 	/**
 	 * 
+	 * Created 22 Apr 2023
 	 * @param rawPassword
 	 * @param encryptedPassword
 	 * @return
@@ -236,13 +238,15 @@ public class PasswordEncryption {
 	}
 	
 	/**
-	 * 
+	 *
+	 * Created 22 Apr 2023
 	 * @param password
 	 * @param secretKey
 	 * @return
 	 */
 	public static String encodePasswordAsPbkdf2(String password, String secretKey) {
-	    Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder(secretKey, DEFAULT_SALT_LENGTH, DEFAULT_ITERATIONS, SKFA);
+	    Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder(secretKey, DEFAULT_SALT_LENGTH, 
+	    															DEFAULT_ITERATIONS, SKFA);
 		pbkdf2PasswordEncoder.setEncodeHashAsBase64(true);
 
 	    return pbkdf2PasswordEncoder.encode(password);
@@ -250,6 +254,7 @@ public class PasswordEncryption {
 	
 	/**
 	 * 
+	 * Created 22 Apr 2023
 	 * @param rawPassword
 	 * @param hashedPassword
 	 * @param secretKey
@@ -257,7 +262,8 @@ public class PasswordEncryption {
 	 */
 	public static Boolean pbkdf2PasswordMatched(String rawPassword, String hashedPassword, String secretKey) {
 	    boolean bool = false;
-	    Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder(secretKey, DEFAULT_SALT_LENGTH, DEFAULT_ITERATIONS, SKFA);
+	    Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder(secretKey, DEFAULT_SALT_LENGTH, 
+	    															DEFAULT_ITERATIONS, SKFA);
 	    pbkdf2PasswordEncoder.setEncodeHashAsBase64(true);
 	    
 	    if(pbkdf2PasswordEncoder.matches(rawPassword, hashedPassword)) {
@@ -269,24 +275,28 @@ public class PasswordEncryption {
 	
 	/**
 	 * 
+	 * Created 22 Apr 2023
 	 * @param plainPassword
 	 * @return
 	 */
 	public static String encodePasswordAsSCrypt(String plainPassword) {
-	    SCryptPasswordEncoder sCryptPasswordEncoder = new SCryptPasswordEncoder(DEFAULT_PROCESSOR_COST, DEFAULT_RAM_COST, PARALLELIZATION, DEFAULT_KEY_LENGTH, DEFAULT_SALT_LENGTH);
+	    SCryptPasswordEncoder sCryptPasswordEncoder = new SCryptPasswordEncoder(DEFAULT_PROCESSOR_COST, DEFAULT_RAM_COST, 
+	    															PARALLELIZATION, DEFAULT_KEY_LENGTH, DEFAULT_SALT_LENGTH);
 
 	    return sCryptPasswordEncoder.encode(plainPassword);
 	}
 	
 	/**
 	 * 
+	 * Created 22 Apr 2023
 	 * @param rawPassword
 	 * @param hashedPassword
 	 * @return
 	 */
 	public static boolean scryptPasswordMatched(String rawPassword, String hashedPassword) {
 	    boolean bool = false;
-	    SCryptPasswordEncoder sCryptPasswordEncoder = new SCryptPasswordEncoder(DEFAULT_PROCESSOR_COST, DEFAULT_RAM_COST, PARALLELIZATION, DEFAULT_KEY_LENGTH, DEFAULT_SALT_LENGTH);
+	    SCryptPasswordEncoder sCryptPasswordEncoder = new SCryptPasswordEncoder(DEFAULT_PROCESSOR_COST, DEFAULT_RAM_COST, 
+	    															PARALLELIZATION, DEFAULT_KEY_LENGTH, DEFAULT_SALT_LENGTH);
 
 	    if(sCryptPasswordEncoder.matches(rawPassword, hashedPassword)) {
 	      bool = true;
