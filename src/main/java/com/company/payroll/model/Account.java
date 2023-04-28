@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -36,14 +40,23 @@ import lombok.Setter;
 public class Account {
     private Integer aId;
 
+    @NotNull
+    @Size(min = 5, max=20)
     private String username;
     
+    @NotNull
     @JsonProperty("password")
+    @Size(min = 8, max = 20)
     private String password;
     
+    @Hidden
     @JsonProperty("key")
     private String secretkey;
 
+    @Schema(description="Contain three roles: <br>"
+    				  + "1. role_admin=for admin user<br>"
+    				  + "2. role_manager=for manager user<br>"
+    				  + "3. role_user=for normal user<br>")
     private String roles;
     
     @JsonProperty("register_date")
@@ -55,9 +68,11 @@ public class Account {
     @JsonProperty("last_login")
     private LocalDateTime lastLogin;
 
+    @Hidden
     @JsonProperty("last_attempt")
     private Byte lastAttempt;
     
+    @Schema(description="0=disable, 1=enable, 2=locked")
     @JsonProperty("status")
     private Byte accountStatus;
     
@@ -67,7 +82,7 @@ public class Account {
     private Integer mId;
 
     private Integer eId;
-
+    
 	public Account(String username, String password, String secretkey, String roles,
 			LocalDateTime dateCreated, Byte accountStatus, Integer mId, Integer eId) {
 		this.username = username;
@@ -79,33 +94,13 @@ public class Account {
 		this.mId = mId;
 		this.eId = eId;
 	}
-	public Account(int aId, String username, String password, String secretkey, LocalDateTime dateModified) {
+
+	public Account(Integer aId, String username, String password, String secretkey,
+			LocalDateTime dateModified) {
 		this.aId = aId;
 		this.username = username;
 		this.password = password;
 		this.secretkey = secretkey;
 		this.dateModified = dateModified;
 	}
-	
-	public Account(int aid, String username, String roles, Byte lastAttempt, Byte accountStatus) {
-		this.aId = aid;
-		this.username = username;
-		this.roles = roles;
-		this.lastAttempt = lastAttempt;
-		this.accountStatus = accountStatus;
-	}
-
-//	public Account(String username, String password, String secretkey, LocalDateTime dateModified) {
-//		this.username = username;
-//		this.password = password;
-//		this.secretkey = secretkey;
-//		this.dateModified = dateModified;
-//	}
-//	
-//	public Account(int aId, String username, LocalDateTime dateModified, Byte accountStatus) {
-//		this.aId = aId;
-//		this.username = username;
-//		this.dateModified = dateModified;
-//		this.accountStatus = accountStatus;
-//	}
 }

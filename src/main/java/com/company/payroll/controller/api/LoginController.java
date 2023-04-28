@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
@@ -22,6 +21,12 @@ import com.company.payroll.service.AccountService;
 import com.company.payroll.utils.JwtTokenUtils;
 import com.company.payroll.utils.PasswordEncryption;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +34,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 public class LoginController {
-//	private static final Logger log = LoggerFactory.getLogger(LoginController.class);
+	private static final String VALUE_ONE = "{\"username\": \"string\", \"password\": \"string\"}";
+	private static final String VALUE_TWO = "{\"username\": \"testaccount\", \"password\": \"Abcde@12345\"}";
+	private static final String VALUE_THREE = "{\"code\": 200, \"msg\": \"Login Success.\"}";
+	private static final String VALUE_FOUR = "{\"code\": 401, \"msg\": \"Account has reach max attempt login.\"}";
+	private static final String VALUE_FIVE = "{\"code\": 401, \"msg\": \"Wrong user password.\"}";
+	private static final String VALUE_SIX = "{\"code\": 500, \"msg\": \"The account does not exist.\"}";
 	
 	private AccountService accountService;
 	private JwtTokenUtils jwtTokenUtils;
@@ -39,6 +49,37 @@ public class LoginController {
 		this.jwtTokenUtils = jwtTokenUtils;
 	}
 
+	@Operation(summary = "System login API",
+			   description="API will consist of the response status from back-end server.\n"
+			   			 + "This API will also generate an authorization token for the client which saved at the response header('Authorization').",
+			   parameters= {
+					   @Parameter(name= "username", required= true, 
+							   	  description= "Username"),
+					   @Parameter(name= "password", required= true, 
+					   			  description= "Password")},
+			   responses= {@ApiResponse(responseCode= "200",
+			   							 description= "Login success.",
+			   							 content= {@Content(mediaType="application/json",
+			   									 	schema= @Schema(implementation = ResponseObject.class),
+			   									 	examples= {@ExampleObject(value=VALUE_THREE)})}),
+			   				@ApiResponse(responseCode= "401",
+			   							 description= "Unauthorized request.",
+			   							 content= {@Content(mediaType="application/json",
+   									 	 			schema= @Schema(implementation = ResponseObject.class),
+   									 	 			examples= {@ExampleObject(name="Example 1", value=VALUE_FOUR),
+   									   					 	   @ExampleObject(name="Example 2", value=VALUE_FIVE)})}),
+			   				@ApiResponse(responseCode= "500",
+  							 			 description= "Account not available in server.",
+  							 			 content= {@Content(mediaType="application/json",
+  							 			 			schema= @Schema(implementation = ResponseObject.class),
+  							 			 			examples= {@ExampleObject(value=VALUE_SIX)})})
+			   				})
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			   required= true,
+			   content= {@Content(mediaType="application/json", 
+			   			 schema= @Schema(implementation = Account.class),
+			   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE),
+			   					 	@ExampleObject(name="Example 2", value=VALUE_TWO)}) })
 	@PostMapping("/login")
 	public ResponseEntity<ResponseObject> backendLoginValidate(HttpServletRequest request, @RequestBody Account account) {
 		ResponseObject resp = new ResponseObject();
@@ -138,7 +179,9 @@ public class LoginController {
 		return ResponseEntity.ok().header("Authorization", "Bearer " + jwtToken).body(resp);
 	}
 	
-	@GetMapping("/logout")
+	@Operation(summary= "System logout API",
+			   description= "TODO")
+	@PostMapping("/logout")
 	public ResponseEntity<ResponseObject> logout() {
 		ResponseObject resp = new ResponseObject();
 		resp.setCode(200);

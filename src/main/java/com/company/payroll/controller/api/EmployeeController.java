@@ -16,9 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Employee;
 import com.company.payroll.service.EmployeeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
+	private static final String VALUE_ONE = "{\"fullname\": \"string\", \"gender\": \"string\", \"age\": 0, "
+										  + "\"martialstatus\": \"string\", \"education\": \"string\", \"address\": \"string\", "
+										  + "\"state\": \"string\", \"country\": \"string\", \"phone\": \"string\", \"datehired\": \"2023-04-28\", "
+										  + "\"attachment\": \"string\", \"imgUser\": \"string\", \"deptno\": 0, \"titleno\": 0, \"mid\": 0, "
+										  + "\"bid\": 0, \"sid\": 0, \"date_of_birth\": \"2023-04-28\", \"company_email\": \"string\"}";
 
 	private EmployeeService employeeService;
 	
@@ -26,16 +38,29 @@ public class EmployeeController {
 		this.employeeService = employeeService;
 	}
 	
+	@Operation(summary="Get employee list")
 	@GetMapping("/list")
 	public ResponseEntity<List<Employee>> listEmployee() {
 		return ResponseEntity.ok(employeeService.getList());
 	}
 	
+	@Operation(summary="Get employee info by id")
 	@GetMapping("/list/information/{id}")
-	public ResponseEntity<Employee> getById(@PathVariable("id")int eid) {
+	public ResponseEntity<Employee> getById(@Parameter() @PathVariable("id") int eid) {
 		return ResponseEntity.ok(employeeService.getById(eid));
 	}
 
+	@Operation(summary="Insert employee info",
+			   responses= {@ApiResponse(responseCode="200",
+					   					description="Value return 1 for insert success.",
+					   					content=@Content(examples= {@ExampleObject(value="1")})),
+					   	   @ApiResponse(responseCode="403",
+					   			   		description="Value return 0 for insert fail.",
+					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+		   	 content= {@Content(mediaType="application/json", 
+  			 schema= @Schema(implementation = Employee.class),
+  			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping("/insert")
 	public ResponseEntity<Integer> insert(@RequestBody Employee employee) {
 		Integer status = employeeService.insert(employee);
@@ -46,8 +71,15 @@ public class EmployeeController {
 		return ResponseEntity.ok(status);
 	}
 	
+	@Operation(summary="Update employee info.",
+			   responses= {@ApiResponse(responseCode="200",
+										description="Value return 1 for update success.",
+										content=@Content(examples= {@ExampleObject(value="1")})),
+					   	  @ApiResponse(responseCode="403",
+					   	  				description="Value return 0 for update fail.",
+					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/list/information/{id}/update")
-	public ResponseEntity<Integer> update(@PathVariable("id")int eid, @RequestBody Employee employee) {
+	public ResponseEntity<Integer> update(@RequestBody Employee employee) {
 		Integer status = employeeService.update(employee);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
@@ -56,8 +88,15 @@ public class EmployeeController {
 		return ResponseEntity.ok(status);
 	}
 	
+	@Operation(summary="Delete employee info.",
+			   responses= {@ApiResponse(responseCode="200",
+										description="Value return 1 for delete success.",
+										content=@Content(examples= {@ExampleObject(value="1")})),
+					   	  @ApiResponse(responseCode="403",
+					   	  				description="Value return 0 for delete fail.",
+					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/list/information/{id}/delete")
-	public ResponseEntity<Integer> delete(@PathVariable("id")int eid) {
+	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int eid) {
 		Integer status = employeeService.delete(eid);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
@@ -66,11 +105,6 @@ public class EmployeeController {
 		return ResponseEntity.ok(status);
 	}
 	
-//	@GetMapping("/profile/{id}")
-//	public Employee getEmployeeBySapId(@PathVariable("id")int sapid) {
-//		return employeeService.getEmployeeBySapId(sapid);
-//	}
-//	
 //	@GetMapping("/list/count/all")
 //	public Integer countEmployee() {
 //		return employeeService.countEmployee();
@@ -80,42 +114,4 @@ public class EmployeeController {
 //	public Integer countAvailableEmployee() {
 //		return employeeService.countAvailableEmployee();
 //	}
-	
-//	@PutMapping("/profile/{id}/update/password")
-//	public Integer updateProfilePassword(@PathVariable("id")int id, @RequestBody Employee employee) {
-//		String password = employee.getPassword();
-//		String key = PasswordEncryption.getSaltvalue(30);
-//		String hash = PasswordEncryption.generateSecurePassword(password, key);
-//		
-//		Employee emp = new Employee(id, hash, key, LocalDateTime.now());
-//		
-//		return employeeService.updatePasswordBySapId(emp);
-//	}
-//	
-//	@PutMapping("/list/information/{id}/update-resign")
-//	public Integer updateResignDate(@PathVariable("id")int id, @RequestBody Employee employee) {
-//		LocalDate dateResign = employee.getDateResign();
-//		
-//		return employeeService.updateResignDateBySapId(id, dateResign);
-//	}
-	
-//	@PutMapping("/profile/{id}/update")
-//	public Integer updateEmployeeProfile(@PathVariable("id")int id, @RequestBody Employee employee) {
-//		String fullname = employee.getFullname();
-//		String gender = employee.getGender();
-//		LocalDate dateOfBirth = employee.getDateOfBirth();
-//		int age = employee.getAge();
-//		String martialStatus = employee.getMartialStatus();
-//		String education = employee.getEducation();
-//		String address = employee.getAddress();
-//		String state = employee.getState();
-//		String country = employee.getCountry();
-//		String phone = employee.getPhone();
-//		String email = employee.getEmail();
-//		
-//		Employee emp = new Employee(id, fullname, gender, dateOfBirth, age, martialStatus, education, address, state, country, phone ,email);
-//		
-//		return employeeService.updateInfoByEmployee(emp);
-//	}
-
 }

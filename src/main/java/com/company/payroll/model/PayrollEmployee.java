@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -47,7 +48,8 @@ public class PayrollEmployee {
     private BigDecimal mtdPcb;
 
     private BigDecimal totalpay;
-
+    
+    @Schema(description="Pay period string format: 'yyyy-MM-dd to yyyy-MM-dd'")
     private String payperiod;
 
     private LocalDate paymentdate;

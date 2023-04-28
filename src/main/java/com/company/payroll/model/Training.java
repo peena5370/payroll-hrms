@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class Training {
     @JsonProperty("date_end")
     private LocalDateTime enddate;
     
+    @Schema(description="Status: 0=ongoing, 1=completed, 2=canceled")
     @JsonProperty("status")
     private Byte sessionstatus;
 
@@ -29,5 +31,7 @@ public class Training {
 
     private Integer mId;
 
+    @Schema(description="Description may store a very long paragraph of text.<br>"
+    				  + "Before submitting the text to back-end, please convert \\n(newline) into \\<br\\>")
     private String description;
 }

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,8 @@ import lombok.Setter;
 public class Loan {
     private Integer loanId;
 
+    @Schema(description="Reference number should store in below format:<br>"
+						+ "yyyyMMdd-{8Characters-RandomString}")
     @JsonProperty("reference_number")
     private String refnum;
 
@@ -26,6 +29,7 @@ public class Loan {
     @JsonProperty("application_date")
     private LocalDate applicationdate;
 
+    @Schema(description="Loan status: 0=rejected, 1=approved, 2=rejected")
     @JsonProperty("status")
     private Byte loanstatus;
 

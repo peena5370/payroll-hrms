@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -16,13 +17,15 @@ public class Manager {
 
     private String fullname;
 
+    @Schema(description="Three values available: female, male, other")
     private String gender;
 
     @JsonProperty("date_of_birth")
     private LocalDate dob;
 
     private Short age;
-
+    
+    @Schema(description="Three values available: divorced, married, single")
     private String martialstatus;
 
     private String education;
