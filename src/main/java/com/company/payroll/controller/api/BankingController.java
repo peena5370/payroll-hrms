@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/banking")
+@RequestMapping("/api/banking")
 public class BankingController {
 	private static final String VALUE_ONE = "{\"bank_name\": \"string\", \"account_bank\": 0, "
 										  + "\"account_income_tax\": \"string\", \"account_epf\": 0}";

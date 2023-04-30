@@ -54,6 +54,13 @@ public interface AccountService {
 	 */
 	Account getByUsername(String username);
 	
+	/**
+	 * 
+	 * @param account
+	 * @return
+	 */
+	Integer updateImagePath(Account account);
+	
 	/** 
 	 * 
 	 * @return

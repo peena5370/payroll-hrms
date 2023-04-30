@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/resign")
+@RequestMapping("/api/resign")
 public class ResignationController {
 	private static final String VALUE_ONE = "{\"reason\": \"string\", \"resigndate\": \"2023-04-28T13:46:24.820Z\", "
 										  + "\"resignstatus\": \"string\", \"attachment\": \"string\"}";

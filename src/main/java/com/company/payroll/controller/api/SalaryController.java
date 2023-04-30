@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/salary")
+@RequestMapping("/api/salary")
 public class SalaryController {
 	private static final String VALUE_ONE = "{\"monthlysalary\": 0, \"annualsalary\": 0, \"dateupdate\": \"2023-04-28\"}";
 	

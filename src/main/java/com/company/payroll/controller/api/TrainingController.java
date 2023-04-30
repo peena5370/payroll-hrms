@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/training")
+@RequestMapping("/api/training")
 public class TrainingController {
 	private static final String VALUE_ONE = "{\"trainingtitle\": \"string\", \"description\": \"string\", \"mid\": 0, \"eid\": 0, "
 										  + "\"date_start\": \"2023-04-28T13:56:54.865Z\", \"date_end\": \"2023-04-28T13:56:54.865Z\", "

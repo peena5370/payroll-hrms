@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/leave")
+@RequestMapping("/api/leave")
 public class LeaveController {
 	private static final String VALUE_ONE = "{\"leavetype\": \"string\", \"reason\": \"string\", "
 										  + "\"applicationdate\": \"2023-04-28\", \"approveddate\": \"2023-04-28\", \"mid\": 0, "

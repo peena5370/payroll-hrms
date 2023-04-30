@@ -83,14 +83,15 @@ public class Account {
 
     private Integer eId;
     
-	public Account(String username, String password, String secretkey, String roles,
-			LocalDateTime dateCreated, Byte accountStatus, Integer mId, Integer eId) {
+    public Account(String username, String password, String secretkey, String roles,
+			LocalDateTime dateCreated, Byte accountStatus, String imgPath, Integer mId, Integer eId) {
 		this.username = username;
 		this.password = password;
 		this.secretkey = secretkey;
 		this.roles = roles;
 		this.dateCreated = dateCreated;
 		this.accountStatus = accountStatus;
+		this.imgPath = imgPath;
 		this.mId = mId;
 		this.eId = eId;
 	}

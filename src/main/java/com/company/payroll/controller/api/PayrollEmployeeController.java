@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/payroll/employee")
+@RequestMapping("/api/payroll/employee")
 public class PayrollEmployeeController {
 	private static final String VALUE_ONE = "{\"basicpay\": 0, \"overtimepay\": 0, \"allowance\": 0, \"transport\": 0, "
 										  + "\"otherdeduction\": 0, \"totalpay\": 0, \"payperiod\": \"string\", \"paymentdate\": \"2023-04-28\", "

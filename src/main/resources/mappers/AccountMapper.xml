@@ -197,4 +197,19 @@
       e_id = #{eId,jdbcType=INTEGER}
     where a_id = #{aId,jdbcType=INTEGER}
   </update>
+  <update id="updateImagePathByUsername" parameterType="com.company.payroll.model.Account">
+  update account
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=CHAR},
+      </if>
+      <if test="dateModified != null">
+        date_modified = #{dateModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgPath != null">
+        img_path = #{imgPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where username = #{username,jdbcType=CHAR}
+  </update>
 </mapper>

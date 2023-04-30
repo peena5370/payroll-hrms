@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/api/department")
 public class DepartmentController {
 	private static final String VALUE_ONE = "{\"deptname\": \"string\", \"location\": \"string\", "
 										  + "\"state\": \"string\", \"country\": \"string\"}";

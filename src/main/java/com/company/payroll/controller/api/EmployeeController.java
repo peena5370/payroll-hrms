@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/api/employee")
 public class EmployeeController {
 	private static final String VALUE_ONE = "{\"fullname\": \"string\", \"gender\": \"string\", \"age\": 0, "
 										  + "\"martialstatus\": \"string\", \"education\": \"string\", \"address\": \"string\", "

@@ -23,4 +23,6 @@ public interface AccountMapper {
     int updateByPrimaryKeySelective(Account row);
 
     int updateByPrimaryKey(Account row);
+    
+    int updateImagePathByUsername(Account row);
 }

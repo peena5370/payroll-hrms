@@ -5,12 +5,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +40,7 @@ public class LoginController {
 	private static final String VALUE_SIX = "{\"code\": 500, \"msg\": \"The account does not exist.\"}";
 	
 	private AccountService accountService;
+	
 	private JwtTokenUtils jwtTokenUtils;
 	
 	public LoginController(AccountService accountService, JwtTokenUtils jwtTokenUtils) {
@@ -83,7 +82,7 @@ public class LoginController {
 	@PostMapping("/login")
 	public ResponseEntity<ResponseObject> backendLoginValidate(HttpServletRequest request, @RequestBody Account account) {
 		ResponseObject resp = new ResponseObject();
-		String jwtToken = "";
+		String token = null;
 		Map<String, Object> claims = new HashMap<>();
 		
 		try {
@@ -109,28 +108,25 @@ public class LoginController {
 								claims.put("username", account.getUsername());
 								claims.put("roles", obj.getRoles());
 								claims.put("id", obj.getMId());
-								claims.put("img_path", obj.getImgPath());
 								claims.put("client_address", request.getRemoteAddr());
 								
-								jwtToken = jwtTokenUtils.createJwt(claims);
+								token = jwtTokenUtils.generateToken(claims);
 								break;
 							case "role_manager":
 								claims.put("username", account.getUsername());
 								claims.put("roles", obj.getRoles());
 								claims.put("id", obj.getMId());
-								claims.put("img_path", obj.getImgPath());
 								claims.put("client_address", request.getRemoteAddr());
 								
-								jwtToken = jwtTokenUtils.createJwt(claims);
+								token = jwtTokenUtils.generateToken(claims);
 								break;
 							default:
 								claims.put("username", account.getUsername());
 								claims.put("roles", obj.getRoles());
 								claims.put("id", obj.getEId());
-								claims.put("img_path", obj.getImgPath());
 								claims.put("client_address", request.getRemoteAddr());
 								
-								jwtToken = jwtTokenUtils.createJwt(claims);
+								token = jwtTokenUtils.generateToken(claims);
 								break;
 						}
 						
@@ -176,7 +172,7 @@ public class LoginController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resp);
 		}
 		
-		return ResponseEntity.ok().header("Authorization", "Bearer " + jwtToken).body(resp);
+		return ResponseEntity.ok().header("Authorization", "Bearer " + token).body(resp);
 	}
 	
 	@Operation(summary= "System logout API",

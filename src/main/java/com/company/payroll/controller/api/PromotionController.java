@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/promotion")
+@RequestMapping("/api/promotion")
 public class PromotionController {
 	private static final String VALUE_ONE = "{\"currentsalary\": 0, \"promotesalary\": 0, \"promotedate\": \"2023-04-28\", "
 										  + "\"titleno\": 0, \"comment\": \"string\", \"mid\": 0, \"eid\": 0}";

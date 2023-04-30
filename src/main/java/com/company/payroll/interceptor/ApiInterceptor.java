@@ -1,6 +1,5 @@
 package com.company.payroll.interceptor;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,13 +10,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
-@Component
 @Slf4j
-public class JwtInterceptor implements HandlerInterceptor {
+public class ApiInterceptor implements HandlerInterceptor {
 	
 	private JwtTokenUtils jwtTokenUtils;
 	
-	public JwtInterceptor(JwtTokenUtils jwtTokenUtils) {
+	public ApiInterceptor(JwtTokenUtils jwtTokenUtils) {
 		this.jwtTokenUtils = jwtTokenUtils;
 	}
 

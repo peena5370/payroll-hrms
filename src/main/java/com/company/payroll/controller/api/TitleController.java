@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/title")
+@RequestMapping("/api/title")
 public class TitleController {
 	private static final String VALUE_ONE = "{\"titlename\": \"string\", \"titledesc\": \"string\"}";
 	

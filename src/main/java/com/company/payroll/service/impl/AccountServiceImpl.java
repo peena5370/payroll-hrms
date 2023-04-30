@@ -51,6 +51,11 @@ public class AccountServiceImpl implements AccountService {
 	public Account getByUsername(String username) {
 		return accountMapper.selectByUsername(username);
 	}
+	
+	@Override
+	public Integer updateImagePath(Account account) {
+		return accountMapper.updateImagePathByUsername(account);
+	}
 
 //	@Override
 //	public Integer countAccount() {

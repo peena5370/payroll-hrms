@@ -6,67 +6,88 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.company.payroll.exception.FileNotFoundException;
-import com.company.payroll.exception.FileStorageException;
-import com.company.payroll.model.FileStorageProperties;
-import com.company.payroll.model.ProfileImage;
+import lombok.extern.slf4j.Slf4j;
 
+@Component
+@Slf4j
 public class FileUtils {
-	private final Path fileStorageLocation;
+	private final Path storageLocation;
 	
-	public FileUtils(FileStorageProperties fileStorageProperties) {
-		this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
-		
-//		initialize by creating new directories with the file storage location
+	public FileUtils(@Value("${file.upload.directory}") String directory) {
+		this.storageLocation = Paths.get(directory).toAbsolutePath().normalize();
 		try {
-			Files.createDirectories(this.fileStorageLocation);
+			Files.createDirectories(this.storageLocation);
 		} catch(Exception e) {
-			throw new FileStorageException("Cannot create directory", e);
+			log.warn("Failed to create file directory. Error message: {}", e);
 		}
 	}
 	
-	public ProfileImage upload(MultipartFile file, String path, int id) {
-		// Normalize file name
+	/**
+	 * 
+	 * Modified at 30 Apr 2023
+	 * <p> Change from upload(MultipartFile file, String path, int id) to imageUpload(MultipartFile file, String impPath)
+	 * 
+	 * @param file
+	 * @param imgPath
+	 * @return
+	 */
+	public String imageUpload(MultipartFile file, String imgPath) {
+		String uploadPath = "";
+		
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-        String newName = UUID.randomUUID() + filename.substring(filename.lastIndexOf("."));
         
-        Path storePath = Path.of(String.valueOf(this.fileStorageLocation), path);
+        Matcher regex = Pattern.compile("(\\w*)(\\.)(jpg|jpeg|png|gif)").matcher(filename);
+		if(!regex.matches()) {
+			uploadPath = "";
+		} else {
+	        String randomName = UUID.randomUUID() + filename.substring((filename.lastIndexOf(".")));
+	        
+	        try {
+	        	Path storagePath = Path.of(String.valueOf(this.storageLocation), imgPath);
+	        	Files.createDirectories(storagePath);
+	        	
+	            Path dest = storagePath.resolve(randomName);
+	            Files.copy(file.getInputStream(), dest, StandardCopyOption.REPLACE_EXISTING);
+	            
+	            uploadPath = dest.toString();
+	        } catch (IOException e) {
+	        	log.warn("Could not store file to directory. Error message: {}", e);
+	        }
+		}
 
-        try {
-            // Check if the file's name contains invalid characters
-            if(filename.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence: " + filename);
-            }
-            
-            Files.createDirectories(storePath);
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = storePath.resolve(newName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            
-            return new ProfileImage(filename, newName, targetLocation.toString(), file.getSize(), file.getContentType(), LocalDate.now(), id);
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + filename + ". Please try again!", ex);
-        }
+        return uploadPath;
 	}
 	
-	public Resource download(String fileName, Path path) {
+	/**
+	 * 
+	 * Modified at 30 Apr 2022
+	 * <p> Change from download(String filename, Path path) to imageDownload(Path imgPath)
+	 * 
+	 * @param imgPath
+	 * @return Resource
+	 */
+	public Resource imageDownload(Path imgPath) {
+		Resource resource = null;
 		try {
-	        Resource resource = new UrlResource(path.toUri());
-	        if(resource.exists()) {
-	            return resource;
-	        } else {
-	            throw new FileNotFoundException("File not found " + fileName);
+	        Resource urlResource = new UrlResource(imgPath.toUri());
+	        if(urlResource.exists()) {
+	        	resource = urlResource;
 	        }
-		} catch (MalformedURLException ex) {
-			throw new FileNotFoundException("File not found " + fileName, ex);
+		} catch (MalformedURLException e) {
+			log.info("File not found in directory. Error message: {}", e);
 		}
+		
+		return resource;
 	}
 }

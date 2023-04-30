@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
-@RequestMapping("/loan")
+@RequestMapping("/api/loan")
 public class LoanController {
 	private static final String VALUE_ONE = "{\"reason\": \"string\", \"mid\": 0, \"eid\": 0, "
 										  + "\"reference_number\": \"string\", \"amount\": 0, \"application_date\": \"2023-04-28\", "

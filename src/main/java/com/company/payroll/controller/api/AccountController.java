@@ -3,6 +3,7 @@ package com.company.payroll.controller.api;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Account;
 import com.company.payroll.service.AccountService;
-
 import com.company.payroll.utils.PasswordEncryption;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/api/account")
 public class AccountController {
 	private static final String VALUE_ONE = "{\"username\": \"string\", \"password\": \"string\", "
 										  + "\"roles\": \"string\", \"register_date\": \"2023-04-28T11:33:18.906Z\", "
@@ -41,13 +41,16 @@ public class AccountController {
 	
 	private AccountService accountService;
 	
-	public AccountController(AccountService accountService) {
+	private String directory;
+	
+	public AccountController(AccountService accountService, @Value("${file.upload.directory}") String directory) {
 		this.accountService = accountService;
+		this.directory = directory;
 	}
 	
 	@Operation(summary="Get account list")
 	@GetMapping("/list")
-	public ResponseEntity<List<Account>> listAccount(){
+	public ResponseEntity<List<Account>> listAccount() {
 		return ResponseEntity.ok(accountService.getList());	
 	}
 	
@@ -72,12 +75,13 @@ public class AccountController {
 	public ResponseEntity<Integer> insert(@RequestBody Account account) throws NoSuchAlgorithmException {
 		String plainPassword = account.getPassword();
 		Byte accountStatus = 1;
+		String defaultImgPath = directory + "/images/default/img-001.png";
 		String secretkey = PasswordEncryption.convertSecretKeyToString(PasswordEncryption.generateSecretKey("HmacSHA256", 256));
 		PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(secretkey));
 		String encodedPassword = passwordEncoder.encode(plainPassword);
 		
 		Account row = new Account(account.getUsername(), encodedPassword, secretkey, account.getRoles(), account.getDateCreated(), 
-									accountStatus, account.getMId(), account.getEId());
+									accountStatus, defaultImgPath, account.getMId(), account.getEId());
 		
 		Integer status = accountService.insert(row);
 		if(status==0) {
