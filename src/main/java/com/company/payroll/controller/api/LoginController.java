@@ -5,12 +5,16 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Account;
@@ -29,8 +33,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 
-@RestController
 @Slf4j
+@RestController
+@RequestMapping("/api/users")
 public class LoginController {
 	private static final String VALUE_ONE = "{\"username\": \"string\", \"password\": \"string\"}";
 	private static final String VALUE_TWO = "{\"username\": \"testaccount\", \"password\": \"Abcde@12345\"}";
@@ -42,6 +47,9 @@ public class LoginController {
 	private AccountService accountService;
 	
 	private JwtTokenUtils jwtTokenUtils;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
 	public LoginController(AccountService accountService, JwtTokenUtils jwtTokenUtils) {
 		this.accountService = accountService;
@@ -84,7 +92,8 @@ public class LoginController {
 		ResponseObject resp = new ResponseObject();
 		String token = null;
 		Map<String, Object> claims = new HashMap<>();
-		
+
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword());
 		try {
 			Account obj = accountService.getByUsername(account.getUsername());
 			PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(obj.getSecretkey()));
@@ -105,28 +114,31 @@ public class LoginController {
 						
 						switch(obj.getRoles()) {
 							case "role_admin":
-								claims.put("username", account.getUsername());
+								authenticationManager.authenticate(authToken);
+								
 								claims.put("roles", obj.getRoles());
 								claims.put("id", obj.getMId());
 								claims.put("client_address", request.getRemoteAddr());
 								
-								token = jwtTokenUtils.generateToken(claims);
+								token = jwtTokenUtils.generateToken(account.getUsername(), claims);
 								break;
 							case "role_manager":
-								claims.put("username", account.getUsername());
+								authenticationManager.authenticate(authToken);
+								
 								claims.put("roles", obj.getRoles());
 								claims.put("id", obj.getMId());
 								claims.put("client_address", request.getRemoteAddr());
 								
-								token = jwtTokenUtils.generateToken(claims);
+								token = jwtTokenUtils.generateToken(account.getUsername(), claims);
 								break;
 							default:
-								claims.put("username", account.getUsername());
+								authenticationManager.authenticate(authToken);
+								
 								claims.put("roles", obj.getRoles());
 								claims.put("id", obj.getEId());
 								claims.put("client_address", request.getRemoteAddr());
 								
-								token = jwtTokenUtils.generateToken(claims);
+								token = jwtTokenUtils.generateToken(account.getUsername(), claims);
 								break;
 						}
 						
@@ -177,7 +189,7 @@ public class LoginController {
 	
 	@Operation(summary= "System logout API",
 			   description= "TODO")
-	@PostMapping("/logout")
+	@PostMapping("/api/users/logout")
 	public ResponseEntity<ResponseObject> logout() {
 		ResponseObject resp = new ResponseObject();
 		resp.setCode(200);

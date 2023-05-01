@@ -69,18 +69,43 @@ public class FileUtils {
         return uploadPath;
 	}
 	
+	public String fileUpload(MultipartFile file, String path) {
+		String uploadPath = null;
+		
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        
+        Matcher regex = Pattern.compile("(\\w*\\p{P}.*)|([0-9])(\\.)(doc|docx|pdf)").matcher(filename);
+		if(!regex.matches()) {
+			return uploadPath;
+		} else {   
+	        try {
+	        	Path storagePath = Path.of(String.valueOf(this.storageLocation), path);
+	        	Files.createDirectories(storagePath);
+	        	
+	            Path dest = storagePath.resolve(filename);
+	            Files.copy(file.getInputStream(), dest, StandardCopyOption.REPLACE_EXISTING);
+	            
+	            uploadPath = dest.toString();
+	        } catch (IOException e) {
+	        	log.warn("Could not store file to directory. Error message: {}", e);
+	        }
+		}
+
+        return uploadPath;
+	}
+	
 	/**
 	 * 
 	 * Modified at 30 Apr 2022
-	 * <p> Change from download(String filename, Path path) to imageDownload(Path imgPath)
+	 * <p> Change from download(String filename, Path path) to download(Path path)
 	 * 
 	 * @param imgPath
 	 * @return Resource
 	 */
-	public Resource imageDownload(Path imgPath) {
+	public Resource download(Path path) {
 		Resource resource = null;
 		try {
-	        Resource urlResource = new UrlResource(imgPath.toUri());
+	        Resource urlResource = new UrlResource(path.toUri());
 	        if(urlResource.exists()) {
 	        	resource = urlResource;
 	        }
@@ -89,5 +114,16 @@ public class FileUtils {
 		}
 		
 		return resource;
+	}
+	
+	public boolean delete(Path path) {
+		boolean bool = false;
+		try {
+			bool = Files.deleteIfExists(path);
+		} catch (IOException e) {
+			log.info("Delete file fail. Error message: {}", e);
+		}
+		
+		return bool;
 	}
 }

@@ -2,11 +2,14 @@ package com.company.payroll.filter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.company.payroll.service.impl.UserAccountService;
 import com.company.payroll.utils.JwtTokenUtils;
 
 import jakarta.servlet.FilterChain;
@@ -18,35 +21,46 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 
  * Created on 26 Apr 2023
- * TODO to be implemented
+ * 
+ * <p> Updated at 1 May 2023. Include Spring default authorization mechanism for authenticate request made from users.
  */
-@Slf4j
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    private UserAccountService userAccountService;
 
     private JwtTokenUtils jwtTokenUtils;
     
-    public JwtAuthenticationFilter(JwtTokenUtils jwtTokenUtils, UserAccountService userAccountService) {
+    public JwtAuthenticationFilter(JwtTokenUtils jwtTokenUtils) {
     	this.jwtTokenUtils = jwtTokenUtils;
-    	this.userAccountService = userAccountService;
     }
     
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		log.info("Authentication filter starts at: {}", LocalDateTime.now());
 		String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            String authToken = header.substring(7);
-            String username = jwtTokenUtils.getUserNameFromToken(authToken);
-            if (username != null) {
-                UserDetails userDetails = userAccountService.loadUserByUsername(username);
-                if (jwtTokenUtils.validateToken(authToken) && userDetails != null) {
-                    filterChain.doFilter(request, response);
-                }
-            }
-        }
+		
+		// Token empty/null, pass the filter
+		if(header == null || header.isEmpty() || !header.startsWith("Bearer")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+		
+		final String token = header.substring(7);
+		
+		// Token not valid, pass the filter
+		if(!jwtTokenUtils.validateToken(token)) {
+			filterChain.doFilter(request, response);
+		}
+		
+		// Token exist and not expired, get username
+		String username = jwtTokenUtils.getUsername(token);
+
+		// Initialize authentication token
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+		authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		
+		// Pass authentication token to security context
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+		
+		filterChain.doFilter(request, response);
 	}
 }

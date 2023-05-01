@@ -7,24 +7,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-//import org.springframework.web.servlet.config.annotation.CorsRegistry;
-//import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * CORS policy configuration
+ * 
+ * Updated at 30 Apr 2023
+ * 
+ * Change deprecated WebMvsConfigurer().addCorsMappings(CorsRegistry) to CorsConfigurationSource()
  */
 @Configuration
 public class CorsConfig {
-//public class CorsConfig implements WebMvcConfigurer {
-//		@Override
-//		public void addCorsMappings(CorsRegistry registry) {
-//			registry.addMapping("/**")// mapping all paths
-//			  .allowedOrigins("http://localhost:8080")
-//	          .allowCredentials(true)// Allow cookie credentials
-//			  .allowedOriginPatterns("*")// Allow all origins
-//			  .allowedMethods("GET", "POST", "DELETE", "PUT")
-//			  .maxAge(3600);  
-//		}
 		
 		@Bean
 		CorsConfigurationSource corsConfigurationSource() {

@@ -20,7 +20,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new ApiInterceptor(jwtTokenUtils))
 		.addPathPatterns("/api/**")
-		.excludePathPatterns("/login", "/logout", "/v3/api-docs/**", "/swagger-ui/**")
+		.excludePathPatterns("/api/users/login", "/logout", "/v3/api-docs/**", "/swagger-ui/**")
 		.order(2);
 	}
 }

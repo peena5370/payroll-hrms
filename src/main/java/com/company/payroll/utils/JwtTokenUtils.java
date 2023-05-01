@@ -1,6 +1,8 @@
 package com.company.payroll.utils;
 
 import java.security.Key;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
@@ -9,48 +11,39 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.stereotype.Component;
 
-import com.company.payroll.model.Account;
 import com.company.payroll.model.JwtTokenProperties;
-import com.company.payroll.service.AccountService;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtTokenUtils {
-	private AccountService accountService;
 	
-	private JwtTokenProperties jwtTokenProperties;
+	private final SignatureAlgorithm ALG = SignatureAlgorithm.HS256;
+	private Instant issuedAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+	private final byte[] SECRET_KEY;
+	private long TTL;
 	
-	public JwtTokenUtils(JwtTokenProperties jwtTokenProperties, AccountService accountService) {
-		this.jwtTokenProperties = jwtTokenProperties;
-		this.accountService = accountService;
+	public JwtTokenUtils(JwtTokenProperties jwtTokenProperties) {
+		this.SECRET_KEY = Base64.getEncoder().encode(jwtTokenProperties.getKey().getBytes());
+		this.TTL = jwtTokenProperties.getTtl();
 	}
 	/**
 	 * Generate token
 	 * @param Claims
 	 * @return Token
 	 */
-	public String generateToken(Map<String, Object> claims) {
-		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-		byte[] secretkey = Base64.getEncoder().encode(jwtTokenProperties.getKey().getBytes());
-		Key key = new SecretKeySpec(secretkey, signatureAlgorithm.getJcaName());
+	public String generateToken(String username, Map<String, Object> claims) {
+		Key key = new SecretKeySpec(SECRET_KEY, ALG.getJcaName());
+		Instant expiration = issuedAt.plus(TTL, ChronoUnit.SECONDS);
 
-		long nowMillis = System.currentTimeMillis();
-		Date now = new Date(nowMillis);
-		JwtBuilder builder = Jwts.builder()
-							.setIssuedAt(now)
-							.signWith(key, signatureAlgorithm)
-							.setClaims(claims);
-		
-		long ttl = jwtTokenProperties.getTtl();
-		if(ttl > 0) {
-			builder.setExpiration(new Date(nowMillis + ttl));
-		}
-		
-		return builder.compact();
+		return Jwts.builder()
+					.setClaims(claims)
+					.setSubject(username)
+					.setExpiration(Date.from(expiration))
+					.signWith(key, ALG)
+					.compact();
 	}
 	
 	/**
@@ -60,29 +53,43 @@ public class JwtTokenUtils {
 	 */
 	public Claims getClaims(String token) {
 		return Jwts.parserBuilder()
-				.setSigningKey(Base64.getEncoder().encode(jwtTokenProperties.getKey().getBytes()))
+				.setSigningKey(SECRET_KEY)
 				.build()
 				.parseClaimsJws(token)
 				.getBody();
 	}
 	
-	public String getUserNameFromToken(String token) {
+	/**
+	 * Get subject username
+	 * @param token
+	 * @return
+	 */
+	public String getUsername(String token) {
 		Claims claims = getClaims(token);
 		
-		return claims.get("username").toString();
+		return claims.getSubject();
 	}
 	
+	/**
+	 * validate token
+	 * @param token
+	 * @return
+	 */
 	public boolean validateToken(String token) {
-		String username = getUserNameFromToken(token);
-		Account account = accountService.getByUsername(username);
+		if(getUsername(token) != null && isExpired(token)) {
+			return true;
+		}
 		
-		return username.equals(account.getUsername()) && !validateTokenExpired(token);
+		return false;
 	}
 	
-	private boolean validateTokenExpired(String token) {
+	/**
+	 * 
+	 * @param token
+	 * @return
+	 */
+	public boolean isExpired(String token) {
 		Claims claims = getClaims(token);
-		Date date = claims.getExpiration();
-		
-		return date.before(new Date());
+		return claims.getExpiration().after(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS)));
 	}
 }
