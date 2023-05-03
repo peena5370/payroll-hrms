@@ -2,6 +2,7 @@ package com.company.payroll.controller.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,12 +30,9 @@ public class PromotionController {
 	private static final String VALUE_ONE = "{\"currentsalary\": 0, \"promotesalary\": 0, \"promotedate\": \"2023-04-28\", "
 										  + "\"titleno\": 0, \"comment\": \"string\", \"mid\": 0, \"eid\": 0}";
 	
+	@Autowired
 	private PromotionService promotionService;
-	
-	public PromotionController(PromotionService promotionService) {
-		this.promotionService = promotionService;
-	}
-	
+
 	@Operation(summary="Get promotion list")
 	@GetMapping("/list")
 	public ResponseEntity<List<Promotion>> listPromotion() {

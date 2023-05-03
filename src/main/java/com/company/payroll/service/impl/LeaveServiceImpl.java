@@ -2,6 +2,7 @@ package com.company.payroll.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.LeaveMapper;
@@ -11,12 +12,9 @@ import com.company.payroll.service.LeaveService;
 @Service
 public class LeaveServiceImpl implements LeaveService {
 
+	@Autowired
 	private LeaveMapper leaveMapper;
-	
-	public LeaveServiceImpl(LeaveMapper leaveMapper) {
-		this.leaveMapper = leaveMapper;
-	}
-	
+
 	@Override
 	public List<Leave> getList() {
 		return leaveMapper.selectList();

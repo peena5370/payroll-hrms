@@ -2,6 +2,7 @@ package com.company.payroll.controller.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,12 +29,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 public class TitleController {
 	private static final String VALUE_ONE = "{\"titlename\": \"string\", \"titledesc\": \"string\"}";
 	
+	@Autowired
 	private TitleService titleService;
-	
-	public TitleController(TitleService titleService) {
-		this.titleService = titleService;
-	}
-	
+
 	@Operation(summary="Get title list")
 	@GetMapping("/list")
 	public ResponseEntity<List<Title>> listTitle() {
@@ -57,14 +55,14 @@ public class TitleController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Title.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping(value = "/insert", consumes= {"application/json"})
 	public ResponseEntity<Integer> insert(@RequestBody Title title) {
 		Integer status = titleService.insert(title);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}
 		
-		return ResponseEntity.ok(status);
+		return ResponseEntity.status(HttpStatus.CREATED).body(status);
 	}
 	
 	@Operation(summary="Update title info.",

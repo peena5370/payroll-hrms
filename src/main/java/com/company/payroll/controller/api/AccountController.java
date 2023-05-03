@@ -3,6 +3,7 @@ package com.company.payroll.controller.api;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Account;
 import com.company.payroll.service.AccountService;
-import com.company.payroll.utils.PasswordEncryption;
+import com.company.payroll.util.PasswordEncryption;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,12 +40,12 @@ public class AccountController {
 	private static final String VALUE_THREE = "{\"username\": \"string\", \"password\": \"strings\", \"aid\": 0, "
 			  							  	+ "\"modified_date\": \"2023-04-28T11:38:12.262Z\"}";
 	
+	@Autowired
 	private AccountService accountService;
-	
+
 	private String directory;
 	
-	public AccountController(AccountService accountService, @Value("${file.upload.directory}") String directory) {
-		this.accountService = accountService;
+	public AccountController(@Value("${file.upload.directory}") String directory) {
 		this.directory = directory;
 	}
 	

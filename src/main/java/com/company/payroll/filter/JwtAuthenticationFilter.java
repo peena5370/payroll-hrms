@@ -1,7 +1,6 @@
 package com.company.payroll.filter;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,13 +9,12 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.company.payroll.utils.JwtTokenUtils;
+import com.company.payroll.util.JwtTokenUtils;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -28,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private JwtTokenUtils jwtTokenUtils;
-    
+
     public JwtAuthenticationFilter(JwtTokenUtils jwtTokenUtils) {
     	this.jwtTokenUtils = jwtTokenUtils;
     }

@@ -2,6 +2,7 @@ package com.company.payroll.controller.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,12 +30,9 @@ public class ResignationController {
 	private static final String VALUE_ONE = "{\"reason\": \"string\", \"resigndate\": \"2023-04-28T13:46:24.820Z\", "
 										  + "\"resignstatus\": \"string\", \"attachment\": \"string\"}";
 	
+	@Autowired
 	private ResignationService resignationService;
-	
-	public ResignationController(ResignationService resignationService) {
-		this.resignationService = resignationService;
-	}
-	
+
 	@Operation(summary="Get resignation list")
 	@GetMapping("/list")
 	public ResponseEntity<List<Resignation>> listResignation() {

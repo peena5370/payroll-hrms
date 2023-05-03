@@ -2,6 +2,7 @@ package com.company.payroll.controller.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,12 +32,9 @@ public class PayrollEmployeeController {
 										  + "\"eid\": 0, \"employee_epf\": 0, \"employee_socso\": 0, \"employee_eis\": 0, \"employer_epf\": 0, "
 										  + "\"employer_socso\": 0, \"employer_eis\": 0, \"mtd_pcb\": 0}";
 	
+	@Autowired
 	private PayrollEmployeeService payrollEmployeeService;
-	
-	public PayrollEmployeeController(PayrollEmployeeService payrollEmployeeService) {
-		this.payrollEmployeeService = payrollEmployeeService;
-	}
-	
+
 	@Operation(summary="Get employee payroll list")
 	@GetMapping("/list")
 	public ResponseEntity<List<PayrollEmployee>> listPayrollEmployee() {

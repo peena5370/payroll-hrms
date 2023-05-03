@@ -2,6 +2,7 @@ package com.company.payroll.controller.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,11 +30,8 @@ public class DepartmentController {
 	private static final String VALUE_ONE = "{\"deptname\": \"string\", \"location\": \"string\", "
 										  + "\"state\": \"string\", \"country\": \"string\"}";
 
+	@Autowired
 	private DepartmentService departmentService;
-	
-	public DepartmentController(DepartmentService departmentService) {
-		this.departmentService = departmentService;
-	}
 	
 	@Operation(summary="Get department list")
 	@GetMapping("/list")

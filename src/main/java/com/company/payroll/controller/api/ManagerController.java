@@ -2,6 +2,7 @@ package com.company.payroll.controller.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,11 +34,8 @@ public class ManagerController {
 										  + "\"titleno\": 0, \"bid\": 0, \"sid\": 0, \"date_of_birth\": \"2023-04-28\", "
 										  + "\"company_email\": \"string\"}";
 	
+	@Autowired
 	private ManagerService managerService;
-	
-	public ManagerController(ManagerService managerService) {
-		this.managerService = managerService;
-	}
 	
 	@Operation(summary="Get manager list")
 	@GetMapping("/list")

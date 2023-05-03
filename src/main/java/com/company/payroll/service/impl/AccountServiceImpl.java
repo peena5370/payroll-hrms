@@ -2,6 +2,7 @@ package com.company.payroll.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.AccountMapper;
@@ -11,11 +12,8 @@ import com.company.payroll.service.AccountService;
 @Service
 public class AccountServiceImpl implements AccountService {
 	
-	private final AccountMapper accountMapper;
-	
-	public AccountServiceImpl(AccountMapper accountMapper) {
-		this.accountMapper = accountMapper;
-	}
+	@Autowired
+	private AccountMapper accountMapper;
 
 	@Override
 	public List<Account> getList() {

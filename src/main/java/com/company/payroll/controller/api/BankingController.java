@@ -2,6 +2,7 @@ package com.company.payroll.controller.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,12 +29,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 public class BankingController {
 	private static final String VALUE_ONE = "{\"bank_name\": \"string\", \"account_bank\": 0, "
 										  + "\"account_income_tax\": \"string\", \"account_epf\": 0}";
+	
+	@Autowired
 	private BankingService bankingService;
-	
-	public BankingController(BankingService bankingService) {
-		this.bankingService = bankingService;
-	}
-	
+
 	@Operation(summary="Get banking list")
 	@GetMapping("/list")
 	public ResponseEntity<List<BankingInfo>> listBankingInfo() {

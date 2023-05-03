@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.payroll.model.Account;
 import com.company.payroll.model.ResponseObject;
 import com.company.payroll.service.AccountService;
-import com.company.payroll.utils.JwtTokenUtils;
-import com.company.payroll.utils.PasswordEncryption;
+import com.company.payroll.util.JwtTokenUtils;
+import com.company.payroll.util.PasswordEncryption;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,17 +45,14 @@ public class LoginController {
 	private static final String VALUE_FIVE = "{\"code\": 401, \"msg\": \"Wrong user password.\"}";
 	private static final String VALUE_SIX = "{\"code\": 500, \"msg\": \"The account does not exist.\"}";
 	
+	@Autowired
 	private AccountService accountService;
 	
+	@Autowired
 	private JwtTokenUtils jwtTokenUtils;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
-	public LoginController(AccountService accountService, JwtTokenUtils jwtTokenUtils) {
-		this.accountService = accountService;
-		this.jwtTokenUtils = jwtTokenUtils;
-	}
 
 	@Operation(summary = "System login API",
 			   description="API will consist of the response status from back-end server.\n"
@@ -184,7 +182,7 @@ public class LoginController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resp);
 		}
 		
-		return ResponseEntity.ok().header("Authorization", "Bearer " + token).body(resp);
+		return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).body(resp);
 	}
 	
 	@Operation(summary= "System logout API",
@@ -199,8 +197,9 @@ public class LoginController {
 		 * Items needed:
 		 * 1. remote address
 		 * 2. token
+		 * 3. redis cache token
 		 * 
-		 * May need to invalidate session, clear token or maybe blacklist token with Redis cache
+		 * Blacklist token with Redis container
 		 */
 		
 		return ResponseEntity.ok(resp);

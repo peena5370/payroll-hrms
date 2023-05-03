@@ -2,6 +2,7 @@ package com.company.payroll.controller.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,12 +31,9 @@ public class LoanController {
 										  + "\"reference_number\": \"string\", \"amount\": 0, \"application_date\": \"2023-04-28\", "
 										  + "\"status\": \"string\", \"approve_date\": \"2023-04-28\"}";
 	
+	@Autowired
 	private LoanService loanService;
-	
-	public LoanController(LoanService loanService) {
-		this.loanService = loanService;
-	}
-	
+
 	@Operation(summary="Get loan list")
 	@GetMapping("/list")
 	public ResponseEntity<List<Loan>> listLoan() {

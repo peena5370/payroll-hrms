@@ -11,12 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.AccountMapper;
 import com.company.payroll.model.Account;
-import com.company.payroll.model.AccountDetails;
 
 /**
- * 
- * 
  * load account from database and wrapped as UserDetails object
+ * Created 1 May 2023
  */
 @Service
 public class UserAccountServiceImpl implements UserDetailsService {
@@ -31,6 +29,5 @@ public class UserAccountServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException(username);
 		}
 		return new User(username, account.getPassword(), new ArrayList<>());
-//		return new AccountDetails(account);
 	}
 }

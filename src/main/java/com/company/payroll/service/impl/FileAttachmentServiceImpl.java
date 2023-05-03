@@ -2,6 +2,7 @@ package com.company.payroll.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.FileAttachmentMapper;
@@ -11,11 +12,8 @@ import com.company.payroll.service.FileAttachmentService;
 @Service
 public class FileAttachmentServiceImpl implements FileAttachmentService {
 	
+	@Autowired
 	private FileAttachmentMapper fileAttachmentMapper;
-	
-	public FileAttachmentServiceImpl(FileAttachmentMapper fileAttachmentMapper) {
-		this.fileAttachmentMapper = fileAttachmentMapper;
-	}
 
 	@Override
 	public List<FileAttachment> getListByEId(Integer eId) {

@@ -42,6 +42,10 @@
     	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
         enableUpdateByExample="false" selectByExampleQueryId="false">
     </table>
+    <table schema="" tableName="file_attachment" domainObjectName=""
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+    </table>
     <table schema="" tableName="leave" domainObjectName=""
     	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
         enableUpdateByExample="false" selectByExampleQueryId="false">

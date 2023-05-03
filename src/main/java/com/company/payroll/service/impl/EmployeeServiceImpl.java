@@ -2,6 +2,7 @@ package com.company.payroll.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.EmployeeMapper;
@@ -11,11 +12,8 @@ import com.company.payroll.service.EmployeeService;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 	
+	@Autowired
 	private EmployeeMapper employeeMapper;
-	
-	public EmployeeServiceImpl(EmployeeMapper employeeMapper) {
-		this.employeeMapper = employeeMapper;
-	}
 	
 	@Override
 	public List<Employee> getList() {
