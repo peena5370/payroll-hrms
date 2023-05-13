@@ -1,8 +1,7 @@
 package com.company.payroll.service;
 
-import java.util.List;
-
 import com.company.payroll.model.Account;
+import com.github.pagehelper.PageInfo;
 
 public interface AccountService {
 	
@@ -10,7 +9,7 @@ public interface AccountService {
 	 * 
 	 * @return
 	 */
-	List<Account> getList();
+	PageInfo<Account> getListByPage(int page, int offset);
 	
 	/**
 	 * 

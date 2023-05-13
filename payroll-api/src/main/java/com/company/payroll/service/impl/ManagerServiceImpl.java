@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.company.payroll.mapper.ManagerMapper;
 import com.company.payroll.model.Manager;
 import com.company.payroll.service.ManagerService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
@@ -16,8 +18,10 @@ public class ManagerServiceImpl implements ManagerService {
 	private ManagerMapper managerMapper;
 	
 	@Override
-	public List<Manager> getList() {
-		return managerMapper.selectList();
+	public PageInfo<Manager> getListByPage(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		List<Manager> list = managerMapper.selectList();
+		return new PageInfo<Manager>(list);
 	}
 
 	@Override

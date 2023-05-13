@@ -187,7 +187,7 @@ public class LoginController {
 	
 	@Operation(summary= "System logout API",
 			   description= "TODO")
-	@PostMapping("/api/users/logout")
+	@PostMapping("/logout")
 	public ResponseEntity<ResponseObject> logout() {
 		ResponseObject resp = new ResponseObject();
 		resp.setCode(200);
@@ -200,6 +200,8 @@ public class LoginController {
 		 * 3. redis cache token
 		 * 
 		 * Blacklist token with Redis container
+		 * 1. replace Bearer header to Blacklist header
+		 * 2. save to Redis
 		 */
 		
 		return ResponseEntity.ok(resp);

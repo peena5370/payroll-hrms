@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.company.payroll.mapper.PromotionMapper;
 import com.company.payroll.model.Promotion;
 import com.company.payroll.service.PromotionService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class PromotionServiceImpl implements PromotionService {
@@ -16,8 +18,10 @@ public class PromotionServiceImpl implements PromotionService {
 	private PromotionMapper promotionMapper;
 
 	@Override
-	public List<Promotion> getList() {
-		return promotionMapper.selectList();
+	public PageInfo<Promotion> getListByPage(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		List<Promotion> list = promotionMapper.selectList();
+		return new PageInfo<Promotion>(list);
 	}
 
 	@Override

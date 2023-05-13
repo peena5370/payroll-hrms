@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.company.payroll.mapper.DepartmentMapper;
 import com.company.payroll.model.Department;
 import com.company.payroll.service.DepartmentService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -16,8 +18,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	private DepartmentMapper departmentMapper;
 	
 	@Override
-	public List<Department> getList() {
-		return departmentMapper.selectList();
+	public PageInfo<Department> getListByPage(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		List<Department> list = departmentMapper.selectList();
+		return new PageInfo<Department>(list);
 	}
 
 	@Override

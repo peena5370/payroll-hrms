@@ -3,6 +3,7 @@ package com.company.payroll.service;
 import java.util.List;
 
 import com.company.payroll.model.Training;
+import com.github.pagehelper.PageInfo;
 
 public interface TrainingService {
 
@@ -10,7 +11,7 @@ public interface TrainingService {
 	 * 
 	 * @return
 	 */
-	List<Training> getList();
+	PageInfo<Training> getListByPage(int page, int offset);
 	
 	/**
 	 * 

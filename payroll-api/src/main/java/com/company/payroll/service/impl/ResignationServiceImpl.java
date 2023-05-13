@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.company.payroll.mapper.ResignationMapper;
 import com.company.payroll.model.Resignation;
 import com.company.payroll.service.ResignationService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class ResignationServiceImpl implements ResignationService {
@@ -16,8 +18,10 @@ public class ResignationServiceImpl implements ResignationService {
 	private ResignationMapper resignationMapper;
 	
 	@Override
-	public List<Resignation> getList() {
-		return resignationMapper.selectList();
+	public PageInfo<Resignation> getListByPage(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		List<Resignation> list = resignationMapper.selectList();
+		return new PageInfo<Resignation>(list);
 	}
 
 	@Override

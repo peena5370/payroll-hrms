@@ -71,6 +71,12 @@
 		    <version>3.0.1</version>
 		    <scope>test</scope>
 		</dependency>
+		<!-- Mybatis pagination -->
+		<dependency>
+		    <groupId>com.github.pagehelper</groupId>
+		    <artifactId>pagehelper-spring-boot-starter</artifactId>
+		    <version>1.4.6</version>
+		</dependency>
 		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>

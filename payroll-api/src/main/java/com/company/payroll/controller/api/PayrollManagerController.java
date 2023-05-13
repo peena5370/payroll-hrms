@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.PayrollManager;
 import com.company.payroll.service.PayrollManagerService;
+import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,8 +39,9 @@ public class PayrollManagerController {
 
 	@Operation(summary="Get manager payroll list")
 	@GetMapping("/list")
-	public ResponseEntity<List<PayrollManager>> listPayrollManager() {
-		return ResponseEntity.ok(payrollManagerService.getList());
+	public ResponseEntity<PageInfo<PayrollManager>> listPayrollManager(@RequestParam(value="page", required=true) int page, 
+			  													@RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(payrollManagerService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get payroll list by manager id")

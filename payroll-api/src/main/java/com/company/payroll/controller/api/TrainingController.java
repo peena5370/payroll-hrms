@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Training;
 import com.company.payroll.service.TrainingService;
+import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,8 +38,9 @@ public class TrainingController {
 	
 	@Operation(summary="Get training list")
 	@GetMapping("/list")
-	public ResponseEntity<List<Training>> listTraining() {
-		return ResponseEntity.ok(trainingService.getList());
+	public ResponseEntity<PageInfo<Training>> listTraining(@RequestParam(value="page", required=true) int page, 
+			  										@RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(trainingService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get training info by id")

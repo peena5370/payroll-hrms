@@ -10,14 +10,22 @@
     <result column="comment" jdbcType="VARCHAR" property="comment" />
     <result column="e_id" jdbcType="INTEGER" property="eId" />
     <result column="m_id" jdbcType="INTEGER" property="mId" />
+    
+    <collection property="title" ofType="com.company.payroll.model.Title">
+      <id column="titleno" jdbcType="INTEGER" property="titleno" />
+      <result column="titlename" jdbcType="VARCHAR" property="titlename" />
+      <result column="titledesc" jdbcType="VARCHAR" property="titledesc" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     p_id, currentsalary, promotesalary, promotedate, titleno, comment, e_id, m_id
   </sql>
   <select id="selectList" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select promotion.p_id, promotion.currentsalary, promotion.promotesalary, 
+    promotion.promotedate, promotion.comment, promotion.e_id, promotion.m_id,
+    title.titlename
     from promotion
+    inner join title on promotion.titleno = title.titleno
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.company.payroll.mapper.TitleMapper;
 import com.company.payroll.model.Title;
 import com.company.payroll.service.TitleService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class TitleServiceImpl implements TitleService {
@@ -16,8 +18,10 @@ public class TitleServiceImpl implements TitleService {
 	private TitleMapper titleMapper;
 	
 	@Override
-	public List<Title> getList() {
-		return titleMapper.selectList();
+	public PageInfo<Title> getListByPage(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		List<Title> list = titleMapper.selectList();
+		return new PageInfo<Title>(list);
 	}
 
 	@Override

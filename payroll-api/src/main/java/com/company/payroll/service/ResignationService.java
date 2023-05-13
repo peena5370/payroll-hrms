@@ -1,8 +1,7 @@
 package com.company.payroll.service;
 
-import java.util.List;
-
 import com.company.payroll.model.Resignation;
+import com.github.pagehelper.PageInfo;
 
 public interface ResignationService {
 
@@ -10,7 +9,7 @@ public interface ResignationService {
 	 * 
 	 * @return
 	 */
-	List<Resignation> getList();
+	PageInfo<Resignation> getListByPage(int page, int offset);
 	
 	/**
 	 * 

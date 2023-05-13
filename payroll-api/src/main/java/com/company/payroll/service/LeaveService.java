@@ -3,6 +3,7 @@ package com.company.payroll.service;
 import java.util.List;
 
 import com.company.payroll.model.Leave;
+import com.github.pagehelper.PageInfo;
 
 public interface LeaveService {
 	
@@ -10,7 +11,7 @@ public interface LeaveService {
 	 * 
 	 * @return
 	 */
-	List<Leave> getList();
+	PageInfo<Leave> getListByPage(int page, int offset);
 	
 	/**
 	 * 

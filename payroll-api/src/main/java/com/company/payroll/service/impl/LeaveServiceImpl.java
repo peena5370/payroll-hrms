@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.company.payroll.mapper.LeaveMapper;
 import com.company.payroll.model.Leave;
 import com.company.payroll.service.LeaveService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class LeaveServiceImpl implements LeaveService {
@@ -16,8 +18,10 @@ public class LeaveServiceImpl implements LeaveService {
 	private LeaveMapper leaveMapper;
 
 	@Override
-	public List<Leave> getList() {
-		return leaveMapper.selectList();
+	public PageInfo<Leave> getListByPage(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		List<Leave> list = leaveMapper.selectList();
+		return new PageInfo<Leave>(list);
 	}
 
 	@Override

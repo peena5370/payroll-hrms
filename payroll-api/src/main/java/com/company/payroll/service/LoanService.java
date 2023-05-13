@@ -3,6 +3,7 @@ package com.company.payroll.service;
 import java.util.List;
 
 import com.company.payroll.model.Loan;
+import com.github.pagehelper.PageInfo;
 
 public interface LoanService {
 	
@@ -10,7 +11,7 @@ public interface LoanService {
 	 * 
 	 * @return
 	 */
-	List<Loan> getList();
+	PageInfo<Loan> getListByPage(int page, int offset);
 	
 	/**
 	 * 

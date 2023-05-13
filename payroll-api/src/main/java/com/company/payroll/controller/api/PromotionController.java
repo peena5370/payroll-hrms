@@ -1,7 +1,5 @@
 package com.company.payroll.controller.api;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Promotion;
 import com.company.payroll.service.PromotionService;
+import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,8 +35,9 @@ public class PromotionController {
 
 	@Operation(summary="Get promotion list")
 	@GetMapping("/list")
-	public ResponseEntity<List<Promotion>> listPromotion() {
-		return ResponseEntity.ok(promotionService.getList());
+	public ResponseEntity<PageInfo<Promotion>> listPromotion(@RequestParam(value="page", required=true) int page, 
+			  											@RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(promotionService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get promotion info by id")

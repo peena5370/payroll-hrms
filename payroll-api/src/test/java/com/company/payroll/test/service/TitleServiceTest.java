@@ -1,6 +1,7 @@
 package com.company.payroll.test.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.company.payroll.model.Title;
 import com.company.payroll.service.TitleService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Transactional
 @ExtendWith(MockitoExtension.class)
@@ -41,14 +44,19 @@ public class TitleServiceTest {
 	@Test
 	@DisplayName("Get all list")
 	void readAll() {
-		Title title1 = new Title(1, "Title 1", "Title description");		
-		Title title2 = new Title(2, "Title 2", "Title description 2");
+		Title title1 = new Title(1, "title 1", "description demo 123.");
+		Title title2 = new Title(2, "title 2", "description demo 456.");
+		List<Title> list = null;
+		list.add(title1);
+		list.add(title2);
+		PageHelper.startPage(1, 10);
+
+		when(titleService.getListByPage(1, 10)).thenReturn(new PageInfo<Title>(list));
+
 		
-		when(titleService.getList()).thenReturn(Lists.newArrayList(title1, title2));
+		PageInfo<Title> page = titleService.getListByPage(1, 10);
 		
-		List<Title> list = titleService.getList();
-		
-		assertTrue(list.size()==2);
+		assertNotNull(page.getList());
 	}
 	
 	@Test

@@ -54,7 +54,7 @@ public class FileController {
     
 	@Operation(summary="Upload profile image")
     @PostMapping("/profile/image/upload")
-    public ResponseEntity<Integer> uploadImage(@Parameter(description="Employee id") @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public ResponseEntity<Integer> uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
     	Integer status = 0;
     	String header = request.getHeader("Authorization");
     	String token = header.substring(7);
@@ -91,7 +91,7 @@ public class FileController {
     	String header = request.getHeader("Authorization");
     	String token = header.substring(7);
     	Claims claims = jwtTokenUtils.getClaims(token);
-    	Account account = accountService.getByUsername(claims.get("username").toString());
+    	Account account = accountService.getByUsername(claims.getSubject().toString());
     	
         Resource resource = fileUtils.download(Paths.get(account.getImgPath()));
 

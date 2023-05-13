@@ -1,8 +1,7 @@
 package com.company.payroll.service;
 
-import java.util.List;
-
 import com.company.payroll.model.Promotion;
+import com.github.pagehelper.PageInfo;
 
 public interface PromotionService {
 	
@@ -10,7 +9,7 @@ public interface PromotionService {
 	 * 
 	 * @return
 	 */
-	List<Promotion> getList();
+	PageInfo<Promotion> getListByPage(int page, int offset);
 	
 	/**
 	 * 

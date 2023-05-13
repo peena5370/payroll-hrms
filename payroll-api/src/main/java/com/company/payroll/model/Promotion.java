@@ -2,6 +2,7 @@ package com.company.payroll.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,4 +29,6 @@ public class Promotion {
     private Integer eId;
 
     private Integer mId;
+    
+    private List<Title> title;
 }

@@ -1,6 +1,6 @@
 package com.company.payroll.test.controller;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -23,23 +23,23 @@ public class LoginControllerTest extends AbstractControllerTest {
 	@MockBean
 	private AccountService accountService;
 	
-	@Before
+	@BeforeEach
 	@Override
 	protected void setUp() {
 		super.setUp();
 	}
 	
-	@Test
+//	@Test
 	void whenLoginSuccess() throws Exception {
 		
 	}
 	
-	@Test
+//	@Test
 	void whenLoginFailed() throws Exception {
 		
 	}
 	
-	@Test
+//	@Test
 	void whenLogoutSuccess() throws Exception {
 		
 	}

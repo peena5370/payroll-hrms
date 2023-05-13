@@ -1,7 +1,6 @@
 package com.company.payroll.controller.api;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,11 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Account;
 import com.company.payroll.service.AccountService;
 import com.company.payroll.util.PasswordEncryption;
+import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -51,8 +52,9 @@ public class AccountController {
 	
 	@Operation(summary="Get account list")
 	@GetMapping("/list")
-	public ResponseEntity<List<Account>> listAccount() {
-		return ResponseEntity.ok(accountService.getList());	
+	public ResponseEntity<PageInfo<Account>> listAccount(@RequestParam(value="page", required=true) int page, 
+			  										@RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(accountService.getListByPage(page, offset));	
 	}
 	
 	@Operation(summary="Get account info by id")

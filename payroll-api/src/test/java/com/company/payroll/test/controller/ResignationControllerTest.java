@@ -1,6 +1,6 @@
 package com.company.payroll.test.controller;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,7 +22,7 @@ public class ResignationControllerTest extends AbstractControllerTest {
 	@MockBean
 	private ResignationService resignationService;
 	
-	@Before
+	@BeforeEach
 	@Override
 	protected void setUp() {
 		super.setUp();

@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Loan;
 import com.company.payroll.service.LoanService;
+import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,8 +38,9 @@ public class LoanController {
 
 	@Operation(summary="Get loan list")
 	@GetMapping("/list")
-	public ResponseEntity<List<Loan>> listLoan() {
-		return ResponseEntity.ok(loanService.getList());
+	public ResponseEntity<PageInfo<Loan>> listLoan(@RequestParam(value="page", required=true) int page, 
+			  									@RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(loanService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get loan list by employee id")

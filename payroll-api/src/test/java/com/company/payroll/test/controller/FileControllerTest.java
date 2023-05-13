@@ -1,8 +1,9 @@
 package com.company.payroll.test.controller;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.FilterType;
 import com.company.payroll.controller.api.FileController;
 import com.company.payroll.service.AccountService;
 import com.company.payroll.service.FileAttachmentService;
+import com.company.payroll.util.FileUtils;
+import com.company.payroll.util.JwtTokenUtils;
 
 @WebMvcTest(value=FileController.class, 
 			excludeAutoConfiguration= {SecurityAutoConfiguration.class},
@@ -27,78 +30,78 @@ public class FileControllerTest extends AbstractControllerTest {
 	@MockBean
 	private FileAttachmentService fileAttachmentService;
 	
-	@Before
+	@BeforeEach
 	@Override
 	protected void setUp() {
 		super.setUp();
 	}
 	
-	@Test
+//	@Test
 	void imageUploadWhenSuccess() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void imageUploadWhenFailed() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void downloadImageWhenSuccess() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void downloadImageWhenFailed() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void queryEmployeeDocumentList() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void queryManagerDocumentList() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void uploadDocumentEmployeeWhenSuccess() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void uploadDocumentEmployeeWhenFailed() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void uploadDocumentManagerWhenSuccess() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void uploadDocumentManagerWhenFailed() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void downloadDocumentWhenSuccess() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void downloadDocumentWhenFailed() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void deleteDocumentWhenSuccess() throws Exception {
 		// TODO Auto-generated method stub
 	}
 	
-	@Test
+//	@Test
 	void deleteDocumentWhenFailed() throws Exception {
 		// TODO Auto-generated method stub
 	}

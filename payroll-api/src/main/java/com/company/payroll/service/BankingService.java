@@ -1,8 +1,7 @@
 package com.company.payroll.service;
 
-import java.util.List;
-
 import com.company.payroll.model.BankingInfo;
+import com.github.pagehelper.PageInfo;
 
 public interface BankingService {
 
@@ -10,7 +9,7 @@ public interface BankingService {
 	 * 
 	 * @return
 	 */
-	List<BankingInfo> getList();
+	PageInfo<BankingInfo> getListByPage(int page, int offset);
 	
 	/**
 	 * 

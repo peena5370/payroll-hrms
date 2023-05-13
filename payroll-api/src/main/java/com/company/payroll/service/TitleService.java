@@ -1,8 +1,7 @@
 package com.company.payroll.service;
 
-import java.util.List;
-
 import com.company.payroll.model.Title;
+import com.github.pagehelper.PageInfo;
 
 public interface TitleService {
 	
@@ -10,7 +9,7 @@ public interface TitleService {
 	 * 
 	 * @return
 	 */
-	List<Title> getList();
+	PageInfo<Title> getListByPage(int page, int offset);
 	
 	/**
 	 * 

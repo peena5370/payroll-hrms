@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.company.payroll.mapper.TrainingMapper;
 import com.company.payroll.model.Training;
 import com.company.payroll.service.TrainingService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class TrainingServiceImpl implements TrainingService {
@@ -16,8 +18,10 @@ public class TrainingServiceImpl implements TrainingService {
 	private TrainingMapper trainingMapper;
 
 	@Override
-	public List<Training> getList() {
-		return trainingMapper.selectList();
+	public PageInfo<Training> getListByPage(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		List<Training> list = trainingMapper.selectList();
+		return new PageInfo<Training>(list);
 	}
 
 	@Override

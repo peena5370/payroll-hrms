@@ -1,5 +1,6 @@
 package com.company.payroll.test.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -22,6 +23,7 @@ public class LeaveControllerTest extends AbstractControllerTest {
 	@MockBean
 	private LeaveService leaveService;
 
+	@BeforeEach
 	@Override
 	protected void setUp() {
 		// TODO Auto-generated method stub

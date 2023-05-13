@@ -1,8 +1,7 @@
 package com.company.payroll.service;
 
-import java.util.List;
-
 import com.company.payroll.model.Salary;
+import com.github.pagehelper.PageInfo;
 
 public interface SalaryService {
 	
@@ -10,7 +9,7 @@ public interface SalaryService {
 	 * 
 	 * @return
 	 */
-	List<Salary> getList();
+	PageInfo<Salary> getListByPage(int page, int offset);
 	
 	/**
 	 * 

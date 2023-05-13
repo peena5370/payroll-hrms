@@ -1,7 +1,5 @@
 package com.company.payroll.controller.api;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Employee;
 import com.company.payroll.service.EmployeeService;
+import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,8 +38,9 @@ public class EmployeeController {
 	
 	@Operation(summary="Get employee list")
 	@GetMapping("/list")
-	public ResponseEntity<List<Employee>> listEmployee() {
-		return ResponseEntity.ok(employeeService.getList());
+	public ResponseEntity<PageInfo<Employee>> listEmployee(@RequestParam(value="page", required=true) int page, 
+			  										@RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(employeeService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get employee info by id")

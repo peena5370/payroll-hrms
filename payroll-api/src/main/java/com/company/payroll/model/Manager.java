@@ -1,6 +1,7 @@
 package com.company.payroll.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -60,4 +61,14 @@ public class Manager {
     private Integer bId;
 
     private Integer resignId;
+    
+    private List<Title> title;
+    
+    private List<Department> department;
+    
+    private Salary salary;
+    
+    private BankingInfo bankingInfo;
+    
+    
 }

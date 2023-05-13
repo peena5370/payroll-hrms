@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.company.payroll.mapper.BankingInfoMapper;
 import com.company.payroll.model.BankingInfo;
 import com.company.payroll.service.BankingService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class BankingServiceImpl implements BankingService {
@@ -16,8 +18,10 @@ public class BankingServiceImpl implements BankingService {
 	private BankingInfoMapper bankingInfoMapper;
 	
 	@Override
-	public List<BankingInfo> getList() {
-		return bankingInfoMapper.selectList();
+	public PageInfo<BankingInfo> getListByPage(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		List<BankingInfo> list = bankingInfoMapper.selectList();
+		return new PageInfo<BankingInfo>(list);
 	}
 
 	@Override

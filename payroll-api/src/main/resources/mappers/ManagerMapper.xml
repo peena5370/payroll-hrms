@@ -23,6 +23,33 @@
     <result column="s_id" jdbcType="INTEGER" property="sId" />
     <result column="b_id" jdbcType="INTEGER" property="bId" />
     <result column="resign_id" jdbcType="INTEGER" property="resignId" />
+    
+    <association property="salary" javaType="com.company.payroll.model.Salary">
+		<id column="s_id" jdbcType="INTEGER" property="sId" />
+	    <result column="monthlysalary" jdbcType="DECIMAL" property="monthlysalary" />
+	    <result column="annualsalary" jdbcType="DECIMAL" property="annualsalary" />
+	    <result column="dateupdate" jdbcType="DATE" property="dateupdate" />
+	</association>
+	<association property="bankingInfo" javaType="com.company.payroll.model.BankingInfo">
+		<id column="b_id" jdbcType="INTEGER" property="bId" />
+	    <result column="bankname" jdbcType="VARCHAR" property="bankname" />
+	    <result column="accountnum" jdbcType="BIGINT" property="accountnum" />
+	    <result column="incometaxno" jdbcType="VARCHAR" property="incometaxno" />
+	    <result column="epfno" jdbcType="INTEGER" property="epfno" />
+	</association>
+	
+    <collection property="department" ofType="com.company.payroll.model.Department">
+	    <id column="deptno" jdbcType="INTEGER" property="deptno" />
+	    <result column="deptname" jdbcType="VARCHAR" property="deptname" />
+	    <result column="dlocation" jdbcType="VARCHAR" property="location" />
+	    <result column="dstate" jdbcType="VARCHAR" property="state" />
+	    <result column="dcountry" jdbcType="VARCHAR" property="country" />
+    </collection>
+    <collection property="title" ofType="com.company.payroll.model.Title">
+      <id column="titleno" jdbcType="INTEGER" property="titleno" />
+      <result column="titlename" jdbcType="VARCHAR" property="titlename" />
+      <result column="titledesc" jdbcType="VARCHAR" property="titledesc" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     m_id, fullname, gender, dob, age, martialstatus, education, address, state, country, 
@@ -30,14 +57,28 @@
     s_id, b_id, resign_id
   </sql>
   <select id="selectList" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from manager
+    select manager.m_id, manager.fullname, manager.gender, manager.dob, manager.age, 
+    manager.martialstatus, manager.education, manager.address, manager.state, manager.country, 
+    manager.phone, manager.company_email, manager.datehired, manager.dateresign, manager.attachment, 
+    manager.img_user, manager.deptno, manager.titleno,  manager.s_id, manager.b_id, manager.resign_id,
+    department.deptname, title.titlename 
+    from manager 
+    inner join department on manager.deptno=department.deptno
+    inner join title on manager.titleno=title.titleno
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select manager.m_id, manager.fullname, manager.gender, manager.dob, manager.age, 
+    manager.martialstatus, manager.education, manager.address, manager.state, manager.country, 
+    manager.phone, manager.company_email, manager.datehired, manager.dateresign, manager.attachment, 
+    manager.img_user, manager.deptno, manager.titleno,  manager.s_id, manager.b_id, manager.resign_id,
+    department.deptname, title.titlename, 
+    salary.monthlysalary, salary.annualsalary, salary.dateupdate,
+    banking_info.bankname, banking_info.accountnum, banking_info.incometaxno, banking_info.epfno 
     from manager
+    inner join department on manager.deptno=department.deptno
+    inner join title on manager.titleno=title.titleno
+    left join salary on manager.s_id=salary.s_id
+    left join banking_info on manager.b_id=banking_info.b_id
     where m_id = #{mId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

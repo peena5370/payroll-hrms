@@ -1,6 +1,6 @@
 package com.company.payroll.test.controller;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -23,7 +23,7 @@ public class PayrollEmployeeControllerTest extends AbstractControllerTest {
 	@MockBean
 	private PayrollEmployeeService payrollEmployeeService;
 
-	@Before
+	@BeforeEach
 	@Override
 	protected void setUp() {
 		// TODO Auto-generated method stub

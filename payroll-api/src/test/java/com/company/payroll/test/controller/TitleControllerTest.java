@@ -6,8 +6,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+
 import org.assertj.core.util.Lists;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -21,6 +23,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.company.payroll.controller.api.TitleController;
 import com.company.payroll.model.Title;
 import com.company.payroll.service.TitleService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @WebMvcTest(value=TitleController.class, 
 			excludeAutoConfiguration= {SecurityAutoConfiguration.class},
@@ -34,7 +38,7 @@ public class TitleControllerTest extends AbstractControllerTest {
 	@MockBean
 	private TitleService titleService;
 
-	@Before
+	@BeforeEach
 	@Override
 	protected void setUp() {
 		super.setUp();
@@ -70,8 +74,12 @@ public class TitleControllerTest extends AbstractControllerTest {
 	protected void queryAll() throws Exception {
 		Title title1 = new Title(1, "title 1", "description demo 123.");
 		Title title2 = new Title(2, "title 2", "description demo 456.");
+		List<Title> list = null;
+		list.add(title1);
+		list.add(title2);
+		PageHelper.startPage(1, 10);
 
-		when(titleService.getList()).thenReturn(Lists.newArrayList(title1, title2));
+		when(titleService.getListByPage(1, 10)).thenReturn(new PageInfo<Title>(list));
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/title/list")
 						.contentType(MediaType.APPLICATION_JSON))
