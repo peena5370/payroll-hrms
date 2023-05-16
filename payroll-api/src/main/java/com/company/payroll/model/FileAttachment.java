@@ -14,7 +14,7 @@ import lombok.Setter;
 public class FileAttachment {
 	private Integer fId;
 	
-	@JsonProperty("file-name")
+	@JsonProperty("filename")
 	private String fileName;
 	
 	@JsonProperty("size")

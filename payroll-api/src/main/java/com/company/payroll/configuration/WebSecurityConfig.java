@@ -70,7 +70,7 @@ public class WebSecurityConfig {
 		configuration.setAllowedOriginPatterns(Arrays.asList("*"));
 		configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("X-Requested-With","Origin","Content-Type","Accept","Authorization"));
-		configuration.setExposedHeaders(Arrays.asList("Authorization"));
+		configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Disposition"));
 		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);

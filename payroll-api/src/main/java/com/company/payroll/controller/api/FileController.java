@@ -86,7 +86,7 @@ public class FileController {
     }
 
     @Operation(summary="Load profile image")
-    @GetMapping("/profile/image/loads")
+    @PostMapping("/profile/image/loads")
     public ResponseEntity<Resource> loadImage(HttpServletRequest request) {
     	String header = request.getHeader("Authorization");
     	String token = header.substring(7);
@@ -129,7 +129,8 @@ public class FileController {
 		List<MultipartFile> fileList = Arrays.asList(files).stream().toList();
 	  
 		for(MultipartFile file : fileList) {
-			if(file.getContentType().equals("application/msword") || file.getContentType().equals("application/pdf")) {
+			if(file.getContentType().equals("application/msword") || file.getContentType().equals("application/pdf") || 
+					file.getContentType().equals("application/wps-office.doc") || file.getContentType().equals("application/wps-office.docx")) {
 				String path = fileUtils.fileUpload(file, filepath);
 			  
 				obj.setFileName(file.getOriginalFilename());
@@ -175,7 +176,7 @@ public class FileController {
 	}
 	
     @Operation(summary="Download documents based on file id")
-	@GetMapping("/documents/download/{id}")
+	@PostMapping("/documents/download/{id}")
 	public ResponseEntity<Resource> downloadFile(@Parameter(description="File id") @PathVariable("id") int id, HttpServletRequest request) {
 		FileAttachment obj = fileAttachmentService.getByPrimaryKey(id);
 		
