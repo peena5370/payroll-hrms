@@ -1,6 +1,6 @@
 package com.company.payroll.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ public class Resignation {
 
     private String reason;
 
-    private Date resigndate;
+    private LocalDate resigndate;
 
     @Schema(description="Resign status: 0=ongoing, 1=completed, 2=rejected")
     private Byte resignstatus;

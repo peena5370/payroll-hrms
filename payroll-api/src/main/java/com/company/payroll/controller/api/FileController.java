@@ -158,7 +158,8 @@ public class FileController {
      	List<MultipartFile> fileList = Arrays.asList(files).stream().toList();
 	  
      	for(MultipartFile file : fileList) {
-     		if(file.getContentType().equals("application/msword") || file.getContentType().equals("application/pdf")) {
+     		if(file.getContentType().equals("application/msword") || file.getContentType().equals("application/pdf") || 
+					file.getContentType().equals("application/wps-office.doc") || file.getContentType().equals("application/wps-office.docx")) {
 				String path = fileUtils.fileUpload(file, filepath);
 			  
 				obj.setFileName(file.getOriginalFilename());
