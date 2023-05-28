@@ -1,6 +1,7 @@
 package com.company.payroll.mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ public interface TitleMapper {
     
     List<Title> selectList();
 
-    Title selectByPrimaryKey(Integer titleno);
+    Optional<Title> selectByPrimaryKey(Integer titleno);
 
     int updateByPrimaryKeySelective(Title row);
 

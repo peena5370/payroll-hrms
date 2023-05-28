@@ -34,14 +34,14 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 	
 	@Operation(summary="Get department list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<Department>> listDepartment(@RequestParam(value="page", required=true) int page, 
 			  											@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(departmentService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get department info by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Department> getById(@Parameter() @PathVariable("id") int deptno) {
 		return ResponseEntity.ok(departmentService.getById(deptno));
 	}
@@ -57,7 +57,7 @@ public class DepartmentController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Department.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody Department department) {
 		Integer status = departmentService.insert(department);
 		if(status==0) {
@@ -74,7 +74,7 @@ public class DepartmentController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody Department department) {
 		Integer status = departmentService.update(department);
 		if(status==0) {
@@ -91,7 +91,7 @@ public class DepartmentController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int deptno) {
 		Integer status = departmentService.delete(deptno);
 		if(status==0) {

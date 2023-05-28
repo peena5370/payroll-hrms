@@ -37,20 +37,20 @@ public class LoanController {
 	private LoanService loanService;
 
 	@Operation(summary="Get loan list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<Loan>> listLoan(@RequestParam(value="page", required=true) int page, 
 			  									@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(loanService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get loan list by employee id")
-	@GetMapping("/{id}/list")
+	@GetMapping("/{id}/all")
 	public ResponseEntity<List<Loan>> listLoanByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
 		return ResponseEntity.ok(loanService.getListByEId(eid));
 	}
 	
 	@Operation(summary="Get loan info by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Loan> getById(@Parameter() @PathVariable("id") int lid) {
 		return ResponseEntity.ok(loanService.getById(lid));
 	}
@@ -66,7 +66,7 @@ public class LoanController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Loan.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody Loan loan) {
 		Integer status = loanService.insert(loan);
 		if(status==0) {
@@ -83,7 +83,7 @@ public class LoanController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody Loan loan) {
 		Integer status = loanService.update(loan);
 		if(status==0) {
@@ -100,7 +100,7 @@ public class LoanController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int lid) {
 		Integer status = loanService.delete(lid);
 		if(status==0) {

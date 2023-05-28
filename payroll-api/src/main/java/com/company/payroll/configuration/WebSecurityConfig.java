@@ -49,8 +49,8 @@ public class WebSecurityConfig {
         http.cors(cors -> cors.and())
         	.csrf(csrf -> csrf.disable())
         	.authorizeHttpRequests(request -> 
-        							request.requestMatchers("/api/users/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-//        							request.requestMatchers("/**").permitAll()
+//        							request.requestMatchers("/api/users/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+        							request.requestMatchers("/**").permitAll()
         								   .anyRequest().authenticated())
             .sessionManagement((session) -> 
             						session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

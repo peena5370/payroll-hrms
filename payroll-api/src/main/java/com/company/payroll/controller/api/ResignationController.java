@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.company.payroll.model.Resignation;
 import com.company.payroll.service.ResignationService;
+import com.company.payroll.util.FileUtils;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,16 +34,19 @@ public class ResignationController {
 	
 	@Autowired
 	private ResignationService resignationService;
+	
+	@Autowired
+    private FileUtils fileUtils;
 
 	@Operation(summary="Get resignation list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<Resignation>> listResignation(@RequestParam(value="page", required=true) int page, 
 			  												@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(resignationService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get resign info by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Resignation> getById(@Parameter() @PathVariable("id") int id) {
 		return ResponseEntity.ok(resignationService.getById(id));
 	}
@@ -57,8 +62,26 @@ public class ResignationController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Resignation.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody Resignation resignation) {
+		Integer status = resignationService.insert(resignation);
+		if(status==0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+		}
+		
+		return ResponseEntity.ok(status);
+	}
+	
+	/**
+	 * @todo to be implement and test
+	 * @param file
+	 * @param resignation
+	 * @return
+	 */
+	public ResponseEntity<Integer> insertWithFile(@RequestParam("file") MultipartFile file, @RequestBody Resignation resignation) {
+		String filepath = "/resign_files";
+		String uploadPath = fileUtils.fileUpload(file, filepath);
+		
 		Integer status = resignationService.insert(resignation);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
@@ -74,7 +97,7 @@ public class ResignationController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody Resignation resignation) {
 		Integer status = resignationService.update(resignation);
 		if(status==0) {
@@ -91,7 +114,7 @@ public class ResignationController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter @PathVariable("id") int id) {
 		Integer status = resignationService.delete(id);
 		if(status==0) {

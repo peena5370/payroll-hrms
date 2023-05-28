@@ -34,14 +34,14 @@ public class BankingController {
 	private BankingService bankingService;
 
 	@Operation(summary="Get banking list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<BankingInfo>> listBankingInfo(@RequestParam(value="page", required=true) int page, 
 			  												@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(bankingService.getListByPage(page, offset));	
 	}
 	
 	@Operation(summary="Get banking info by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<BankingInfo> getById(@Parameter(description="Banking id") @PathVariable("id") int bid) {
 		return ResponseEntity.ok(bankingService.getById(bid));
 	}
@@ -57,7 +57,7 @@ public class BankingController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = BankingInfo.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody BankingInfo bankingInfo) {
 		Integer status = bankingService.insert(bankingInfo);
 		if(status==0) {
@@ -74,7 +74,7 @@ public class BankingController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody BankingInfo bankingInfo) {
 		Integer status = bankingService.updateById(bankingInfo);
 		if(status==0) {
@@ -91,7 +91,7 @@ public class BankingController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter(description="Banking id") @PathVariable("id") int bid) {
 		Integer status = bankingService.delete(bid);
 		if(status==0) {

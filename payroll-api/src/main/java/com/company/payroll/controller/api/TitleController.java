@@ -1,5 +1,7 @@
 package com.company.payroll.controller.api;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +35,15 @@ public class TitleController {
 	private TitleService titleService;
 
 	@Operation(summary="Get title list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<Title>> listTitleByPage(@RequestParam(value="page", required=true) int page, 
 														  @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(titleService.getListByPage(page, offset));
 	}
 
 	@Operation(summary="Get title info by id")
-	@GetMapping("/list/information/{id}")
-	public ResponseEntity<Title> getByTitleno(@Parameter() @PathVariable("id") int titleno) {
+	@GetMapping("/{id}")
+	public ResponseEntity<Optional<Title>> getByTitleno(@Parameter() @PathVariable("id") int titleno) {
 		return ResponseEntity.ok(titleService.getByTitleno(titleno));
 	}
 	
@@ -56,12 +58,9 @@ public class TitleController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Title.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping(value = "/insert", consumes= {"application/json"})
-	public ResponseEntity<Integer> insert(@RequestBody Title title) {
-		Integer status = titleService.insert(title);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
+	@PostMapping
+	public ResponseEntity<Title> insert(@RequestBody Title title) {
+		Title status = titleService.insert(title);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(status);
 	}
@@ -73,12 +72,9 @@ public class TitleController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
-	public ResponseEntity<Integer> update(@RequestBody Title title) {
-		Integer status = titleService.update(title);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
+	@PutMapping("/{id}")
+	public ResponseEntity<Title> update(@RequestBody Title title) {
+		Title status = titleService.update(title);
 		
 		return ResponseEntity.ok(status);
 	}
@@ -90,7 +86,7 @@ public class TitleController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int titleno) {
 		Integer status = titleService.delete(titleno);
 		if(status==0) {

@@ -38,14 +38,14 @@ public class ManagerController {
 	private ManagerService managerService;
 	
 	@Operation(summary="Get manager list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<Manager>> listManager(@RequestParam(value="page", required=true) int page, 
 			  										@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(managerService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get manager info by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Manager> getById(@Parameter() @PathVariable("id") int mid) {
 		return ResponseEntity.ok(managerService.getById(mid));
 	}
@@ -61,7 +61,7 @@ public class ManagerController {
 		   	 content= {@Content(mediaType="application/json", 
 			 schema= @Schema(implementation = Manager.class),
 			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody Manager manager) {
 		Integer status = managerService.insert(manager);
 		if(status==0) {
@@ -78,7 +78,7 @@ public class ManagerController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody Manager manager) {
 		Integer status = managerService.update(manager);
 		if(status==0) {
@@ -95,7 +95,7 @@ public class ManagerController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int id) {
 		Integer status = managerService.delete(id);
 		if(status==0) {
@@ -104,6 +104,7 @@ public class ManagerController {
 		
 		return ResponseEntity.ok(status);
 	}
+
 //	@GetMapping("/list/count/all")
 //	public Integer countManager() {
 //		return managerService.countManager();

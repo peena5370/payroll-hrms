@@ -51,14 +51,14 @@ public class AccountController {
 	}
 	
 	@Operation(summary="Get account list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<Account>> listAccount(@RequestParam(value="page", required=true) int page, 
 			  										@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(accountService.getListByPage(page, offset));	
 	}
 	
 	@Operation(summary="Get account info by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Account> getById(@Parameter(description="Account id") @PathVariable("id")int id) {
 		return ResponseEntity.ok(accountService.getById(id));
 	}
@@ -74,7 +74,7 @@ public class AccountController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Account.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/register")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody Account account) throws NoSuchAlgorithmException {
 		String plainPassword = account.getPassword();
 		Byte accountStatus = 1;
@@ -105,7 +105,7 @@ public class AccountController {
   	 	 content= {@Content(mediaType="application/json", 
 		 schema= @Schema(implementation = Account.class),
 		 examples= {@ExampleObject(name="Example 1", value=VALUE_THREE)})})
-	@PutMapping("/list/information/{id}/password/update")
+	@PutMapping("/{id}/password")
 	public ResponseEntity<Integer> listUpdatePassword(@RequestBody Account account) throws NoSuchAlgorithmException {
 		String plainPassword = account.getPassword();
 		String secretkey = PasswordEncryption.convertSecretKeyToString(PasswordEncryption.generateSecretKey("HmacSHA256", 256));
@@ -133,7 +133,7 @@ public class AccountController {
   	 	 content= {@Content(mediaType="application/json", 
 		 schema= @Schema(implementation = Account.class),
 		 examples= {@ExampleObject(name="Example 1", value=VALUE_TWO)})})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody Account account) {
 		Integer status = accountService.update(account);
 		if(status==0) {
@@ -150,7 +150,7 @@ public class AccountController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter(description="Account id") @PathVariable("id") int aid) {
 		Integer status = accountService.delete(aid);
 		if(status==0) {

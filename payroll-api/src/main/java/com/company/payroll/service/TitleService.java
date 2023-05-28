@@ -1,5 +1,7 @@
 package com.company.payroll.service;
 
+import java.util.Optional;
+
 import com.company.payroll.model.Title;
 import com.github.pagehelper.PageInfo;
 
@@ -16,21 +18,21 @@ public interface TitleService {
 	 * @param titleno
 	 * @return
 	 */
-	Title getByTitleno(int titleno);
+	Optional<Title> getByTitleno(int titleno);
 	
 	/**
 	 * 
 	 * @param title
 	 * @return
 	 */
-	Integer insert(Title title);
+	Title insert(Title title);
 	
 	/**
 	 * 
 	 * @param title
 	 * @return
 	 */
-	Integer update(Title title);
+	Title update(Title title);
 	
 	/**
 	 * 

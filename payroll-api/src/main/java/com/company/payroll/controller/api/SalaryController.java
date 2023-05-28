@@ -33,14 +33,14 @@ public class SalaryController {
 	private SalaryService salaryService;
 	
 	@Operation(summary="Get salary list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<Salary>> listSalary(@RequestParam(value="page", required=true) int page, 
 			  									@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(salaryService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get salary info by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Salary> getById(@Parameter() @PathVariable("id") int sid) {
 		return ResponseEntity.ok(salaryService.getById(sid));
 	}
@@ -56,7 +56,7 @@ public class SalaryController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Salary.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody Salary salary) {
 		Integer status = salaryService.insert(salary);
 		if(status==0) {
@@ -73,7 +73,7 @@ public class SalaryController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody Salary salary) {
 		Integer status = salaryService.update(salary);
 		if(status==0) {
@@ -90,7 +90,7 @@ public class SalaryController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int sid) {
 		Integer status = salaryService.delete(sid);
 		if(status==0) {

@@ -38,20 +38,20 @@ public class LeaveController {
 	private LeaveService leaveService;
 
 	@Operation(summary="Get leave list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<Leave>> listLeave(@RequestParam(value="page", required=true) int page, 
 			  									@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(leaveService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get leave list by employee id")
-	@GetMapping("/{id}/list")
+	@GetMapping("/{id}/all")
 	public ResponseEntity<List<Leave>> listByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
 		return ResponseEntity.ok(leaveService.getListByEId(eid));
 	}
 	
 	@Operation(summary="Get leave info by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Leave> getById(@Parameter() @PathVariable("id") int lid) {
 		return ResponseEntity.ok(leaveService.getById(lid));
 	}
@@ -67,7 +67,7 @@ public class LeaveController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Leave.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody Leave leave) {
 		Integer status = leaveService.insert(leave);
 		if(status==0) {
@@ -84,7 +84,7 @@ public class LeaveController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody Leave leave) {
 		Integer status = leaveService.update(leave);
 		if(status==0) {
@@ -101,7 +101,7 @@ public class LeaveController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int lid) {
 		Integer status = leaveService.delete(lid);
 		if(status==0) {

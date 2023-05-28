@@ -38,20 +38,20 @@ public class PayrollEmployeeController {
 	private PayrollEmployeeService payrollEmployeeService;
 
 	@Operation(summary="Get employee payroll list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<PayrollEmployee>> listPayrollEmployee(@RequestParam(value="page", required=true) int page, 
 			  														@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(payrollEmployeeService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get payroll list by employee id")
-	@GetMapping("/{id}/list")
+	@GetMapping("/{id}/all")
 	public ResponseEntity<List<PayrollEmployee>> listPayrollEmployeeByEId(@Parameter(description="employee id") @PathVariable("id")int eid) {
 		return ResponseEntity.ok(payrollEmployeeService.getListByEId(eid));
 	}
 	
 	@Operation(summary="Get employee payroll list by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<PayrollEmployee> getById(@Parameter() @PathVariable("id") int id) {
 		return ResponseEntity.ok(payrollEmployeeService.getById(id));
 	}
@@ -67,7 +67,7 @@ public class PayrollEmployeeController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = PayrollEmployee.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody PayrollEmployee payrollEmployee) {
 		Integer status = payrollEmployeeService.insert(payrollEmployee);
 		if(status==0) {
@@ -84,7 +84,7 @@ public class PayrollEmployeeController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody PayrollEmployee payrollEmployee) {
 		Integer status = payrollEmployeeService.update(payrollEmployee);
 		if(status==0) {
@@ -101,7 +101,7 @@ public class PayrollEmployeeController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int prid) {
 		Integer status = payrollEmployeeService.delete(prid);
 		if(status==0) {

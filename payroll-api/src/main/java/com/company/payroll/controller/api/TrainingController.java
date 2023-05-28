@@ -37,20 +37,20 @@ public class TrainingController {
 	private TrainingService trainingService;
 	
 	@Operation(summary="Get training list")
-	@GetMapping("/list")
+	@GetMapping
 	public ResponseEntity<PageInfo<Training>> listTraining(@RequestParam(value="page", required=true) int page, 
 			  										@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(trainingService.getListByPage(page, offset));
 	}
 	
 	@Operation(summary="Get training info by id")
-	@GetMapping("/list/information/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Training> getById(@Parameter() @PathVariable("id") int tId) {
 		return ResponseEntity.ok(trainingService.getById(tId));
 	}
 	
 	@Operation(summary="Get training list by employee id")
-	@GetMapping("/{id}/list")
+	@GetMapping("/{id}/all")
 	public ResponseEntity<List<Training>> getListByEId(@Parameter(description="employee id") @PathVariable("id") int eId) {
 		return ResponseEntity.ok(trainingService.getListByEId(eId));
 	}
@@ -66,7 +66,7 @@ public class TrainingController {
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Training.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping("/insert")
+	@PostMapping
 	public ResponseEntity<Integer> insert(@RequestBody Training training) {
 		Integer status = trainingService.insert(training);
 		if(status==0) {
@@ -83,7 +83,7 @@ public class TrainingController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@PutMapping("/list/information/{id}/update")
+	@PutMapping("/{id}")
 	public ResponseEntity<Integer> update(@RequestBody Training training) {
 		Integer status = trainingService.update(training);
 		if(status==0) {
@@ -100,7 +100,7 @@ public class TrainingController {
 					   	  @ApiResponse(responseCode="403",
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/list/information/{id}/delete")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int tId) {
 		Integer status = trainingService.delete(tId);
 		if(status==0) {

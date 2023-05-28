@@ -1,6 +1,7 @@
 package com.company.payroll.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,18 +26,20 @@ public class TitleServiceImpl implements TitleService {
 	}
 
 	@Override
-	public Title getByTitleno(int titleno) {
+	public Optional<Title> getByTitleno(int titleno) {
 		return titleMapper.selectByPrimaryKey(titleno);
 	}
 
 	@Override
-	public Integer insert(Title title) {
-		return titleMapper.insertSelective(title);
+	public Title insert(Title title) {
+		titleMapper.insert(title);
+		return title;
 	}
 
 	@Override
-	public Integer update(Title title) {
-		return titleMapper.updateByPrimaryKeySelective(title);
+	public Title update(Title title) {
+		titleMapper.updateByPrimaryKeySelective(title);
+		return title;
 	}
 
 	@Override
