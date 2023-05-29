@@ -47,6 +47,9 @@
     where pr_id = #{prId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.PayrollEmployee">
+  <selectKey keyProperty="prId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into payroll_employee (pr_id, basicpay, overtimepay, 
       allowance, transport, otherdeduction, 
       employee_epf, employee_socso, employee_eis, 
@@ -61,6 +64,9 @@
       #{paymentdate,jdbcType=DATE}, #{eId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.PayrollEmployee">
+  <selectKey keyProperty="prId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into payroll_employee
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="prId != null">

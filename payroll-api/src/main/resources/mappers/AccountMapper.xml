@@ -42,6 +42,9 @@
   </delete>
   <!-- insert is used to insert with null value -->
   <insert id="insert" parameterType="com.company.payroll.model.Account">
+  <selectKey keyProperty="aId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into account (a_id, username, password, 
       secretkey, roles, date_created, 
       date_modified, last_login, last_attempt, 
@@ -55,6 +58,9 @@
   </insert>
   <!-- insertSelective is used to insert only Non-null value -->
   <insert id="insertSelective" parameterType="com.company.payroll.model.Account">
+  <selectKey keyProperty="aId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into account
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="aId != null">

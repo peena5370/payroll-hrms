@@ -5,6 +5,10 @@ import java.util.List;
 import com.company.payroll.model.Training;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * @deprecated replace with {@link #StaffMiscellaneousService} class
+ */
+@Deprecated
 public interface TrainingService {
 
 	/**

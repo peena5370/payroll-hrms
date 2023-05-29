@@ -47,6 +47,9 @@
     where t_id = #{tId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Training">
+  <selectKey keyProperty="tId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into training (t_id, trainingtitle, startdate, 
       enddate, sessionstatus, e_id, 
       m_id, description)
@@ -55,6 +58,9 @@
       #{mId,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Training">
+  <selectKey keyProperty="tId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into training
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="tId != null">

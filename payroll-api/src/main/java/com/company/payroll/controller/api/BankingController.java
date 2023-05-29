@@ -1,5 +1,7 @@
 package com.company.payroll.controller.api;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,35 +39,35 @@ public class BankingController {
 	@GetMapping
 	public ResponseEntity<PageInfo<BankingInfo>> listBankingInfo(@RequestParam(value="page", required=true) int page, 
 			  												@RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(bankingService.getListByPage(page, offset));	
+		return ResponseEntity.ok(bankingService.list(page, offset));	
 	}
 	
 	@Operation(summary="Get banking info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<BankingInfo> getById(@Parameter(description="Banking id") @PathVariable("id") int bid) {
-		return ResponseEntity.ok(bankingService.getById(bid));
+	public ResponseEntity<Optional<BankingInfo>> getById(@Parameter(description="Banking id") @PathVariable("id") int bid) {
+		return ResponseEntity.ok(bankingService.findById(bid));
 	}
 	
-	@Operation(summary="Add banking info",
-			   responses= {@ApiResponse(responseCode="200",
-					   					description="Value return 1 for insert success.",
-					   					content=@Content(examples= {@ExampleObject(value="1")})),
-					   	   @ApiResponse(responseCode="403",
-					   			   		description="Value return 0 for insert fail.",
-					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-			   	 content= {@Content(mediaType="application/json", 
-	   			 schema= @Schema(implementation = BankingInfo.class),
-	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
-	@PostMapping
-	public ResponseEntity<Integer> insert(@RequestBody BankingInfo bankingInfo) {
-		Integer status = bankingService.insert(bankingInfo);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
-	}
+//	@Operation(summary="Add banking info",
+//			   responses= {@ApiResponse(responseCode="200",
+//					   					description="Value return 1 for insert success.",
+//					   					content=@Content(examples= {@ExampleObject(value="1")})),
+//					   	   @ApiResponse(responseCode="403",
+//					   			   		description="Value return 0 for insert fail.",
+//					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
+//	@io.swagger.v3.oas.annotations.parameters.RequestBody(
+//			   	 content= {@Content(mediaType="application/json", 
+//	   			 schema= @Schema(implementation = BankingInfo.class),
+//	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
+//	@PostMapping
+//	public ResponseEntity<Integer> insert(@RequestBody BankingInfo bankingInfo) {
+//		Integer status = bankingService.insert(bankingInfo);
+//		if(status==0) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+//		}
+//		
+//		return ResponseEntity.ok(status);
+//	}
 	
 	@Operation(summary="Update banking info.",
 			   responses= {@ApiResponse(responseCode="200",
@@ -75,29 +77,29 @@ public class BankingController {
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> update(@RequestBody BankingInfo bankingInfo) {
-		Integer status = bankingService.updateById(bankingInfo);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
+	public ResponseEntity<BankingInfo> update(@RequestBody BankingInfo bankingInfo) {
+//		BankingInfo status = bankingService.update(bankingInfo);
+//		if(status==0) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+//		}
 		
-		return ResponseEntity.ok(status);
+		return ResponseEntity.ok(bankingService.update(bankingInfo));
 	}
 	
-	@Operation(summary="Delete banking info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for delete success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for delete fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter(description="Banking id") @PathVariable("id") int bid) {
-		Integer status = bankingService.delete(bid);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
-	}
+//	@Operation(summary="Delete banking info.",
+//			   responses= {@ApiResponse(responseCode="200",
+//										description="Value return 1 for delete success.",
+//										content=@Content(examples= {@ExampleObject(value="1")})),
+//					   	  @ApiResponse(responseCode="403",
+//					   	  				description="Value return 0 for delete fail.",
+//					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+//	@DeleteMapping("/{id}")
+//	public ResponseEntity<Integer> delete(@Parameter(description="Banking id") @PathVariable("id") int bid) {
+//		Integer status = bankingService.delete(bid);
+//		if(status==0) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+//		}
+//		
+//		return ResponseEntity.ok(status);
+//	}
 }

@@ -1,5 +1,7 @@
 package com.company.payroll.controller.api;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Department;
-import com.company.payroll.service.DepartmentService;
+import com.company.payroll.service.CompanyInfoService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,19 +33,19 @@ public class DepartmentController {
 										  + "\"state\": \"string\", \"country\": \"string\"}";
 
 	@Autowired
-	private DepartmentService departmentService;
+	private CompanyInfoService companyInfoService;
 	
 	@Operation(summary="Get department list")
 	@GetMapping
 	public ResponseEntity<PageInfo<Department>> listDepartment(@RequestParam(value="page", required=true) int page, 
 			  											@RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(departmentService.getListByPage(page, offset));
+		return ResponseEntity.ok(companyInfoService.listDepartment(page, offset));
 	}
 	
 	@Operation(summary="Get department info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Department> getById(@Parameter() @PathVariable("id") int deptno) {
-		return ResponseEntity.ok(departmentService.getById(deptno));
+	public ResponseEntity<Optional<Department>> getById(@Parameter() @PathVariable("id") int deptno) {
+		return ResponseEntity.ok(companyInfoService.findDepartmentById(deptno));
 	}
 	
 	@Operation(summary="Insert department info",
@@ -58,9 +60,9 @@ public class DepartmentController {
 	   			 schema= @Schema(implementation = Department.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
-	public ResponseEntity<Integer> insert(@RequestBody Department department) {
-		Integer status = departmentService.insert(department);
-		if(status==0) {
+	public ResponseEntity<Department> insert(@RequestBody Department department) {
+		Department status = companyInfoService.insertDepartment(department);
+		if(status==null) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}
 		
@@ -75,9 +77,9 @@ public class DepartmentController {
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> update(@RequestBody Department department) {
-		Integer status = departmentService.update(department);
-		if(status==0) {
+	public ResponseEntity<Department> update(@RequestBody Department department) {
+		Department status = companyInfoService.updateDepartment(department);
+		if(status==null) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}
 		
@@ -93,7 +95,7 @@ public class DepartmentController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int deptno) {
-		Integer status = departmentService.delete(deptno);
+		Integer status = companyInfoService.deleteDepartment(deptno);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}

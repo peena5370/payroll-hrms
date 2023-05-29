@@ -1,5 +1,7 @@
 package com.company.payroll.controller.api;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Employee;
 import com.company.payroll.service.EmployeeService;
+import com.company.payroll.service.StaffDetailsService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,20 +36,24 @@ public class EmployeeController {
 										  + "\"attachment\": \"string\", \"imgUser\": \"string\", \"deptno\": 0, \"titleno\": 0, \"mid\": 0, "
 										  + "\"bid\": 0, \"sid\": 0, \"date_of_birth\": \"2023-04-28\", \"company_email\": \"string\"}";
 
+//	@Autowired
+//	private EmployeeService employeeService;
+	
 	@Autowired
-	private EmployeeService employeeService;
+	private StaffDetailsService staffDetailsService;
 	
 	@Operation(summary="Get employee list")
 	@GetMapping
 	public ResponseEntity<PageInfo<Employee>> listEmployee(@RequestParam(value="page", required=true) int page, 
 			  										@RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(employeeService.getListByPage(page, offset));
+//		return ResponseEntity.ok(employeeService.getListByPage(page, offset));
+		return ResponseEntity.ok(staffDetailsService.listEmployee(page, offset));
 	}
 	
 	@Operation(summary="Get employee info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Employee> getById(@Parameter() @PathVariable("id") int eid) {
-		return ResponseEntity.ok(employeeService.getById(eid));
+	public ResponseEntity<Optional<Employee>> getById(@Parameter() @PathVariable("id") int eid) {
+		return ResponseEntity.ok(staffDetailsService.findEmployeeById(eid));
 	}
 
 	@Operation(summary="Insert employee info",
@@ -61,13 +68,14 @@ public class EmployeeController {
   			 schema= @Schema(implementation = Employee.class),
   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
-	public ResponseEntity<Integer> insert(@RequestBody Employee employee) {
-		Integer status = employeeService.insert(employee);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Employee> insert(@RequestBody Employee employee) {
+//		Integer status = employeeService.insert(employee);
+//		if(status==0) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+//		}
+//		
+//		return ResponseEntity.ok(status);
+		return ResponseEntity.ok(staffDetailsService.registerEmployee(employee));
 	}
 	
 	@Operation(summary="Update employee info.",
@@ -78,13 +86,14 @@ public class EmployeeController {
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> update(@RequestBody Employee employee) {
-		Integer status = employeeService.update(employee);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Employee> update(@RequestBody Employee employee) {
+//		Integer status = employeeService.update(employee);
+//		if(status==0) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+//		}
+//		
+//		return ResponseEntity.ok(status);
+		return ResponseEntity.ok(staffDetailsService.updateEmployee(employee));
 	}
 	
 	@Operation(summary="Delete employee info.",
@@ -96,7 +105,8 @@ public class EmployeeController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int eid) {
-		Integer status = employeeService.delete(eid);
+		Integer status = staffDetailsService.deleteEmployee(eid);
+		
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}

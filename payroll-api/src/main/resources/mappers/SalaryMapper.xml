@@ -26,12 +26,18 @@
     where s_id = #{sId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Salary">
+  <selectKey keyProperty="sId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into salary (s_id, monthlysalary, annualsalary, 
       dateupdate)
     values (#{sId,jdbcType=INTEGER}, #{monthlysalary,jdbcType=DECIMAL}, #{annualsalary,jdbcType=DECIMAL}, 
       #{dateupdate,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Salary">
+  <selectKey keyProperty="sId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into salary
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="sId != null">

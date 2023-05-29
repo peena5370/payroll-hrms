@@ -27,7 +27,7 @@ public class TitleServiceImpl implements TitleService {
 
 	@Override
 	public Optional<Title> getByTitleno(int titleno) {
-		return titleMapper.selectByPrimaryKey(titleno);
+		return Optional.ofNullable(titleMapper.selectByPrimaryKey(titleno));
 	}
 
 	@Override

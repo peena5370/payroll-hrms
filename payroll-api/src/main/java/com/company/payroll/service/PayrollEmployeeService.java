@@ -5,6 +5,12 @@ import java.util.List;
 import com.company.payroll.model.PayrollEmployee;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * 
+ * @deprecated replaced with {@link #StaffPayrollService} class
+ *
+ */
+@Deprecated
 public interface PayrollEmployeeService {
 
 	/**

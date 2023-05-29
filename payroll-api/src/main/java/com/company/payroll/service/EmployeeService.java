@@ -3,6 +3,11 @@ package com.company.payroll.service;
 import com.company.payroll.model.Employee;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * 
+ * @deprecated replaced with {@link #StaffDetailsService} class
+ */
+@Deprecated
 public interface EmployeeService {
 	
 	/**

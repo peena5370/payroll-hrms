@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.company.payroll.model.Account;
 import com.company.payroll.model.FileAttachment;
-import com.company.payroll.service.AccountService;
+import com.company.payroll.service.SystemAccountService;
 import com.company.payroll.service.FileAttachmentService;
 import com.company.payroll.util.FileUtils;
 import com.company.payroll.util.JwtTokenUtils;
@@ -47,15 +47,15 @@ public class FileController {
     private JwtTokenUtils jwtTokenUtils;
 	
 	@Autowired
-	private AccountService accountService;
+	private SystemAccountService accountService;
 	
 	@Autowired
 	private FileAttachmentService fileAttachmentService;
     
 	@Operation(summary="Upload profile image")
     @PostMapping("/profile/image/upload")
-    public ResponseEntity<Integer> uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-    	Integer status = 0;
+    public ResponseEntity<Account> uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    	Account status = null;
     	String header = request.getHeader("Authorization");
     	String token = header.substring(7);
     	Claims claims = jwtTokenUtils.getClaims(token);
@@ -74,7 +74,7 @@ public class FileController {
     			account.setDateModified(LocalDateTime.now());
     			
     			status = accountService.updateImagePath(account);
-    			if(status==0) {
+    			if(status==null) {
     				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
     			}
     		}

@@ -33,12 +33,18 @@
     where f_id = #{fId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.FileAttachment">
+  <selectKey keyProperty="fId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into file_attachment (f_id, file_name, file_size, 
       attachment_path, m_id, e_id)
     values (#{fId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, 
       #{attachmentPath,jdbcType=VARCHAR}, #{mId,jdbcType=INTEGER}, #{eId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.FileAttachment">
+  <selectKey keyProperty="fId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into file_attachment
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="fId != null">

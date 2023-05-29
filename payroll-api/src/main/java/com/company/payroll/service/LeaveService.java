@@ -5,6 +5,11 @@ import java.util.List;
 import com.company.payroll.model.Leave;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * 
+ * @deprecated replaced with {@link #StaffApplicationService} class
+ */
+@Deprecated
 public interface LeaveService {
 	
 	/**

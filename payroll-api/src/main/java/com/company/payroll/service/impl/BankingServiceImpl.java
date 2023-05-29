@@ -1,6 +1,7 @@
 package com.company.payroll.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,29 +19,20 @@ public class BankingServiceImpl implements BankingService {
 	private BankingInfoMapper bankingInfoMapper;
 	
 	@Override
-	public PageInfo<BankingInfo> getListByPage(int page, int offset) {
+	public Optional<BankingInfo> findById(int bid) {
+		return Optional.ofNullable(bankingInfoMapper.selectByPrimaryKey(bid));
+	}
+
+	@Override
+	public PageInfo<BankingInfo> list(int page, int offset) {
 		PageHelper.startPage(page, offset);
 		List<BankingInfo> list = bankingInfoMapper.selectList();
 		return new PageInfo<BankingInfo>(list);
 	}
 
 	@Override
-	public BankingInfo getById(int bid) {
-		return bankingInfoMapper.selectByPrimaryKey(bid);
-	}
-
-	@Override
-	public Integer insert(BankingInfo bankingInfo) {
-		return bankingInfoMapper.insertSelective(bankingInfo);
-	}
-
-	@Override
-	public Integer updateById(BankingInfo bankingInfo) {
-		return bankingInfoMapper.updateByPrimaryKey(bankingInfo);
-	}
-
-	@Override
-	public Integer delete(int bid) {
-		return bankingInfoMapper.deleteByPrimaryKey(bid);
+	public BankingInfo update(BankingInfo bankingInfo) {
+		bankingInfoMapper.updateByPrimaryKey(bankingInfo);
+		return bankingInfo;
 	}
 }

@@ -17,6 +17,8 @@ public interface ManagerMapper {
     List<Manager> selectList();
 
     Manager selectByPrimaryKey(Integer mId);
+    
+    Manager selectByResignId(Integer resignId);
 
     int updateByPrimaryKeySelective(Manager row);
 

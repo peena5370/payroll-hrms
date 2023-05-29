@@ -38,6 +38,9 @@
     where loan_id = #{loanId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Loan">
+  <selectKey keyProperty="loanId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into loan (loan_id, refnum, reason, 
       loanamount, applicationdate, loanstatus, 
       dateapproved, e_id, m_id
@@ -48,6 +51,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Loan">
+  <selectKey keyProperty="loanId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into loan
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="loanId != null">

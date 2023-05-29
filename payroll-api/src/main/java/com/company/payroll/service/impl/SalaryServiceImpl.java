@@ -1,6 +1,7 @@
 package com.company.payroll.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,29 +19,20 @@ public class SalaryServiceImpl implements SalaryService {
 	private SalaryMapper salaryMapper;
 	
 	@Override
-	public PageInfo<Salary> getListByPage(int page, int offset) {
+	public PageInfo<Salary> list(int page, int offset) {
 		PageHelper.startPage(page, offset);
 		List<Salary> list = salaryMapper.selectList();
 		return new PageInfo<Salary>(list);
 	}
 
 	@Override
-	public Salary getById(int sid) {
-		return salaryMapper.selectByPrimaryKey(sid);
+	public Optional<Salary> findById(int sid) {
+		return Optional.ofNullable(salaryMapper.selectByPrimaryKey(sid));
 	}
 
 	@Override
-	public Integer insert(Salary salary) {
-		return salaryMapper.insertSelective(salary);
-	}
-
-	@Override
-	public Integer update(Salary salary) {
-		return salaryMapper.updateByPrimaryKeySelective(salary);
-	}
-
-	@Override
-	public Integer delete(int sid) {
-		return salaryMapper.deleteByPrimaryKey(sid);
+	public Salary update(Salary salary) {
+		salaryMapper.updateByPrimaryKeySelective(salary);
+		return salary;
 	}
 }

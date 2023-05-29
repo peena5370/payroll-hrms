@@ -90,11 +90,21 @@
     left join banking_info on employee.b_id=banking_info.b_id
     where e_id = #{eId,jdbcType=INTEGER}
   </select>
+  <select id="selectByResignId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    e_id, fullname, gender, dob, age, martialstatus, education, address, state, country, 
+    phone, company_email, datehired, dateresign, attachment, img_user, deptno, titleno, 
+    m_id, s_id, b_id, resign_id
+    from employee
+    where resign_id = #{resignId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from employee
     where e_id = #{eId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Employee">
+  <selectKey keyProperty="eId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into employee (e_id, fullname, gender, 
       dob, age, martialstatus, 
       education, address, state, 
@@ -113,6 +123,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Employee">
+  <selectKey keyProperty="eId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into employee
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="eId != null">

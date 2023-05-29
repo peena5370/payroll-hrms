@@ -42,6 +42,9 @@
     where l_id = #{lId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Leave">
+  <selectKey keyProperty="lId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into <include refid="tb" /> (l_id, refnum, leavetype, 
       reason, applicationdate, datefrom, 
       dateto, leavestatus, approveddate, 
@@ -52,6 +55,9 @@
       #{eId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Leave">
+  <selectKey keyProperty="lId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into <include refid="tb" />
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="lId != null">

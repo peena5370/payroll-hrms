@@ -1,6 +1,7 @@
 package com.company.payroll.controller.api;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Leave;
+import com.company.payroll.model.Loan;
 import com.company.payroll.service.LeaveService;
+import com.company.payroll.service.StaffApplicationService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,26 +37,29 @@ public class LeaveController {
 										  + "\"eid\": 0, \"reference_number\": \"string\", \"date_start\": \"2023-04-28T12:49:19.260Z\", "
 										  + "\"date_end\": \"2023-04-28T12:49:19.260Z\", \"status\": \"string\"}";
 	
+//	@Autowired
+//	private LeaveService leaveService;
+	
 	@Autowired
-	private LeaveService leaveService;
+	private StaffApplicationService staffApplicationService;
 
 	@Operation(summary="Get leave list")
 	@GetMapping
 	public ResponseEntity<PageInfo<Leave>> listLeave(@RequestParam(value="page", required=true) int page, 
 			  									@RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(leaveService.getListByPage(page, offset));
+		return ResponseEntity.ok(staffApplicationService.listLeave(page, offset));
 	}
 	
 	@Operation(summary="Get leave list by employee id")
 	@GetMapping("/{id}/all")
-	public ResponseEntity<List<Leave>> listByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
-		return ResponseEntity.ok(leaveService.getListByEId(eid));
+	public ResponseEntity<Optional<List<Leave>>> listByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
+		return ResponseEntity.ok(staffApplicationService.findLeaveByEId(eid));
 	}
 	
 	@Operation(summary="Get leave info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Leave> getById(@Parameter() @PathVariable("id") int lid) {
-		return ResponseEntity.ok(leaveService.getById(lid));
+	public ResponseEntity<Optional<Loan>> getById(@Parameter() @PathVariable("id") int lid) {
+		return ResponseEntity.ok(staffApplicationService.findLoanById(lid));
 	}
 	
 	@Operation(summary="Add leave info",
@@ -68,13 +74,13 @@ public class LeaveController {
 	   			 schema= @Schema(implementation = Leave.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
-	public ResponseEntity<Integer> insert(@RequestBody Leave leave) {
-		Integer status = leaveService.insert(leave);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
+	public ResponseEntity<Leave> insert(@RequestBody Leave leave) {
+//		Integer status = leaveService.insert(leave);
+//		if(status==0) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+//		}
 		
-		return ResponseEntity.ok(status);
+		return ResponseEntity.ok(staffApplicationService.insertLeave(leave));
 	}
 	
 	@Operation(summary="Update leave info.",
@@ -85,13 +91,13 @@ public class LeaveController {
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> update(@RequestBody Leave leave) {
-		Integer status = leaveService.update(leave);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
+	public ResponseEntity<Leave> update(@RequestBody Leave leave) {
+//		Integer status = leaveService.update(leave);
+//		if(status==0) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+//		}
 		
-		return ResponseEntity.ok(status);
+		return ResponseEntity.ok(staffApplicationService.updateLeave(leave));
 	}
 	
 	@Operation(summary="Delete leave info.",
@@ -103,7 +109,7 @@ public class LeaveController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int lid) {
-		Integer status = leaveService.delete(lid);
+		Integer status = staffApplicationService.deleteLeave(lid);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}

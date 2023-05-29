@@ -3,6 +3,10 @@ package com.company.payroll.service;
 import com.company.payroll.model.Promotion;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * @deprecated replace with {@link #StaffMiscellaneousService} class
+ */
+@Deprecated
 public interface PromotionService {
 	
 	/**

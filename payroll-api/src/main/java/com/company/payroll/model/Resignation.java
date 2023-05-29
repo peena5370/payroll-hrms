@@ -23,4 +23,8 @@ public class Resignation {
     private Byte resignstatus;
 
     private String attachment;
+    
+    private Integer eId;
+    
+    private Integer mId;
 }

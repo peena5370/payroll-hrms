@@ -5,6 +5,11 @@ import java.util.Optional;
 import com.company.payroll.model.Title;
 import com.github.pagehelper.PageInfo;
 
+/**
+ * 
+ * @deprecated replaced with {@link #CompanyInfoService} class
+ */
+@Deprecated
 public interface TitleService {
 	
 	/**

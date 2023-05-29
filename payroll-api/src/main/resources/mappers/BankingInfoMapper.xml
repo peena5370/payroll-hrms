@@ -29,12 +29,18 @@
     where b_id = #{bId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.BankingInfo">
+  <selectKey keyProperty="bId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into banking_info (b_id, bankname, accountnum, 
       incometaxno, epfno)
     values (#{bId,jdbcType=INTEGER}, #{bankname,jdbcType=VARCHAR}, #{accountnum,jdbcType=BIGINT}, 
       #{incometaxno,jdbcType=VARCHAR}, #{epfno,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.BankingInfo">
+  <selectKey keyProperty="bId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into banking_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="bId != null">

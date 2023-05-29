@@ -27,12 +27,18 @@
     where deptno = #{deptno,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Department">
+  <selectKey keyProperty="deptno" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into department (deptno, deptname, location, 
       state, country)
     values (#{deptno,jdbcType=INTEGER}, #{deptname,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
       #{state,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Department">
+  <selectKey keyProperty="deptno" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
     insert into department
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="deptno != null">

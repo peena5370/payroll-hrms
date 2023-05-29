@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Account;
 import com.company.payroll.model.ResponseObject;
-import com.company.payroll.service.AccountService;
+import com.company.payroll.service.SystemAccountService;
 import com.company.payroll.util.JwtTokenUtils;
 import com.company.payroll.util.PasswordEncryption;
 
@@ -46,7 +46,7 @@ public class LoginController {
 	private static final String VALUE_SIX = "{\"code\": 500, \"msg\": \"The account does not exist.\"}";
 	
 	@Autowired
-	private AccountService accountService;
+	private SystemAccountService accountService;
 	
 	@Autowired
 	private JwtTokenUtils jwtTokenUtils;

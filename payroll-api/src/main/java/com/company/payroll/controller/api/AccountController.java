@@ -1,6 +1,7 @@
 package com.company.payroll.controller.api;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Account;
-import com.company.payroll.service.AccountService;
+import com.company.payroll.service.SystemAccountService;
 import com.company.payroll.util.PasswordEncryption;
 import com.github.pagehelper.PageInfo;
 
@@ -42,7 +43,7 @@ public class AccountController {
 			  							  	+ "\"modified_date\": \"2023-04-28T11:38:12.262Z\"}";
 	
 	@Autowired
-	private AccountService accountService;
+	private SystemAccountService accountService;
 
 	private String directory;
 	
@@ -54,13 +55,13 @@ public class AccountController {
 	@GetMapping
 	public ResponseEntity<PageInfo<Account>> listAccount(@RequestParam(value="page", required=true) int page, 
 			  										@RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(accountService.getListByPage(page, offset));	
+		return ResponseEntity.ok(accountService.list(page, offset));	
 	}
 	
 	@Operation(summary="Get account info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Account> getById(@Parameter(description="Account id") @PathVariable("id")int id) {
-		return ResponseEntity.ok(accountService.getById(id));
+	public ResponseEntity<Optional<Account>> getById(@Parameter(description="Account id") @PathVariable("id")int id) {
+		return ResponseEntity.ok(accountService.findById(id));
 	}
 	
 	@Operation(summary="Register new account",
@@ -75,7 +76,7 @@ public class AccountController {
 	   			 schema= @Schema(implementation = Account.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
-	public ResponseEntity<Integer> insert(@RequestBody Account account) throws NoSuchAlgorithmException {
+	public ResponseEntity<Account> insert(@RequestBody Account account) throws NoSuchAlgorithmException {
 		String plainPassword = account.getPassword();
 		Byte accountStatus = 1;
 		String defaultImgPath = directory + "/images/default/img-001.png";
@@ -86,8 +87,8 @@ public class AccountController {
 		Account row = new Account(account.getUsername(), encodedPassword, secretkey, account.getRoles(), account.getDateCreated(), 
 									accountStatus, defaultImgPath, account.getMId(), account.getEId());
 		
-		Integer status = accountService.insert(row);
-		if(status==0) {
+		Account status = accountService.insert(row);
+		if(status==null) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}
 		
@@ -134,9 +135,9 @@ public class AccountController {
 		 schema= @Schema(implementation = Account.class),
 		 examples= {@ExampleObject(name="Example 1", value=VALUE_TWO)})})
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> update(@RequestBody Account account) {
-		Integer status = accountService.update(account);
-		if(status==0) {
+	public ResponseEntity<Account> update(@RequestBody Account account) {
+		Account status = accountService.update(account);
+		if(status==null) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}
 		

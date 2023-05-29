@@ -17,6 +17,8 @@ public interface EmployeeMapper {
     List<Employee> selectList();
 
     Employee selectByPrimaryKey(Integer eId);
+    
+    Employee selectByResignId(Integer resignId);
 
     int updateByPrimaryKeySelective(Employee row);
 
