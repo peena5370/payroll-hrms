@@ -53,8 +53,7 @@ public class AccountController {
 	
 	@Operation(summary="Get account list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Account>> listAccount(@RequestParam(value="page", required=true) int page, 
-			  										@RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<Account>> listAccount(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(accountService.list(page, offset));	
 	}
 	
@@ -64,13 +63,7 @@ public class AccountController {
 		return ResponseEntity.ok(accountService.findById(id));
 	}
 	
-	@Operation(summary="Register new account",
-			   responses= {@ApiResponse(responseCode="200",
-					   					description="Value return 1 for register success.",
-					   					content=@Content(examples= {@ExampleObject(value="1")})),
-					   	   @ApiResponse(responseCode="403",
-					   			   		description="Value return 0 for register fail.",
-					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Register new account")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Account.class),
@@ -123,25 +116,14 @@ public class AccountController {
 		return ResponseEntity.ok(status);
 	}
 	
-	@Operation(summary="Update account.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for update success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for update fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Update account.")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(required=true,
   	 	 content= {@Content(mediaType="application/json", 
 		 schema= @Schema(implementation = Account.class),
 		 examples= {@ExampleObject(name="Example 1", value=VALUE_TWO)})})
 	@PutMapping("/{id}")
 	public ResponseEntity<Account> update(@RequestBody Account account) {
-		Account status = accountService.update(account);
-		if(status==null) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+		return ResponseEntity.ok(accountService.update(account));
 	}
 	
 	@Operation(summary="Delete account.",

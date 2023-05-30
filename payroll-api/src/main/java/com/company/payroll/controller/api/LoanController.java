@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Loan;
-import com.company.payroll.service.LoanService;
 import com.company.payroll.service.StaffApplicationService;
 import com.github.pagehelper.PageInfo;
 
@@ -34,9 +33,6 @@ public class LoanController {
 	private static final String VALUE_ONE = "{\"reason\": \"string\", \"mid\": 0, \"eid\": 0, "
 										  + "\"reference_number\": \"string\", \"amount\": 0, \"application_date\": \"2023-04-28\", "
 										  + "\"status\": \"string\", \"approve_date\": \"2023-04-28\"}";
-	
-//	@Autowired
-//	private LoanService loanService;
 	
 	@Autowired
 	private StaffApplicationService staffApplicationService;
@@ -73,11 +69,6 @@ public class LoanController {
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
 	public ResponseEntity<Loan> insert(@RequestBody Loan loan) {
-//		Integer status = loanService.insert(loan);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-		
 		return ResponseEntity.ok(staffApplicationService.insertLoan(loan));
 	}
 	
@@ -90,11 +81,6 @@ public class LoanController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
 	public ResponseEntity<Loan> update(@RequestBody Loan loan) {
-//		Integer status = loanService.update(loan);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-		
 		return ResponseEntity.ok(staffApplicationService.updateLoan(loan));
 	}
 	

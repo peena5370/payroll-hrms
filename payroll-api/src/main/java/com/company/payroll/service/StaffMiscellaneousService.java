@@ -25,6 +25,7 @@ public interface StaffMiscellaneousService {
 	 * @param resignid
 	 * @return
 	 */
+	@Transactional(rollbackFor=Exception.class, propagation=Propagation.REQUIRES_NEW)
 	Integer deleteResignation(int resignid);
 	
 	/**

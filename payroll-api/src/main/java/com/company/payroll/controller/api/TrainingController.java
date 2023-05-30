@@ -1,6 +1,7 @@
 package com.company.payroll.controller.api;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Training;
-import com.company.payroll.service.TrainingService;
+import com.company.payroll.service.StaffMiscellaneousService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,63 +35,48 @@ public class TrainingController {
 										  + "\"status\": \"string\"}";
 	
 	@Autowired
-	private TrainingService trainingService;
+	private StaffMiscellaneousService staffMiscellaneousService;
 	
 	@Operation(summary="Get training list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Training>> listTraining(@RequestParam(value="page", required=true) int page, 
-			  										@RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(trainingService.getListByPage(page, offset));
+	public ResponseEntity<PageInfo<Training>> listTraining(@RequestParam(value="page", required=true) int page,  @RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(staffMiscellaneousService.listTraining(page, offset));
 	}
 	
 	@Operation(summary="Get training info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Training> getById(@Parameter() @PathVariable("id") int tId) {
-		return ResponseEntity.ok(trainingService.getById(tId));
+	public ResponseEntity<Optional<Training>> getById(@PathVariable("id") int tId) {
+		return ResponseEntity.ok(staffMiscellaneousService.findTrainingById(tId));
 	}
 	
 	@Operation(summary="Get training list by employee id")
 	@GetMapping("/{id}/all")
-	public ResponseEntity<List<Training>> getListByEId(@Parameter(description="employee id") @PathVariable("id") int eId) {
-		return ResponseEntity.ok(trainingService.getListByEId(eId));
+	public ResponseEntity<Optional<List<Training>>> getListByEId(@Parameter(description="employee id") @PathVariable("id") int eId) {
+		return ResponseEntity.ok(staffMiscellaneousService.findTrainingByEId(eId));
 	}
 	
 	@Operation(summary="Insert training info",
-			   responses= {@ApiResponse(responseCode="200",
-					   					description="Value return 1 for insert success.",
+			   responses= {@ApiResponse(responseCode="200", description="Value return 1 for insert success.",
 					   					content=@Content(examples= {@ExampleObject(value="1")})),
-					   	   @ApiResponse(responseCode="403",
-					   			   		description="Value return 0 for insert fail.",
+					   	   @ApiResponse(responseCode="403", description="Value return 0 for insert fail.",
 					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(
 			   	 content= {@Content(mediaType="application/json", 
 	   			 schema= @Schema(implementation = Training.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
-	public ResponseEntity<Integer> insert(@RequestBody Training training) {
-		Integer status = trainingService.insert(training);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Training> insert(@RequestBody Training training) {
+		return ResponseEntity.ok(staffMiscellaneousService.insertTraining(training));
 	}
 	
 	@Operation(summary="Update training info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for update success.",
+			   responses= {@ApiResponse(responseCode="200", description="Value return 1 for update success.",
 										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for update fail.",
+					   	  @ApiResponse(responseCode="403", description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> update(@RequestBody Training training) {
-		Integer status = trainingService.update(training);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Training> update(@RequestBody Training training) {
+		return ResponseEntity.ok(staffMiscellaneousService.updateTraining(training));
 	}
 
 	@Operation(summary="Delete training info.",
@@ -101,8 +87,8 @@ public class TrainingController {
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int tId) {
-		Integer status = trainingService.delete(tId);
+	public ResponseEntity<Integer> delete(@PathVariable("id") int tId) {
+		Integer status = staffMiscellaneousService.deleteTraining(tId);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}

@@ -1,5 +1,7 @@
 package com.company.payroll.controller.api;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.company.payroll.model.Resignation;
-import com.company.payroll.service.ResignationService;
+import com.company.payroll.service.StaffMiscellaneousService;
 import com.company.payroll.util.FileUtils;
 import com.github.pagehelper.PageInfo;
 
@@ -33,7 +35,7 @@ public class ResignationController {
 										  + "\"resignstatus\": \"string\", \"attachment\": \"string\"}";
 	
 	@Autowired
-	private ResignationService resignationService;
+	private StaffMiscellaneousService staffMiscellaneousService;
 	
 	@Autowired
     private FileUtils fileUtils;
@@ -42,13 +44,13 @@ public class ResignationController {
 	@GetMapping
 	public ResponseEntity<PageInfo<Resignation>> listResignation(@RequestParam(value="page", required=true) int page, 
 			  												@RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(resignationService.getListByPage(page, offset));
+		return ResponseEntity.ok(staffMiscellaneousService.listResignation(page, offset));
 	}
 	
 	@Operation(summary="Get resign info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Resignation> getById(@Parameter() @PathVariable("id") int id) {
-		return ResponseEntity.ok(resignationService.getById(id));
+	public ResponseEntity<Optional<Resignation>> getById(@Parameter() @PathVariable("id") int id) {
+		return ResponseEntity.ok(staffMiscellaneousService.findResignationById(id));
 	}
 	
 	@Operation(summary="Insert resign info",
@@ -63,13 +65,8 @@ public class ResignationController {
 	   			 schema= @Schema(implementation = Resignation.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
-	public ResponseEntity<Integer> insert(@RequestBody Resignation resignation) {
-		Integer status = resignationService.insert(resignation);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Resignation> insert(@RequestBody Resignation resignation) {		
+		return ResponseEntity.ok(staffMiscellaneousService.insertResignation(resignation));
 	}
 	
 	/**
@@ -78,16 +75,11 @@ public class ResignationController {
 	 * @param resignation
 	 * @return
 	 */
-	public ResponseEntity<Integer> insertWithFile(@RequestParam("file") MultipartFile file, @RequestBody Resignation resignation) {
+	public ResponseEntity<Resignation> insertWithFile(@RequestParam("file") MultipartFile file, @RequestBody Resignation resignation) {
 		String filepath = "/resign_files";
 		String uploadPath = fileUtils.fileUpload(file, filepath);
 		
-		Integer status = resignationService.insert(resignation);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+		return ResponseEntity.ok(staffMiscellaneousService.insertResignation(resignation));
 	}
 	
 	@Operation(summary="Update resign info.",
@@ -98,13 +90,8 @@ public class ResignationController {
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> update(@RequestBody Resignation resignation) {
-		Integer status = resignationService.update(resignation);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Resignation> update(@RequestBody Resignation resignation) {	
+		return ResponseEntity.ok(staffMiscellaneousService.updateResignation(resignation));
 	}
 	
 	@Operation(summary="Delete resign info.",
@@ -116,7 +103,7 @@ public class ResignationController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@Parameter @PathVariable("id") int id) {
-		Integer status = resignationService.delete(id);
+		Integer status = staffMiscellaneousService.deleteResignation(id);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}

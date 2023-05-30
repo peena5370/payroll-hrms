@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.PayrollEmployee;
-import com.company.payroll.service.PayrollEmployeeService;
 import com.company.payroll.service.StaffPayrollService;
 import com.github.pagehelper.PageInfo;
 
@@ -36,16 +35,12 @@ public class PayrollEmployeeController {
 										  + "\"eid\": 0, \"employee_epf\": 0, \"employee_socso\": 0, \"employee_eis\": 0, \"employer_epf\": 0, "
 										  + "\"employer_socso\": 0, \"employer_eis\": 0, \"mtd_pcb\": 0}";
 	
-//	@Autowired
-//	private PayrollEmployeeService payrollEmployeeService;
-	
 	@Autowired
 	private StaffPayrollService staffPayrollService;
 
 	@Operation(summary="Get employee payroll list")
 	@GetMapping
-	public ResponseEntity<PageInfo<PayrollEmployee>> listPayrollEmployee(@RequestParam(value="page", required=true) int page, 
-			  														@RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<PayrollEmployee>> listPayrollEmployee(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffPayrollService.listPayrollEmployee(page, offset));
 	}
 	
@@ -57,7 +52,7 @@ public class PayrollEmployeeController {
 	
 	@Operation(summary="Get employee payroll list by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<PayrollEmployee>> getById(@Parameter() @PathVariable("id") int id) {
+	public ResponseEntity<Optional<PayrollEmployee>> getById(@PathVariable("id") int id) {
 		return ResponseEntity.ok(staffPayrollService.findPayrollEmployeeById(id));
 	}
 	
@@ -74,11 +69,6 @@ public class PayrollEmployeeController {
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
 	public ResponseEntity<PayrollEmployee> insert(@RequestBody PayrollEmployee payrollEmployee) {
-//		Integer status = payrollEmployeeService.insert(payrollEmployee);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-		
 		return ResponseEntity.ok(staffPayrollService.insertPayrollEmployee(payrollEmployee));
 	}
 	
@@ -91,11 +81,6 @@ public class PayrollEmployeeController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
 	public ResponseEntity<PayrollEmployee> update(@RequestBody PayrollEmployee payrollEmployee) {
-//		Integer status = payrollEmployeeService.update(payrollEmployee);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-		
 		return ResponseEntity.ok(staffPayrollService.updatePayrollEmployee(payrollEmployee));
 	}
 	
@@ -107,7 +92,7 @@ public class PayrollEmployeeController {
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int prid) {
+	public ResponseEntity<Integer> delete(@PathVariable("id") int prid) {
 		Integer status = staffPayrollService.deletePayrollEmployee(prid);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);

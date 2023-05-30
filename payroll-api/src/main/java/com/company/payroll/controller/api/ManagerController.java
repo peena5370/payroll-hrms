@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Manager;
-import com.company.payroll.service.ManagerService;
 import com.company.payroll.service.StaffDetailsService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,24 +35,18 @@ public class ManagerController {
 										  + "\"titleno\": 0, \"bid\": 0, \"sid\": 0, \"date_of_birth\": \"2023-04-28\", "
 										  + "\"company_email\": \"string\"}";
 	
-//	@Autowired
-//	private ManagerService managerService;
-	
 	@Autowired
 	private StaffDetailsService staffDetailsService;
 	
 	@Operation(summary="Get manager list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Manager>> listManager(@RequestParam(value="page", required=true) int page, 
-			  										@RequestParam(value="size", required=true) int offset) {
-//		return ResponseEntity.ok(managerService.getListByPage(page, offset));
+	public ResponseEntity<PageInfo<Manager>> listManager(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffDetailsService.listManager(page, offset));
 	}
 	
 	@Operation(summary="Get manager info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Manager>> getById(@Parameter() @PathVariable("id") int mid) {
-//		return ResponseEntity.ok(managerService.getById(mid));
+	public ResponseEntity<Optional<Manager>> getById(@PathVariable("id") int mid) {
 		return ResponseEntity.ok(staffDetailsService.findManagerById(mid));
 	}
 	
@@ -71,12 +63,6 @@ public class ManagerController {
 			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
 	public ResponseEntity<Manager> insert(@RequestBody Manager manager) {
-//		Integer status = managerService.insert(manager);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-		
-//		return ResponseEntity.ok(status);
 		return ResponseEntity.ok(staffDetailsService.registerManager(manager));
 	}
 	
@@ -89,12 +75,6 @@ public class ManagerController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
 	public ResponseEntity<Manager> update(@RequestBody Manager manager) {
-//		Integer status = managerService.update(manager);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-//		
-//		return ResponseEntity.ok(status);
 		return ResponseEntity.ok(staffDetailsService.updateManager(manager));
 	}
 
@@ -106,8 +86,7 @@ public class ManagerController {
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int id) {
-//		Integer status = managerService.delete(id);
+	public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
 		Integer status = staffDetailsService.deleteManager(id);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);

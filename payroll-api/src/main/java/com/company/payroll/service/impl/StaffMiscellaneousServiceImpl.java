@@ -51,7 +51,30 @@ public class StaffMiscellaneousServiceImpl implements StaffMiscellaneousService 
 
 	@Override
 	public Integer deleteResignation(int resignid) {
-		return resignationMapper.deleteByPrimaryKey(resignid);
+		Integer row = 0;
+
+		Optional<Manager> manager = Optional.ofNullable(managerMapper.selectByResignId(resignid));
+		Optional<Employee> employee = Optional.ofNullable(employeeMapper.selectByResignId(resignid));
+		
+		if(manager.isPresent()) {
+			Manager managerUpdate = manager.get();
+			managerUpdate.setResignId(null);
+			managerUpdate.setDateresign(null);
+			managerMapper.updateByPrimaryKey(managerUpdate);
+			row = 1;
+		} else if(employee.isPresent()) {
+			Employee employeeUpdate = employee.get();
+			employeeUpdate.setResignId(null);
+			employeeUpdate.setDateresign(null);
+			employeeMapper.updateByPrimaryKey(employeeUpdate);
+			row = 1;
+		} else {
+			throw new RuntimeException();
+		}
+		
+		resignationMapper.deleteByPrimaryKey(resignid);
+		
+		return row;
 	}
 
 	@Override

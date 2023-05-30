@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.PayrollManager;
-import com.company.payroll.service.PayrollManagerService;
 import com.company.payroll.service.StaffPayrollService;
 import com.github.pagehelper.PageInfo;
 
@@ -36,16 +35,12 @@ public class PayrollManagerController {
 										  + "\"mid\": 0, \"manager_epf\": 0, \"manager_socso\": 0, \"manager_eis\": 0, \"employer_epf\": 0, "
 										  + "\"employer_socso\": 0, \"employer_eis\": 0, \"mtd_pcb\": 0}";
 	
-//	@Autowired
-//	private PayrollManagerService payrollManagerService;
-	
 	@Autowired
 	private StaffPayrollService staffPayrollService;
 
 	@Operation(summary="Get manager payroll list")
 	@GetMapping
-	public ResponseEntity<PageInfo<PayrollManager>> listPayrollManager(@RequestParam(value="page", required=true) int page, 
-			  													@RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<PayrollManager>> listPayrollManager(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffPayrollService.listPayrollManager(page, offset));
 	}
 	
@@ -57,11 +52,11 @@ public class PayrollManagerController {
 	
 	@Operation(summary="Get manager payroll info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<PayrollManager>> getById(@Parameter() @PathVariable("id") int prMgrId) {
+	public ResponseEntity<Optional<PayrollManager>> getById(@PathVariable("id") int prMgrId) {
 		return ResponseEntity.ok(staffPayrollService.findPayrollManagerById(prMgrId));
 	}
 	
-	@Operation(summary="Insert employee payroll info",
+	@Operation(summary="Insert manager payroll info",
 			   responses= {@ApiResponse(responseCode="200",
 					   					description="Value return 1 for insert success.",
 					   					content=@Content(examples= {@ExampleObject(value="1")})),
@@ -74,11 +69,6 @@ public class PayrollManagerController {
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
 	public ResponseEntity<PayrollManager> insert(@RequestBody PayrollManager payrollManager) {
-//		Integer status = payrollManagerService.insert(payrollManager);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-		
 		return ResponseEntity.ok(staffPayrollService.insertPayrollManager(payrollManager));
 	}
 	
@@ -91,11 +81,6 @@ public class PayrollManagerController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
 	public ResponseEntity<PayrollManager> update(@RequestBody PayrollManager payrollManager) {
-//		Integer status = payrollManagerService.update(payrollManager);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-		
 		return ResponseEntity.ok(staffPayrollService.updatePayrollManager(payrollManager));
 	}
 	

@@ -3,7 +3,6 @@ package com.company.payroll.controller.api;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,37 +15,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Employee;
-import com.company.payroll.service.EmployeeService;
 import com.company.payroll.service.StaffDetailsService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeController {
-	private static final String VALUE_ONE = "{\"fullname\": \"string\", \"gender\": \"string\", \"age\": 0, "
-										  + "\"martialstatus\": \"string\", \"education\": \"string\", \"address\": \"string\", "
-										  + "\"state\": \"string\", \"country\": \"string\", \"phone\": \"string\", \"datehired\": \"2023-04-28\", "
-										  + "\"attachment\": \"string\", \"imgUser\": \"string\", \"deptno\": 0, \"titleno\": 0, \"mid\": 0, "
-										  + "\"bid\": 0, \"sid\": 0, \"date_of_birth\": \"2023-04-28\", \"company_email\": \"string\"}";
-
-//	@Autowired
-//	private EmployeeService employeeService;
 	
 	@Autowired
 	private StaffDetailsService staffDetailsService;
 	
 	@Operation(summary="Get employee list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Employee>> listEmployee(@RequestParam(value="page", required=true) int page, 
-			  										@RequestParam(value="size", required=true) int offset) {
-//		return ResponseEntity.ok(employeeService.getListByPage(page, offset));
+	public ResponseEntity<PageInfo<Employee>> listEmployee(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffDetailsService.listEmployee(page, offset));
 	}
 	
@@ -56,69 +40,29 @@ public class EmployeeController {
 		return ResponseEntity.ok(staffDetailsService.findEmployeeById(eid));
 	}
 
-	@Operation(summary="Insert employee info",
-			   responses= {@ApiResponse(responseCode="200",
-					   					description="Value return 1 for insert success.",
-					   					content=@Content(examples= {@ExampleObject(value="1")})),
-					   	   @ApiResponse(responseCode="403",
-					   			   		description="Value return 0 for insert fail.",
-					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-		   	 content= {@Content(mediaType="application/json", 
-  			 schema= @Schema(implementation = Employee.class),
-  			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
+	@Operation(summary="Insert employee info")
 	@PostMapping
 	public ResponseEntity<Employee> insert(@RequestBody Employee employee) {
-//		Integer status = employeeService.insert(employee);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-//		
-//		return ResponseEntity.ok(status);
 		return ResponseEntity.ok(staffDetailsService.registerEmployee(employee));
 	}
 	
-	@Operation(summary="Update employee info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for update success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for update fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Update employee info.")
 	@PutMapping("/{id}")
 	public ResponseEntity<Employee> update(@RequestBody Employee employee) {
-//		Integer status = employeeService.update(employee);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-//		
-//		return ResponseEntity.ok(status);
 		return ResponseEntity.ok(staffDetailsService.updateEmployee(employee));
 	}
 	
-	@Operation(summary="Delete employee info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for delete success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for delete fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Delete employee info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int eid) {
-		Integer status = staffDetailsService.deleteEmployee(eid);
-		
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Integer> delete(@PathVariable("id") int eid) {
+		return ResponseEntity.ok(staffDetailsService.deleteEmployee(eid));
 	}
 	
 //	@GetMapping("/list/count/all")
 //	public Integer countEmployee() {
 //		return employeeService.countEmployee();
 //	}
-//	
+	
 //	@GetMapping("/list/count/active")
 //	public Integer countAvailableEmployee() {
 //		return employeeService.countAvailableEmployee();

@@ -1,5 +1,7 @@
 package com.company.payroll.controller.api;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Promotion;
-import com.company.payroll.service.PromotionService;
+import com.company.payroll.service.StaffMiscellaneousService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,19 +32,18 @@ public class PromotionController {
 										  + "\"titleno\": 0, \"comment\": \"string\", \"mid\": 0, \"eid\": 0}";
 	
 	@Autowired
-	private PromotionService promotionService;
+	private StaffMiscellaneousService staffMiscellaneousService;
 
 	@Operation(summary="Get promotion list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Promotion>> listPromotion(@RequestParam(value="page", required=true) int page, 
-			  											@RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(promotionService.getListByPage(page, offset));
+	public ResponseEntity<PageInfo<Promotion>> listPromotion(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(staffMiscellaneousService.listPromotion(page, offset));
 	}
 	
 	@Operation(summary="Get promotion info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Promotion> getById(@Parameter() @PathVariable("id") int pid) {
-		return ResponseEntity.ok(promotionService.getById(pid));
+	public ResponseEntity<Optional<Promotion>> getById(@PathVariable("id") int pid) {
+		return ResponseEntity.ok(staffMiscellaneousService.findPromotionById(pid));
 	}
 	
 	@Operation(summary="Insert promotion info",
@@ -58,13 +58,8 @@ public class PromotionController {
 	   			 schema= @Schema(implementation = Promotion.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
-	public ResponseEntity<Integer> insert(@RequestBody Promotion promotion) {
-		Integer status = promotionService.insert(promotion);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Promotion> insert(@RequestBody Promotion promotion) {
+		return ResponseEntity.ok(staffMiscellaneousService.insertPromotion(promotion));
 	}
 	
 	@Operation(summary="Update promotion info.",
@@ -75,13 +70,8 @@ public class PromotionController {
 					   	  				description="Value return 0 for update fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> update(@RequestBody Promotion promotion) {
-		Integer status = promotionService.update(promotion);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Promotion> update(@RequestBody Promotion promotion) {
+		return ResponseEntity.ok(staffMiscellaneousService.updatePromotion(promotion));
 	}
 	
 	@Operation(summary="Delete promotion info.",
@@ -92,8 +82,8 @@ public class PromotionController {
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int pid) {
-		Integer status = promotionService.delete(pid);
+	public ResponseEntity<Integer> delete(@PathVariable("id") int pid) {
+		Integer status = staffMiscellaneousService.deletePromotion(pid);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
 		}

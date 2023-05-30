@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Leave;
-import com.company.payroll.model.Loan;
-import com.company.payroll.service.LeaveService;
 import com.company.payroll.service.StaffApplicationService;
 import com.github.pagehelper.PageInfo;
 
@@ -37,16 +35,12 @@ public class LeaveController {
 										  + "\"eid\": 0, \"reference_number\": \"string\", \"date_start\": \"2023-04-28T12:49:19.260Z\", "
 										  + "\"date_end\": \"2023-04-28T12:49:19.260Z\", \"status\": \"string\"}";
 	
-//	@Autowired
-//	private LeaveService leaveService;
-	
 	@Autowired
 	private StaffApplicationService staffApplicationService;
 
 	@Operation(summary="Get leave list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Leave>> listLeave(@RequestParam(value="page", required=true) int page, 
-			  									@RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<Leave>> listLeave(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffApplicationService.listLeave(page, offset));
 	}
 	
@@ -58,8 +52,8 @@ public class LeaveController {
 	
 	@Operation(summary="Get leave info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Loan>> getById(@Parameter() @PathVariable("id") int lid) {
-		return ResponseEntity.ok(staffApplicationService.findLoanById(lid));
+	public ResponseEntity<Optional<Leave>> getById(@Parameter() @PathVariable("id") int lid) {
+		return ResponseEntity.ok(staffApplicationService.findLeaveById(lid));
 	}
 	
 	@Operation(summary="Add leave info",
@@ -75,11 +69,6 @@ public class LeaveController {
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
 	public ResponseEntity<Leave> insert(@RequestBody Leave leave) {
-//		Integer status = leaveService.insert(leave);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-		
 		return ResponseEntity.ok(staffApplicationService.insertLeave(leave));
 	}
 	
@@ -92,11 +81,6 @@ public class LeaveController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@PutMapping("/{id}")
 	public ResponseEntity<Leave> update(@RequestBody Leave leave) {
-//		Integer status = leaveService.update(leave);
-//		if(status==0) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-//		}
-		
 		return ResponseEntity.ok(staffApplicationService.updateLeave(leave));
 	}
 	
