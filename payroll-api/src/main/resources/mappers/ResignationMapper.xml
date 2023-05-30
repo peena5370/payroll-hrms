@@ -6,10 +6,12 @@
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="resigndate" jdbcType="DATE" property="resigndate" />
     <result column="resignstatus" jdbcType="TINYINT" property="resignstatus" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_size" jdbcType="BIGINT" property="fileSize" />
     <result column="attachment" jdbcType="VARCHAR" property="attachment" />
   </resultMap>
   <sql id="Base_Column_List">
-    resign_id, reason, resigndate, resignstatus, attachment
+    resign_id, reason, resigndate, resignstatus, file_name, file_size, attachment
   </sql>
   <select id="selectList" resultMap="BaseResultMap">
     select 
@@ -31,9 +33,9 @@
   	SELECT LAST_INSERT_ID()
   </selectKey>
     insert into resignation (resign_id, reason, resigndate, 
-      resignstatus, attachment)
+      resignstatus, file_name, file_size, attachment)
     values (#{resignId,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, #{resigndate,jdbcType=DATE}, 
-      #{resignstatus,jdbcType=TINYINT}, #{attachment,jdbcType=VARCHAR})
+      #{resignstatus,jdbcType=TINYINT}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, #{attachment,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Resignation">
   <selectKey keyProperty="resignId" order="AFTER" resultType="java.lang.Integer">
@@ -53,6 +55,12 @@
       <if test="resignstatus != null">
         resignstatus,
       </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
       <if test="attachment != null">
         attachment,
       </if>
@@ -69,6 +77,12 @@
       </if>
       <if test="resignstatus != null">
         #{resignstatus,jdbcType=TINYINT},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=BIGINT},
       </if>
       <if test="attachment != null">
         #{attachment,jdbcType=VARCHAR},
@@ -87,6 +101,12 @@
       <if test="resignstatus != null">
         resignstatus = #{resignstatus,jdbcType=TINYINT},
       </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
       <if test="attachment != null">
         attachment = #{attachment,jdbcType=VARCHAR},
       </if>
@@ -98,6 +118,8 @@
     set reason = #{reason,jdbcType=VARCHAR},
       resigndate = #{resigndate,jdbcType=DATE},
       resignstatus = #{resignstatus,jdbcType=TINYINT},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=BIGINT},
       attachment = #{attachment,jdbcType=VARCHAR}
     where resign_id = #{resignId,jdbcType=INTEGER}
   </update>

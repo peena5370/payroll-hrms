@@ -91,7 +91,7 @@
     where e_id = #{eId,jdbcType=INTEGER}
   </select>
   <select id="selectByResignId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    e_id, fullname, gender, dob, age, martialstatus, education, address, state, country, 
+    select e_id, fullname, gender, dob, age, martialstatus, education, address, state, country, 
     phone, company_email, datehired, dateresign, attachment, img_user, deptno, titleno, 
     m_id, s_id, b_id, resign_id
     from employee
