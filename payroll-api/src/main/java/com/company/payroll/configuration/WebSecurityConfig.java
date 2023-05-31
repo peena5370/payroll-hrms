@@ -49,13 +49,13 @@ public class WebSecurityConfig {
         http.cors(cors -> cors.and())
         	.csrf(csrf -> csrf.disable())
         	.authorizeHttpRequests(request -> 
-//        							request.requestMatchers("/api/users/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-        							request.requestMatchers("/**").permitAll()
+        							request.requestMatchers("/api/users/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+//        							request.requestMatchers("/**").permitAll()
         								   .anyRequest().authenticated())
             .sessionManagement((session) -> 
             						session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
     		.httpBasic(withDefaults())
-            .logout((logout) -> logout.logoutUrl("/logout").permitAll());
+            .logout((logout) -> logout.logoutUrl("/api/users/logout").permitAll());
         
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         
@@ -65,7 +65,7 @@ public class WebSecurityConfig {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http:localhost:8080", "http:localhost:8081", "http:localhost:9000"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:8081", "http://localhost:9000"));
 		configuration.setAllowCredentials(true);
 		configuration.setAllowedOriginPatterns(Arrays.asList("*"));
 		configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));

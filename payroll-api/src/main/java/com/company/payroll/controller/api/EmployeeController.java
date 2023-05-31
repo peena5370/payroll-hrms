@@ -19,7 +19,6 @@ import com.company.payroll.service.StaffDetailsService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -36,7 +35,7 @@ public class EmployeeController {
 	
 	@Operation(summary="Get employee info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Employee>> getById(@Parameter() @PathVariable("id") int eid) {
+	public ResponseEntity<Optional<Employee>> getById(@PathVariable("id") int eid) {
 		return ResponseEntity.ok(staffDetailsService.findEmployeeById(eid));
 	}
 

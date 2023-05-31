@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,18 +21,10 @@ import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/payroll/employee")
 public class PayrollEmployeeController {
-	private static final String VALUE_ONE = "{\"basicpay\": 0, \"overtimepay\": 0, \"allowance\": 0, \"transport\": 0, "
-										  + "\"otherdeduction\": 0, \"totalpay\": 0, \"payperiod\": \"string\", \"paymentdate\": \"2023-04-28\", "
-										  + "\"eid\": 0, \"employee_epf\": 0, \"employee_socso\": 0, \"employee_eis\": 0, \"employer_epf\": 0, "
-										  + "\"employer_socso\": 0, \"employer_eis\": 0, \"mtd_pcb\": 0}";
 	
 	@Autowired
 	private StaffPayrollService staffPayrollService;
@@ -56,48 +47,21 @@ public class PayrollEmployeeController {
 		return ResponseEntity.ok(staffPayrollService.findPayrollEmployeeById(id));
 	}
 	
-	@Operation(summary="Insert employee payroll info",
-			   responses= {@ApiResponse(responseCode="200",
-					   					description="Value return 1 for insert success.",
-					   					content=@Content(examples= {@ExampleObject(value="1")})),
-					   	   @ApiResponse(responseCode="403",
-					   			   		description="Value return 0 for insert fail.",
-					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-			   	 content= {@Content(mediaType="application/json", 
-	   			 schema= @Schema(implementation = PayrollEmployee.class),
-	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
+	@Operation(summary="Insert employee payroll info")
 	@PostMapping
 	public ResponseEntity<PayrollEmployee> insert(@RequestBody PayrollEmployee payrollEmployee) {
 		return ResponseEntity.ok(staffPayrollService.insertPayrollEmployee(payrollEmployee));
 	}
 	
-	@Operation(summary="Update employee payroll info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for update success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for update fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Update employee payroll info.")
 	@PutMapping("/{id}")
 	public ResponseEntity<PayrollEmployee> update(@RequestBody PayrollEmployee payrollEmployee) {
 		return ResponseEntity.ok(staffPayrollService.updatePayrollEmployee(payrollEmployee));
 	}
 	
-	@Operation(summary="Delete employee payroll info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for delete success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for delete fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Delete employee payroll info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@PathVariable("id") int prid) {
-		Integer status = staffPayrollService.deletePayrollEmployee(prid);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Integer> delete(@PathVariable("id") int prid) {		
+		return ResponseEntity.ok(staffPayrollService.deletePayrollEmployee(prid));
 	}
 }

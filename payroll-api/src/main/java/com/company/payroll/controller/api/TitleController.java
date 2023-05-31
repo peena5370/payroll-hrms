@@ -20,15 +20,10 @@ import com.company.payroll.service.CompanyInfoService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/title")
 public class TitleController {
-	private static final String VALUE_ONE = "{\"titlename\": \"string\", \"titledesc\": \"string\"}";
 	
 	@Autowired
 	private CompanyInfoService companyInfoService;
@@ -45,41 +40,21 @@ public class TitleController {
 		return ResponseEntity.ok(companyInfoService.findTitleById(titleno));
 	}
 	
-	@Operation(summary="Insert title info",
-			   responses= {@ApiResponse(responseCode="200", description="Value return 1 for insert success.",
-					   					content=@Content(examples= {@ExampleObject(value="1")})),
-					   	   @ApiResponse(responseCode="403", description="Value return 0 for insert fail.",
-					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(content= {@Content(mediaType="application/json", 
-	   			 schema= @Schema(implementation = Title.class),
-	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
+	@Operation(summary="Insert title info")
 	@PostMapping
 	public ResponseEntity<Title> insert(@RequestBody Title title) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(companyInfoService.insertTitle(title));
 	}
 	
-	@Operation(summary="Update title info.",
-			   responses= {@ApiResponse(responseCode="200", description="Value return 1 for update success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403", description="Value return 0 for update fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Update title info.")
 	@PutMapping("/{id}")
 	public ResponseEntity<Title> update(@RequestBody Title title) {
 		return ResponseEntity.ok(companyInfoService.updateTitle(title));
 	}
 	
-	@Operation(summary="Delete title info.",
-			   responses= {@ApiResponse(responseCode="200", description="Value return 1 for delete success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403", description="Value return 0 for delete fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Delete title info.")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@PathVariable("id") int titleno) {
-		Integer status = companyInfoService.deleteTitle(titleno);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+		return ResponseEntity.ok(companyInfoService.deleteTitle(titleno));
 	}
 }

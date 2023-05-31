@@ -1,5 +1,6 @@
 package com.company.payroll.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 import com.company.payroll.model.Account;
@@ -24,15 +25,17 @@ public interface SystemAccountService {
 	 * 
 	 * @param row
 	 * @return
+	 * @throws NoSuchAlgorithmException 
 	 */
-	Account insert(Account row);
+	Account insert(Account row) throws NoSuchAlgorithmException;
 	
 	/**
 	 * 
 	 * @param account
 	 * @return
+	 * @throws NoSuchAlgorithmException 
 	 */
-	Integer updateListPassword(Account account);
+	Account updateListPassword(Account account) throws NoSuchAlgorithmException;
 	
 	/**
 	 * 

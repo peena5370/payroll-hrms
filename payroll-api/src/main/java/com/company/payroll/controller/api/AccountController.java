@@ -4,11 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.company.payroll.model.Account;
 import com.company.payroll.service.SystemAccountService;
-import com.company.payroll.util.PasswordEncryption;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,8 +31,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 @RequestMapping("/api/account")
 public class AccountController {
 	private static final String VALUE_ONE = "{\"username\": \"string\", \"password\": \"string\", "
-										  + "\"roles\": \"string\", \"register_date\": \"2023-04-28T11:33:18.906Z\", "
-										  + "\"mid\": null, \"eid\": null}";
+										  + "\"roles\": \"string\", \"mid\": null, \"eid\": null}";
 	private static final String VALUE_TWO = "{\"username\": \"string\", \"roles\": \"string\", \"mid\": null, \"eid\": null, \"aid\": 0, "
 										  + "\"modified_date\": \"2023-04-28T11:38:12.262Z\", \"status\": 0}";
 	private static final String VALUE_THREE = "{\"username\": \"string\", \"password\": \"strings\", \"aid\": 0, "
@@ -44,12 +39,6 @@ public class AccountController {
 	
 	@Autowired
 	private SystemAccountService accountService;
-
-	private String directory;
-	
-	public AccountController(@Value("${file.upload.directory}") String directory) {
-		this.directory = directory;
-	}
 	
 	@Operation(summary="Get account list")
 	@GetMapping
@@ -69,23 +58,13 @@ public class AccountController {
 	   			 schema= @Schema(implementation = Account.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
-	public ResponseEntity<Account> insert(@RequestBody Account account) throws NoSuchAlgorithmException {
-		String plainPassword = account.getPassword();
-		Byte accountStatus = 1;
-		String defaultImgPath = directory + "/images/default/img-001.png";
-		String secretkey = PasswordEncryption.convertSecretKeyToString(PasswordEncryption.generateSecretKey("HmacSHA256", 256));
-		PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(secretkey));
-		String encodedPassword = passwordEncoder.encode(plainPassword);
+	public ResponseEntity<String> insert(@RequestBody Account account) throws NoSuchAlgorithmException {
+		Account row = accountService.insert(account);
+			if(row==null) {
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("register failed");
+			}
 		
-		Account row = new Account(account.getUsername(), encodedPassword, secretkey, account.getRoles(), account.getDateCreated(), 
-									accountStatus, defaultImgPath, account.getMId(), account.getEId());
-		
-		Account status = accountService.insert(row);
-		if(status==null) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+		return ResponseEntity.ok("register success");
 	}
 	
 	@Operation(summary="Update account password",
@@ -100,20 +79,13 @@ public class AccountController {
 		 schema= @Schema(implementation = Account.class),
 		 examples= {@ExampleObject(name="Example 1", value=VALUE_THREE)})})
 	@PutMapping("/{id}/password")
-	public ResponseEntity<Integer> listUpdatePassword(@RequestBody Account account) throws NoSuchAlgorithmException {
-		String plainPassword = account.getPassword();
-		String secretkey = PasswordEncryption.convertSecretKeyToString(PasswordEncryption.generateSecretKey("HmacSHA256", 256));
-		PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(secretkey));
-		String encodedPassword = passwordEncoder.encode(plainPassword);
-		
-		Account row = new Account(account.getAId(), account.getUsername(), encodedPassword, secretkey, account.getDateModified());
-
-		Integer status = accountService.updateListPassword(row);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
+	public ResponseEntity<String> listUpdatePassword(@RequestBody Account account) throws NoSuchAlgorithmException {
+		Account row = accountService.updateListPassword(account);
+		if(row==null) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("password update failed");
 		}
 		
-		return ResponseEntity.ok(status);
+		return ResponseEntity.ok("update success");
 	}
 	
 	@Operation(summary="Update account.")
@@ -122,8 +94,13 @@ public class AccountController {
 		 schema= @Schema(implementation = Account.class),
 		 examples= {@ExampleObject(name="Example 1", value=VALUE_TWO)})})
 	@PutMapping("/{id}")
-	public ResponseEntity<Account> update(@RequestBody Account account) {
-		return ResponseEntity.ok(accountService.update(account));
+	public ResponseEntity<String> update(@RequestBody Account account) {
+		Account row = accountService.update(account);
+		if(row==null) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("update failed");
+		}
+		
+		return ResponseEntity.ok("update success");
 	}
 	
 	@Operation(summary="Delete account.",
@@ -134,13 +111,8 @@ public class AccountController {
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter(description="Account id") @PathVariable("id") int aid) {
-		Integer status = accountService.delete(aid);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Integer> delete(@Parameter(description="Account id") @PathVariable("id") int aid) {	
+		return ResponseEntity.ok(accountService.delete(aid));
 	}
 //	
 //	@GetMapping("/list/count/all")

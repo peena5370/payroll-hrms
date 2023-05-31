@@ -17,10 +17,6 @@ import com.company.payroll.service.SalaryService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/salary")
@@ -37,15 +33,11 @@ public class SalaryController {
 	
 	@Operation(summary="Get salary info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Salary>> getById(@Parameter() @PathVariable("id") int sid) {
+	public ResponseEntity<Optional<Salary>> getById(@PathVariable("id") int sid) {
 		return ResponseEntity.ok(salaryService.findById(sid));
 	}
 	
-	@Operation(summary="Update salary info.",
-			   responses= {@ApiResponse(responseCode="200", description="Value return 1 for update success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403", description="Value return 0 for update fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Update salary info.")
 	@PutMapping("/{id}")
 	public ResponseEntity<Salary> update(@RequestBody Salary salary) {
 		return ResponseEntity.ok(salaryService.update(salary));

@@ -22,18 +22,10 @@ import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/leave")
 public class LeaveController {
-	private static final String VALUE_ONE = "{\"leavetype\": \"string\", \"reason\": \"string\", "
-										  + "\"applicationdate\": \"2023-04-28\", \"approveddate\": \"2023-04-28\", \"mid\": 0, "
-										  + "\"eid\": 0, \"reference_number\": \"string\", \"date_start\": \"2023-04-28T12:49:19.260Z\", "
-										  + "\"date_end\": \"2023-04-28T12:49:19.260Z\", \"status\": \"string\"}";
 	
 	@Autowired
 	private StaffApplicationService staffApplicationService;
@@ -52,47 +44,25 @@ public class LeaveController {
 	
 	@Operation(summary="Get leave info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Leave>> getById(@Parameter() @PathVariable("id") int lid) {
+	public ResponseEntity<Optional<Leave>> getById(@PathVariable("id") int lid) {
 		return ResponseEntity.ok(staffApplicationService.findLeaveById(lid));
 	}
 	
-	@Operation(summary="Add leave info",
-			   responses= {@ApiResponse(responseCode="200",
-					   					description="Value return 1 for insert success.",
-					   					content=@Content(examples= {@ExampleObject(value="1")})),
-					   	   @ApiResponse(responseCode="403",
-					   			   		description="Value return 0 for insert fail.",
-					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-			   	 content= {@Content(mediaType="application/json", 
-	   			 schema= @Schema(implementation = Leave.class),
-	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
+	@Operation(summary="Add leave info")
 	@PostMapping
 	public ResponseEntity<Leave> insert(@RequestBody Leave leave) {
 		return ResponseEntity.ok(staffApplicationService.insertLeave(leave));
 	}
 	
-	@Operation(summary="Update leave info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for update success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for update fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Update leave info.")
 	@PutMapping("/{id}")
 	public ResponseEntity<Leave> update(@RequestBody Leave leave) {
 		return ResponseEntity.ok(staffApplicationService.updateLeave(leave));
 	}
 	
-	@Operation(summary="Delete leave info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for delete success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for delete fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Delete leave info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int lid) {
+	public ResponseEntity<Integer> delete(@PathVariable("id") int lid) {
 		Integer status = staffApplicationService.deleteLeave(lid);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);

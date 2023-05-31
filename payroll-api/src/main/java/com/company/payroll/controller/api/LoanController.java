@@ -22,25 +22,17 @@ import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/loan")
 public class LoanController {
-	private static final String VALUE_ONE = "{\"reason\": \"string\", \"mid\": 0, \"eid\": 0, "
-										  + "\"reference_number\": \"string\", \"amount\": 0, \"application_date\": \"2023-04-28\", "
-										  + "\"status\": \"string\", \"approve_date\": \"2023-04-28\"}";
 	
 	@Autowired
 	private StaffApplicationService staffApplicationService;
 
 	@Operation(summary="Get loan list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Loan>> listLoan(@RequestParam(value="page", required=true) int page, 
-			  									@RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<Loan>> listLoan(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffApplicationService.listLoan(page, offset));
 	}
 	
@@ -52,47 +44,25 @@ public class LoanController {
 	
 	@Operation(summary="Get loan info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Loan>> getById(@Parameter() @PathVariable("id") int lid) {
+	public ResponseEntity<Optional<Loan>> getById(@PathVariable("id") int lid) {
 		return ResponseEntity.ok(staffApplicationService.findLoanById(lid));
 	}
 	
-	@Operation(summary="Add loan info",
-			   responses= {@ApiResponse(responseCode="200",
-					   					description="Value return 1 for insert success.",
-					   					content=@Content(examples= {@ExampleObject(value="1")})),
-					   	   @ApiResponse(responseCode="403",
-					   			   		description="Value return 0 for insert fail.",
-					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-			   	 content= {@Content(mediaType="application/json", 
-	   			 schema= @Schema(implementation = Loan.class),
-	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
+	@Operation(summary="Add loan info")
 	@PostMapping
 	public ResponseEntity<Loan> insert(@RequestBody Loan loan) {
 		return ResponseEntity.ok(staffApplicationService.insertLoan(loan));
 	}
 	
-	@Operation(summary="Update loan info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for update success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for update fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Update loan info.")
 	@PutMapping("/{id}")
 	public ResponseEntity<Loan> update(@RequestBody Loan loan) {
 		return ResponseEntity.ok(staffApplicationService.updateLoan(loan));
 	}
 	
-	@Operation(summary="Delete loan info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for delete success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for delete fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Delete loan info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter() @PathVariable("id") int lid) {
+	public ResponseEntity<Integer> delete(@PathVariable("id") int lid) {
 		Integer status = staffApplicationService.deleteLoan(lid);
 		if(status==0) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);

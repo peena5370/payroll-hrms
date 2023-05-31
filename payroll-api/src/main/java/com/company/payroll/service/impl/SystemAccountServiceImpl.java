@@ -1,14 +1,20 @@
 package com.company.payroll.service.impl;
 
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.AccountMapper;
 import com.company.payroll.model.Account;
 import com.company.payroll.service.SystemAccountService;
+import com.company.payroll.util.PasswordEncryption;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -17,6 +23,12 @@ public class SystemAccountServiceImpl implements SystemAccountService {
 	
 	@Autowired
 	private AccountMapper accountMapper;
+	
+	private String directory;
+	
+	public SystemAccountServiceImpl(@Value("${file.upload.directory}") String directory) {
+		this.directory = directory;
+	}
 
 	@Override
 	public PageInfo<Account> list(int page, int offset) {
@@ -31,19 +43,43 @@ public class SystemAccountServiceImpl implements SystemAccountService {
 	}
 	
 	@Override
-	public Account insert(Account row) {
-		accountMapper.insertSelective(row);
-		return row;
+	public Account insert(Account account) throws NoSuchAlgorithmException {
+		String defaultImgPath = directory + "/images/default/img-001.png";
+		String secretkey = PasswordEncryption.convertSecretKeyToString(PasswordEncryption.generateSecretKey("HmacSHA256", 256));
+		PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(secretkey));
+		String encodedPassword = passwordEncoder.encode(account.getPassword());
+		
+		account.setPassword(encodedPassword);
+		account.setSecretkey(secretkey);
+		account.setDateCreated(LocalDateTime.now());
+		account.setAccountStatus((byte) 1);
+		account.setImgPath(defaultImgPath);
+
+		accountMapper.insertSelective(account);
+		return account;
 	}
 
 	@Override
-	public Integer updateListPassword(Account account) {
-		return accountMapper.updateByPrimaryKeySelective(account);
+	public Account updateListPassword(Account account) throws NoSuchAlgorithmException {
+		String secretkey = PasswordEncryption.convertSecretKeyToString(PasswordEncryption.generateSecretKey("HmacSHA256", 256));
+		PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(secretkey));
+		String encodedPassword = passwordEncoder.encode(account.getPassword());
+		
+		account.setPassword(encodedPassword);
+		account.setSecretkey(secretkey);
+		account.setDateModified(LocalDateTime.now());
+		
+		accountMapper.updateByPrimaryKeySelective(account);
+		
+		return account;
 	}
 	
 	@Override
 	public Account update(Account account) {
+		account.setDateModified(LocalDateTime.now());
+		
 		accountMapper.updateByPrimaryKeySelective(account);
+		
 		return account;
 	}
 	
@@ -59,7 +95,10 @@ public class SystemAccountServiceImpl implements SystemAccountService {
 	
 	@Override
 	public Account updateImagePath(Account account) {
+		account.setDateModified(LocalDateTime.now());
+		
 		accountMapper.updateImagePathByUsername(account);
+		
 		return account;
 	}
 

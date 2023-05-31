@@ -1,5 +1,6 @@
 package com.company.payroll.service.impl;
 
+import java.util.Optional;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.AccountMapper;
 import com.company.payroll.model.Account;
+//import com.company.payroll.model.AccountDetails;
 
 /**
  * load account from database and wrapped as UserDetails object
@@ -24,10 +26,11 @@ public class UserAccountServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account account = accountMapper.selectByUsername(username);
-		if(account == null) {
+		Optional<Account> account = Optional.ofNullable(accountMapper.selectByUsername(username));
+		if(account.isEmpty()) {
 			throw new UsernameNotFoundException(username);
 		}
-		return new User(username, account.getPassword(), new ArrayList<>());
+		return new User(username, account.get().getPassword(), new ArrayList<>());
+//		return new AccountDetails(account.get());
 	}
 }

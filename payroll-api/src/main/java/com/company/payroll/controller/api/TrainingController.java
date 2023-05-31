@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,17 +21,10 @@ import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/api/training")
 public class TrainingController {
-	private static final String VALUE_ONE = "{\"trainingtitle\": \"string\", \"description\": \"string\", \"mid\": 0, \"eid\": 0, "
-										  + "\"date_start\": \"2023-04-28T13:56:54.865Z\", \"date_end\": \"2023-04-28T13:56:54.865Z\", "
-										  + "\"status\": \"string\"}";
 	
 	@Autowired
 	private StaffMiscellaneousService staffMiscellaneousService;
@@ -55,44 +47,21 @@ public class TrainingController {
 		return ResponseEntity.ok(staffMiscellaneousService.findTrainingByEId(eId));
 	}
 	
-	@Operation(summary="Insert training info",
-			   responses= {@ApiResponse(responseCode="200", description="Value return 1 for insert success.",
-					   					content=@Content(examples= {@ExampleObject(value="1")})),
-					   	   @ApiResponse(responseCode="403", description="Value return 0 for insert fail.",
-					   			   		content=@Content(examples= {@ExampleObject(value="0")}))})
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-			   	 content= {@Content(mediaType="application/json", 
-	   			 schema= @Schema(implementation = Training.class),
-	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
+	@Operation(summary="Insert training info")
 	@PostMapping
 	public ResponseEntity<Training> insert(@RequestBody Training training) {
 		return ResponseEntity.ok(staffMiscellaneousService.insertTraining(training));
 	}
 	
-	@Operation(summary="Update training info.",
-			   responses= {@ApiResponse(responseCode="200", description="Value return 1 for update success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403", description="Value return 0 for update fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Update training info.")
 	@PutMapping("/{id}")
 	public ResponseEntity<Training> update(@RequestBody Training training) {
 		return ResponseEntity.ok(staffMiscellaneousService.updateTraining(training));
 	}
 
-	@Operation(summary="Delete training info.",
-			   responses= {@ApiResponse(responseCode="200",
-										description="Value return 1 for delete success.",
-										content=@Content(examples= {@ExampleObject(value="1")})),
-					   	  @ApiResponse(responseCode="403",
-					   	  				description="Value return 0 for delete fail.",
-					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
+	@Operation(summary="Delete training info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@PathVariable("id") int tId) {
-		Integer status = staffMiscellaneousService.deleteTraining(tId);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Integer> delete(@PathVariable("id") int tId) {		
+		return ResponseEntity.ok(staffMiscellaneousService.deleteTraining(tId));
 	}	
 }

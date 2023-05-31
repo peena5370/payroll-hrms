@@ -23,26 +23,30 @@ public class AccountDetails implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return account.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return account.getUsername();
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		if(account.getAccountStatus()==(byte) 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
+		if(account.getAccountStatus()==(byte) 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -53,8 +57,11 @@ public class AccountDetails implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
+		if(account.getAccountStatus()==(byte) 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
