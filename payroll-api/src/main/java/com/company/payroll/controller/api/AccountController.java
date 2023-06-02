@@ -114,14 +114,4 @@ public class AccountController {
 	public ResponseEntity<Integer> delete(@Parameter(description="Account id") @PathVariable("id") int aid) {	
 		return ResponseEntity.ok(accountService.delete(aid));
 	}
-//	
-//	@GetMapping("/list/count/all")
-//	public Integer getAllAccountCount() {
-//		return accountService.countAccount();
-//	}
-
-//	@GetMapping("/list/count/active")
-//	public Integer getActiveAccountCount() {
-//		return accountService.countAccountByStatus();
-//	}
 }

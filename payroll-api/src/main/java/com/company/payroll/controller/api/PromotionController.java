@@ -33,6 +33,12 @@ public class PromotionController {
 		return ResponseEntity.ok(staffMiscellaneousService.listPromotion(page, offset));
 	}
 	
+	@Operation(summary="Get promotion list by eid")
+	@GetMapping("/{id}/all")
+	public ResponseEntity<PageInfo<Promotion>> listByEId(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset, @PathVariable("id") int eid) {
+		return ResponseEntity.ok(staffMiscellaneousService.listPromotionByEId(page, offset, eid));
+	}
+	
 	@Operation(summary="Get promotion info by id")
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Promotion>> getById(@PathVariable("id") int pid) {

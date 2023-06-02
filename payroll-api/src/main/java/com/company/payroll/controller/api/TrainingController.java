@@ -42,9 +42,15 @@ public class TrainingController {
 	}
 	
 	@Operation(summary="Get training list by employee id")
-	@GetMapping("/{id}/all")
+	@GetMapping("/employee/{id}/all")
 	public ResponseEntity<Optional<List<Training>>> getListByEId(@Parameter(description="employee id") @PathVariable("id") int eId) {
 		return ResponseEntity.ok(staffMiscellaneousService.findTrainingByEId(eId));
+	}
+	
+	@Operation(summary="Get training list by manager id")
+	@GetMapping("/manager/{id}/all")
+	public ResponseEntity<Optional<List<Training>>> getListByMId(@Parameter(description="manager id") @PathVariable("id") int mId) {
+		return ResponseEntity.ok(staffMiscellaneousService.findTrainingByMId(mId));
 	}
 	
 	@Operation(summary="Insert training info")

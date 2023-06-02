@@ -34,6 +34,14 @@
     from training
     where e_id = #{eId,jdbcType=INTEGER}
   </select>
+  <select id="selectListByMId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from training
+    where m_id = #{mId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />

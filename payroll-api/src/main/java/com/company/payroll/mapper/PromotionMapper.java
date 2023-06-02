@@ -14,11 +14,13 @@ public interface PromotionMapper {
 
     int insertSelective(Promotion row);
     
-    List<Promotion> selectList();
-
+    List<Promotion> selectByEId(Integer eId);
+    
     Promotion selectByPrimaryKey(Integer pId);
 
-    int updateByPrimaryKeySelective(Promotion row);
+    List<Promotion> selectList();
 
     int updateByPrimaryKey(Promotion row);
+
+    int updateByPrimaryKeySelective(Promotion row);
 }

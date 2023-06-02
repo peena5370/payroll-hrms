@@ -13,6 +13,20 @@ public interface StaffDetailsService {
 	
 	/**
 	 * 
+	 * @param deptno
+	 * @return
+	 */
+	Integer countActiveEmployee(int deptno);
+	
+	/**
+	 * 
+	 * @param deptno
+	 * @return
+	 */
+	Integer countActiveManager(int deptno);
+	
+	/**
+	 * 
 	 * @param eid
 	 * @return
 	 */

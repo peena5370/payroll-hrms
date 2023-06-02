@@ -43,13 +43,13 @@ public class FileUtils {
 	 * @return String upload path
 	 */
 	public String imageUpload(MultipartFile file, String imgPath) {
-		String uploadPath = "";
+		String uploadPath = null;
 		
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         
-        Matcher regex = Pattern.compile("(\\w*)(\\.)(jpg|jpeg|png|gif)").matcher(filename);
+        Matcher regex = Pattern.compile("(\\w*)(\\.)(jpg|jpeg|png|gif)", Pattern.CASE_INSENSITIVE).matcher(filename);
 		if(!regex.matches()) {
-			uploadPath = "";
+			return uploadPath;
 		} else {
 	        String randomName = UUID.randomUUID() + filename.substring((filename.lastIndexOf(".")));
 	        
@@ -80,7 +80,7 @@ public class FileUtils {
 		
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         
-        Matcher regex = Pattern.compile("(\\w*\\p{P}.*)|([0-9])|(\\w*)(\\.)(doc|docx|pdf)").matcher(filename);
+        Matcher regex = Pattern.compile("(\\w*\\p{P}.*)|([0-9])|(\\w*)(\\.)(doc|docx|pdf)", Pattern.CASE_INSENSITIVE).matcher(filename);
 		if(!regex.matches()) {
 			return uploadPath;
 		} else {   

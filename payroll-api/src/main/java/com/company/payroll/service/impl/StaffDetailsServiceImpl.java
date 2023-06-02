@@ -34,6 +34,17 @@ public class StaffDetailsServiceImpl implements StaffDetailsService {
 	private SalaryMapper salaryMapper;
 
 	@Override
+	public Integer countActiveEmployee(int deptno) {
+		return employeeMapper.countActiveDepartmentEmployee(deptno);
+	}
+	
+
+	@Override
+	public Integer countActiveManager(int deptno) {
+		return managerMapper.countActiveDepartmentManager(deptno);
+	}
+
+	@Override
 	public Integer deleteEmployee(int eid) {
 		Integer row = 0;
 		Employee info = employeeMapper.selectByPrimaryKey(eid);
@@ -139,5 +150,4 @@ public class StaffDetailsServiceImpl implements StaffDetailsService {
 		managerMapper.updateByPrimaryKeySelective(manager);
 		return manager;
 	}
-
 }

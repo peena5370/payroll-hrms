@@ -17,6 +17,8 @@ public interface TrainingMapper {
     List<Training> selectList();
     
     List<Training> selectListByEId(int eid);
+    
+    List<Training> selectListByMId(int mid);
 
     Training selectByPrimaryKey(Integer tId);
 

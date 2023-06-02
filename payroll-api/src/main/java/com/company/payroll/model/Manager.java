@@ -48,8 +48,6 @@ public class Manager {
 
     private LocalDate dateresign;
 
-    private String attachment;
-
     private String imgUser;
 
     private Integer deptno;

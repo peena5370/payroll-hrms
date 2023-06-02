@@ -8,6 +8,8 @@ import com.company.payroll.model.Manager;
 
 @Repository
 public interface ManagerMapper {
+	int countActiveDepartmentManager(Integer deptno);
+	
     int deleteByPrimaryKey(Integer mId);
 
     int insert(Manager row);

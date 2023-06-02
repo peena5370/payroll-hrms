@@ -58,6 +58,13 @@ public interface StaffMiscellaneousService {
 	
 	/**
 	 * 
+	 * @param mId
+	 * @return
+	 */
+	Optional<List<Training>> findTrainingByMId(int mId);
+	
+	/**
+	 * 
 	 * @param tId
 	 * @return
 	 */
@@ -93,6 +100,14 @@ public interface StaffMiscellaneousService {
 	 * @return
 	 */
 	PageInfo<Promotion> listPromotion(int page, int offset);
+	
+	/**
+	 * 
+	 * @param page
+	 * @param offset
+	 * @return
+	 */
+	PageInfo<Promotion> listPromotionByEId(int page, int offset, int eId);
 	
 	/**
 	 * 

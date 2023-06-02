@@ -98,6 +98,11 @@ public class StaffMiscellaneousServiceImpl implements StaffMiscellaneousService 
 	}
 
 	@Override
+	public Optional<List<Training>> findTrainingByMId(int mId) {
+		return Optional.ofNullable(trainingMapper.selectListByMId(mId));
+	}
+
+	@Override
 	public Optional<Training> findTrainingById(int tId) {
 		return Optional.ofNullable(trainingMapper.selectByPrimaryKey(tId));
 	}
@@ -174,6 +179,13 @@ public class StaffMiscellaneousServiceImpl implements StaffMiscellaneousService 
 	public PageInfo<Promotion> listPromotion(int page, int offset) {
 		PageHelper.startPage(page, offset);
 		List<Promotion> list = promotionMapper.selectList();
+		return new PageInfo<Promotion>(list);
+	}
+
+	@Override
+	public PageInfo<Promotion> listPromotionByEId(int page, int offset, int eId) {
+		PageHelper.startPage(page, offset);
+		List<Promotion> list = promotionMapper.selectByEId(eId);
 		return new PageInfo<Promotion>(list);
 	}
 

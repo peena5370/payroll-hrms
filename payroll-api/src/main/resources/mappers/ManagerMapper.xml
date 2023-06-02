@@ -16,7 +16,6 @@
     <result column="company_email" jdbcType="VARCHAR" property="companyEmail" />
     <result column="datehired" jdbcType="DATE" property="datehired" />
     <result column="dateresign" jdbcType="DATE" property="dateresign" />
-    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
     <result column="img_user" jdbcType="VARCHAR" property="imgUser" />
     <result column="deptno" jdbcType="INTEGER" property="deptno" />
     <result column="titleno" jdbcType="INTEGER" property="titleno" />
@@ -53,13 +52,13 @@
   </resultMap>
   <sql id="Base_Column_List">
     m_id, fullname, gender, dob, age, martialstatus, education, address, state, country, 
-    phone, company_email, datehired, dateresign, attachment, img_user, deptno, titleno, 
+    phone, company_email, datehired, dateresign, img_user, deptno, titleno, 
     s_id, b_id, resign_id
   </sql>
   <select id="selectList" resultMap="BaseResultMap">
     select manager.m_id, manager.fullname, manager.gender, manager.dob, manager.age, 
     manager.martialstatus, manager.education, manager.address, manager.state, manager.country, 
-    manager.phone, manager.company_email, manager.datehired, manager.dateresign, manager.attachment, 
+    manager.phone, manager.company_email, manager.datehired, manager.dateresign, 
     manager.img_user, manager.deptno, manager.titleno,  manager.s_id, manager.b_id, manager.resign_id,
     department.deptname, title.titlename 
     from manager 
@@ -69,7 +68,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select manager.m_id, manager.fullname, manager.gender, manager.dob, manager.age, 
     manager.martialstatus, manager.education, manager.address, manager.state, manager.country, 
-    manager.phone, manager.company_email, manager.datehired, manager.dateresign, manager.attachment, 
+    manager.phone, manager.company_email, manager.datehired, manager.dateresign, 
     manager.img_user, manager.deptno, manager.titleno,  manager.s_id, manager.b_id, manager.resign_id,
     department.deptname, title.titlename, 
     salary.monthlysalary, salary.annualsalary, salary.dateupdate,
@@ -83,10 +82,15 @@
   </select>
   <select id="selectByResignId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select m_id, fullname, gender, dob, age, martialstatus, education, address, state, country, 
-    phone, company_email, datehired, dateresign, attachment, img_user, deptno, titleno, 
+    phone, company_email, datehired, dateresign, img_user, deptno, titleno, 
     s_id, b_id, resign_id
     from manager
     where resign_id = #{resignId,jdbcType=INTEGER}
+  </select>
+  <select id="countActiveDepartmentManager" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select COUNT(e_id)
+    from manager
+    where deptno= #{deptno,jdbcType=INTEGER} and resign_id is null
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from manager
@@ -100,14 +104,14 @@
       dob, age, martialstatus, 
       education, address, state, 
       country, phone, company_email, 
-      datehired, dateresign, attachment, 
+      datehired, dateresign, 
       img_user, deptno, titleno, 
       s_id, b_id, resign_id)
     values (#{mId,jdbcType=INTEGER}, #{fullname,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
       #{dob,jdbcType=DATE}, #{age,jdbcType=SMALLINT}, #{martialstatus,jdbcType=VARCHAR}, 
       #{education,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
       #{country,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{companyEmail,jdbcType=VARCHAR}, 
-      #{datehired,jdbcType=DATE}, #{dateresign,jdbcType=DATE}, #{attachment,jdbcType=VARCHAR}, 
+      #{datehired,jdbcType=DATE}, #{dateresign,jdbcType=DATE}, 
       #{imgUser,jdbcType=VARCHAR}, #{deptno,jdbcType=INTEGER}, #{titleno,jdbcType=INTEGER}, 
       #{sId,jdbcType=INTEGER}, #{bId,jdbcType=INTEGER}, #{resignId,jdbcType=INTEGER})
   </insert>
@@ -158,9 +162,6 @@
       </if>
       <if test="dateresign != null">
         dateresign,
-      </if>
-      <if test="attachment != null">
-        attachment,
       </if>
       <if test="imgUser != null">
         img_user,
@@ -224,9 +225,6 @@
       <if test="dateresign != null">
         #{dateresign,jdbcType=DATE},
       </if>
-      <if test="attachment != null">
-        #{attachment,jdbcType=VARCHAR},
-      </if>
       <if test="imgUser != null">
         #{imgUser,jdbcType=VARCHAR},
       </if>
@@ -289,9 +287,6 @@
       <if test="dateresign != null">
         dateresign = #{dateresign,jdbcType=DATE},
       </if>
-      <if test="attachment != null">
-        attachment = #{attachment,jdbcType=VARCHAR},
-      </if>
       <if test="imgUser != null">
         img_user = #{imgUser,jdbcType=VARCHAR},
       </if>
@@ -328,7 +323,6 @@
       company_email = #{companyEmail,jdbcType=VARCHAR},
       datehired = #{datehired,jdbcType=DATE},
       dateresign = #{dateresign,jdbcType=DATE},
-      attachment = #{attachment,jdbcType=VARCHAR},
       img_user = #{imgUser,jdbcType=VARCHAR},
       deptno = #{deptno,jdbcType=INTEGER},
       titleno = #{titleno,jdbcType=INTEGER},

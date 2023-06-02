@@ -33,6 +33,14 @@
     from promotion
     where p_id = #{pId,jdbcType=INTEGER}
   </select>
+  <select id="selectByEId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select promotion.p_id, promotion.currentsalary, promotion.promotesalary, 
+    promotion.promotedate, promotion.comment, promotion.e_id, title.titlename
+    from promotion
+    inner join title on promotion.titleno = title.titleno
+    where e_id = #{eId,jdbcType=INTEGER}
+    order by promotion.promotedate desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from promotion
     where p_id = #{pId,jdbcType=INTEGER}
