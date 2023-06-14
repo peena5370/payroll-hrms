@@ -1,10 +1,14 @@
 package com.company.payroll.controller.api;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +28,10 @@ import com.company.payroll.util.FileUtils;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/resign")
 public class ResignationController {
@@ -70,6 +77,27 @@ public class ResignationController {
 		}
 		
 		return ResponseEntity.ok("success");
+	}
+	
+	@Operation(summary="Download attachment")
+	@PostMapping("/{id}/attachment/download")
+	public ResponseEntity<Resource> downloadAttachment(@PathVariable("id") int id, HttpServletRequest request) {
+		Optional<Resignation> resign = staffMiscellaneousService.findResignationById(id);
+		
+		Resource resource = fileUtils.download(Paths.get(resign.get().getAttachment()));
+		
+		String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            log.info("Could not determine file type. Exception message: {}", e);
+            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(null);
+        }
+        
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
 	}
 	
 	@Operation(summary="Update resign info.")
