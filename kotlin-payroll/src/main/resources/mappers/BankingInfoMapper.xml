@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.BankingInfoMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.BankingInfo">
+    <id column="b_id" jdbcType="INTEGER" property="bId" />
+    <result column="bankname" jdbcType="VARCHAR" property="bankname" />
+    <result column="accountnum" jdbcType="BIGINT" property="accountnum" />
+    <result column="incometaxno" jdbcType="VARCHAR" property="incometaxno" />
+    <result column="epfno" jdbcType="INTEGER" property="epfno" />
+  </resultMap>
+  <sql id="tb">banking_info</sql>
+  <sql id="Base_Column_List">
+    b_id, bankname, accountnum, incometaxno, epfno
+  </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from
+  <include refid="tb" />
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from banking_info
+    where b_id = #{bId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from banking_info
+    where b_id = #{bId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.BankingInfo">
+  <selectKey keyProperty="bId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
+    insert into banking_info (b_id, bankname, accountnum, 
+      incometaxno, epfno)
+    values (#{bId,jdbcType=INTEGER}, #{bankname,jdbcType=VARCHAR}, #{accountnum,jdbcType=BIGINT}, 
+      #{incometaxno,jdbcType=VARCHAR}, #{epfno,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.BankingInfo">
+  <selectKey keyProperty="bId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
+    insert into banking_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        b_id,
+      </if>
+      <if test="bankname != null">
+        bankname,
+      </if>
+      <if test="accountnum != null">
+        accountnum,
+      </if>
+      <if test="incometaxno != null">
+        incometaxno,
+      </if>
+      <if test="epfno != null">
+        epfno,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        #{bId,jdbcType=INTEGER},
+      </if>
+      <if test="bankname != null">
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnum != null">
+        #{accountnum,jdbcType=BIGINT},
+      </if>
+      <if test="incometaxno != null">
+        #{incometaxno,jdbcType=VARCHAR},
+      </if>
+      <if test="epfno != null">
+        #{epfno,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.BankingInfo">
+    update banking_info
+    <set>
+      <if test="bankname != null">
+        bankname = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnum != null">
+        accountnum = #{accountnum,jdbcType=BIGINT},
+      </if>
+      <if test="incometaxno != null">
+        incometaxno = #{incometaxno,jdbcType=VARCHAR},
+      </if>
+      <if test="epfno != null">
+        epfno = #{epfno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where b_id = #{bId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.BankingInfo">
+    update banking_info
+    set bankname = #{bankname,jdbcType=VARCHAR},
+      accountnum = #{accountnum,jdbcType=BIGINT},
+      incometaxno = #{incometaxno,jdbcType=VARCHAR},
+      epfno = #{epfno,jdbcType=INTEGER}
+    where b_id = #{bId,jdbcType=INTEGER}
+  </update>
+</mapper>

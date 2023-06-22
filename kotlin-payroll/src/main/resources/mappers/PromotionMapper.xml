@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.PromotionMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.Promotion">
+    <id column="p_id" jdbcType="INTEGER" property="pId" />
+    <result column="currentsalary" jdbcType="DECIMAL" property="currentsalary" />
+    <result column="promotesalary" jdbcType="DECIMAL" property="promotesalary" />
+    <result column="promotedate" jdbcType="DATE" property="promotedate" />
+    <result column="titleno" jdbcType="INTEGER" property="titleno" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="e_id" jdbcType="INTEGER" property="eId" />
+    <result column="m_id" jdbcType="INTEGER" property="mId" />
+    
+    <collection property="title" ofType="com.company.payroll.model.Title">
+      <id column="titleno" jdbcType="INTEGER" property="titleno" />
+      <result column="titlename" jdbcType="VARCHAR" property="titlename" />
+      <result column="titledesc" jdbcType="VARCHAR" property="titledesc" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    p_id, currentsalary, promotesalary, promotedate, titleno, comment, e_id, m_id
+  </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select promotion.p_id, promotion.currentsalary, promotion.promotesalary, 
+    promotion.promotedate, promotion.comment, promotion.e_id, promotion.m_id,
+    title.titlename
+    from promotion
+    inner join title on promotion.titleno = title.titleno
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from promotion
+    where p_id = #{pId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByEId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select promotion.p_id, promotion.currentsalary, promotion.promotesalary, 
+    promotion.promotedate, promotion.comment, promotion.e_id, title.titlename
+    from promotion
+    inner join title on promotion.titleno = title.titleno
+    where e_id = #{eId,jdbcType=INTEGER}
+    order by promotion.promotedate desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from promotion
+    where p_id = #{pId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.Promotion">
+  <selectKey keyProperty="pId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
+    insert into promotion (p_id, currentsalary, promotesalary, 
+      promotedate, titleno, comment, 
+      e_id, m_id)
+    values (#{pId,jdbcType=INTEGER}, #{currentsalary,jdbcType=DECIMAL}, #{promotesalary,jdbcType=DECIMAL}, 
+      #{promotedate,jdbcType=DATE}, #{titleno,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, 
+      #{eId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.Promotion">
+  <selectKey keyProperty="pId" order="AFTER" resultType="java.lang.Integer">
+  	SELECT LAST_INSERT_ID()
+  </selectKey>
+    insert into promotion
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pId != null">
+        p_id,
+      </if>
+      <if test="currentsalary != null">
+        currentsalary,
+      </if>
+      <if test="promotesalary != null">
+        promotesalary,
+      </if>
+      <if test="promotedate != null">
+        promotedate,
+      </if>
+      <if test="titleno != null">
+        titleno,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="eId != null">
+        e_id,
+      </if>
+      <if test="mId != null">
+        m_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pId != null">
+        #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="currentsalary != null">
+        #{currentsalary,jdbcType=DECIMAL},
+      </if>
+      <if test="promotesalary != null">
+        #{promotesalary,jdbcType=DECIMAL},
+      </if>
+      <if test="promotedate != null">
+        #{promotedate,jdbcType=DATE},
+      </if>
+      <if test="titleno != null">
+        #{titleno,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="eId != null">
+        #{eId,jdbcType=INTEGER},
+      </if>
+      <if test="mId != null">
+        #{mId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.Promotion">
+    update promotion
+    <set>
+      <if test="currentsalary != null">
+        currentsalary = #{currentsalary,jdbcType=DECIMAL},
+      </if>
+      <if test="promotesalary != null">
+        promotesalary = #{promotesalary,jdbcType=DECIMAL},
+      </if>
+      <if test="promotedate != null">
+        promotedate = #{promotedate,jdbcType=DATE},
+      </if>
+      <if test="titleno != null">
+        titleno = #{titleno,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="eId != null">
+        e_id = #{eId,jdbcType=INTEGER},
+      </if>
+      <if test="mId != null">
+        m_id = #{mId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where p_id = #{pId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.Promotion">
+    update promotion
+    set currentsalary = #{currentsalary,jdbcType=DECIMAL},
+      promotesalary = #{promotesalary,jdbcType=DECIMAL},
+      promotedate = #{promotedate,jdbcType=DATE},
+      titleno = #{titleno,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=VARCHAR},
+      e_id = #{eId,jdbcType=INTEGER},
+      m_id = #{mId,jdbcType=INTEGER}
+    where p_id = #{pId,jdbcType=INTEGER}
+  </update>
+</mapper>
