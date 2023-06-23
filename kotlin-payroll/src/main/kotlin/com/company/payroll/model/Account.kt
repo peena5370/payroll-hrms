@@ -11,6 +11,7 @@ data class Account(
     var username: String,
     var password: String,
     var secretkey: String,
+    var roles: String,
     var dateCreated: LocalDateTime,
     var dateModified: LocalDateTime,
     var lastLogin: LocalDateTime,

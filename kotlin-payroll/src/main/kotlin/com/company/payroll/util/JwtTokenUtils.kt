@@ -40,7 +40,7 @@ class JwtTokenUtils(@Autowired private val jwtTokenProperties: JwtTokenPropertie
    * @param token
    * @return Claims
    */
-  fun getClaims(token: String?): Claims {
+  fun getClaims(token: String): Claims {
     return Jwts.parserBuilder()
         .setSigningKey(Base64.getEncoder().encode(jwtTokenProperties.key.toByteArray()))
         .build()

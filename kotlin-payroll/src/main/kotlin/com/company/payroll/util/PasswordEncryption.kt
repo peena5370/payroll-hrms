@@ -71,8 +71,8 @@ class PasswordEncryption {
    * @param  salt      Get salt value
    * @return  Base64 string
    */
-  fun generateSecurePassword(password: String, salt: String): String? {
-    var finalVal: String? = null
+  fun generateSecurePassword(password: String, salt: String): String {
+    var finalVal = ""
     val securePassword = hash(password.toCharArray(), salt.toByteArray())
     finalVal = Base64.getEncoder().encodeToString(securePassword)
     return finalVal
@@ -103,7 +103,7 @@ class PasswordEncryption {
    * @throws NoSuchAlgorithmException
    */
   @Throws(NoSuchAlgorithmException::class)
-  fun generateSecretKey(cipher: String, keySize: Int): SecretKey? {
+  fun generateSecretKey(cipher: String, keySize: Int): SecretKey {
     val keyGenerator: KeyGenerator = KeyGenerator.getInstance(cipher)
     keyGenerator.init(keySize, SecureRandom.getInstanceStrong())
     return keyGenerator.generateKey()
@@ -160,7 +160,7 @@ class PasswordEncryption {
    * @param encodedKey
    * @return
    */
-  fun convertStringToSecretKey(encodedKey: String?): SecretKey {
+  fun convertStringToSecretKey(encodedKey: String): SecretKey {
     val decodedKey: ByteArray = Base64.getDecoder().decode(encodedKey)
     return SecretKeySpec(decodedKey, 0, decodedKey.size, "AES")
   }

@@ -22,19 +22,28 @@ import java.util.regex.Pattern
  * <p> to de checked after converting from java to kotlin
  */
 @Component
-class FileUtils {
+class FileUtils(@Value("\${file.upload.directory}") directory: String) {
   private val log = KotlinLogging.logger {}
 
-  private var storageLocation: Path? = null
+  private lateinit var storageLocation: Path
 
-  fun FileUtils(@Value("\${file.upload.directory}") directory: String) {
+  init {
     storageLocation = Paths.get(directory).toAbsolutePath().normalize()
     try {
-      this.storageLocation?.let { Files.createDirectories(it) }
+      Files.createDirectories(this.storageLocation)
     } catch (e: Exception) {
-      log.warn("Failed to create file directory. Error message: {}", e)
+      log.error { "Failed to create file directory. Error message: ${e.message}" }
     }
   }
+
+//  fun FileUtils(@Value("\${file.upload.directory}") directory: String) {
+//    storageLocation = Paths.get(directory).toAbsolutePath().normalize()
+//    try {
+//      this.storageLocation?.let { Files.createDirectories(it) }
+//    } catch (e: Exception) {
+//      log.warn("Failed to create file directory. Error message: {}", e)
+//    }
+//  }
 
   /**
    * Image upload utility. Accepted image file format in (filename).(jpg/jpeg/png/gif)
@@ -46,24 +55,23 @@ class FileUtils {
    * @param imgPath
    * @return String upload path
    */
-  fun imageUpload(file: MultipartFile, imgPath: String): String? {
-    var uploadPath: String? = null
-    val filename: String? = file.originalFilename?.let { StringUtils.cleanPath(it) }
-    val regex: Matcher? = filename?.let { Pattern.compile("(\\w*)(\\.)(jpg|jpeg|png|gif)", Pattern.CASE_INSENSITIVE).matcher(it) }
-    if (regex != null) {
-      if (!regex.matches()) {
-        return uploadPath
-      } else {
-        val randomName = UUID.randomUUID().toString() + filename.substring(filename.lastIndexOf("."))
-        try {
-          val storagePath: Path = Path.of(java.lang.String.valueOf(storageLocation), imgPath)
-          Files.createDirectories(storagePath)
-          val dest: Path = storagePath.resolve(randomName)
-          Files.copy(file.inputStream, dest, StandardCopyOption.REPLACE_EXISTING)
-          uploadPath = dest.toString()
-        } catch (e: IOException) {
-          log.warn("Could not store file to directory. Error message: {}", e)
-        }
+  fun imageUpload(file: MultipartFile, imgPath: String): String {
+    var uploadPath = ""
+    val filename: String = StringUtils.cleanPath(file.originalFilename.toString())
+    val regex: Matcher = Pattern.compile("(\\w*)(\\.)(jpg|jpeg|png|gif)", Pattern.CASE_INSENSITIVE).matcher(filename)
+
+    if (!regex.matches()) {
+      return uploadPath
+    } else {
+      val randomName = UUID.randomUUID().toString() + filename.substring(filename.lastIndexOf("."))
+      try {
+        val storagePath: Path = Path.of(this.storageLocation.toString(), imgPath)
+        Files.createDirectories(storagePath)
+        val dest: Path = storagePath.resolve(randomName)
+        Files.copy(file.inputStream, dest, StandardCopyOption.REPLACE_EXISTING)
+        uploadPath = dest.toString()
+      } catch (e: IOException) {
+        log.error { "Could not store file to directory. Error message: ${e.message}" }
       }
     }
     return uploadPath
@@ -75,27 +83,27 @@ class FileUtils {
    * @param path
    * @return String upload path
    */
-  fun fileUpload(file: MultipartFile, path: String?): String? {
-    var uploadPath: String? = null
-    val filename: String? = file.originalFilename?.let { StringUtils.cleanPath(it) }
-    val regex: Matcher? = filename?.let { Pattern.compile("(\\w*\\p{P}.*)|([0-9])|(\\w*)(\\.)(doc|docx|pdf)", Pattern.CASE_INSENSITIVE).matcher(it) }
-    if (regex != null) {
-      if (!regex.matches()) {
-        return uploadPath
-      } else {
-        try {
-          val storagePath: Path = Path.of(java.lang.String.valueOf(storageLocation), path)
-          Files.createDirectories(storagePath)
-          val dest: Path? = filename?.let { storagePath.resolve(it) }
-          if (dest != null) {
-            Files.copy(file.inputStream, dest, StandardCopyOption.REPLACE_EXISTING)
-          }
-          uploadPath = dest.toString()
-        } catch (e: IOException) {
-          log.warn("Could not store file to directory. Error message: {}", e)
-        }
+  fun fileUpload(file: MultipartFile, path: String): String {
+    var uploadPath = ""
+    val filename: String = StringUtils.cleanPath(file.originalFilename.toString())
+    val regex: Matcher = Pattern.compile("(\\w*\\p{P}.*)|([0-9])|(\\w*)(\\.)(doc|docx|pdf)", Pattern.CASE_INSENSITIVE).matcher(filename)
+
+    if (!regex.matches()) {
+      return uploadPath
+    } else {
+      try {
+        val storagePath: Path = Path.of(this.storageLocation.toString(), path)
+        Files.createDirectories(storagePath)
+
+        val dest: Path = storagePath.resolve(filename)
+        Files.copy(file.inputStream, dest, StandardCopyOption.REPLACE_EXISTING)
+
+        uploadPath = dest.toString()
+      } catch (e: IOException) {
+        log.error { "Could not store file to directory. Error message: ${e.message}" }
       }
     }
+
     return uploadPath
   }
 
@@ -105,7 +113,7 @@ class FileUtils {
    *
    *  Change from download(String filename, Path path) to download(Path path)
    *
-   * @param imgPath
+   * @param path
    * @return Resource
    */
   fun download(path: Path): Resource? {
@@ -116,8 +124,9 @@ class FileUtils {
         resource = urlResource
       }
     } catch (e: MalformedURLException) {
-      log.info("File not found in directory. Error message: {}", e)
+      log.warn { "File not found in directory. Error message: ${e.message}" }
     }
+
     return resource
   }
 
@@ -126,13 +135,14 @@ class FileUtils {
    * @param path
    * @return boolean
    */
-  fun delete(path: Path?): Boolean {
+  fun delete(path: Path): Boolean {
     var bool = false
     try {
-      bool = path?.let { Files.deleteIfExists(it) } == true
+      bool = Files.deleteIfExists(path)
     } catch (e: IOException) {
-      log.info("Delete file fail. Error message: {}", e)
+      log.warn { "Delete file fail. Error message: ${e.message}" }
     }
+
     return bool
   }
 }
