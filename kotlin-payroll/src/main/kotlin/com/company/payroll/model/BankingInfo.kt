@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor
 @RequiredArgsConstructor
 data class BankingInfo(
     var bId: Int,
-    var accountBank: Long,
+    var bankName: String,
+    var bankAccount: Long,
     var incomeTaxNo: String,
     var epfNo: Int
 )

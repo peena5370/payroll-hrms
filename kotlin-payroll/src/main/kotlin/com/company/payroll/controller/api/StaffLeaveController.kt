@@ -1,6 +1,6 @@
 package com.company.payroll.controller.api
 
-import com.company.payroll.model.Leave
+import com.company.payroll.model.StaffLeave
 import com.company.payroll.service.StaffApplicationService
 import com.github.pagehelper.PageInfo
 import io.swagger.v3.oas.annotations.Operation
@@ -15,32 +15,32 @@ import io.swagger.v3.oas.annotations.Parameter;
 class StaffLeaveController(@Autowired private val staffApplicationService: StaffApplicationService) {
   @Operation(summary = "Get leave list")
   @GetMapping
-  fun listLeave(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<Leave>> {
+  fun listLeave(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffLeave>> {
     return ResponseEntity.ok(staffApplicationService.listLeave(page, offset))
   }
 
   @Operation(summary = "Get leave list by employee id")
   @GetMapping("/{id}/all")
-  fun listByEId(@Parameter(description = "employee id") @PathVariable("id") eid: Int): ResponseEntity<List<Leave>?> {
+  fun listByEId(@Parameter(description = "employee id") @PathVariable("id") eid: Int): ResponseEntity<List<StaffLeave>?> {
     return ResponseEntity.ok(staffApplicationService.findLeaveByEId(eid))
   }
 
   @Operation(summary = "Get leave info by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") lid: Int): ResponseEntity<Leave?> {
+  fun getById(@PathVariable("id") lid: Int): ResponseEntity<StaffLeave?> {
     return ResponseEntity.ok(staffApplicationService.findLeaveById(lid))
   }
 
   @Operation(summary = "Add leave info")
   @PostMapping
-  fun insert(@RequestBody leave: Leave): ResponseEntity<Leave> {
-    return ResponseEntity.ok(staffApplicationService.insertLeave(leave))
+  fun insert(@RequestBody staffLeave: StaffLeave): ResponseEntity<StaffLeave> {
+    return ResponseEntity.ok(staffApplicationService.insertLeave(staffLeave))
   }
 
   @Operation(summary = "Update leave info.")
   @PutMapping("/{id}")
-  fun update(@RequestBody leave: Leave): ResponseEntity<Leave> {
-    return ResponseEntity.ok(staffApplicationService.updateLeave(leave))
+  fun update(@RequestBody staffLeave: StaffLeave): ResponseEntity<StaffLeave> {
+    return ResponseEntity.ok(staffApplicationService.updateLeave(staffLeave))
   }
 
   @Operation(summary = "Delete leave info.")

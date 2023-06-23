@@ -1,12 +1,11 @@
 package com.company.payroll.controller.api
 
-import com.company.payroll.model.Account
+import com.company.payroll.model.SystemAccount
 import com.company.payroll.model.FileAttachment
 import com.company.payroll.service.FileAttachmentService
 import com.company.payroll.service.SystemAccountService
 import com.company.payroll.util.FileUtils
 import com.company.payroll.util.JwtTokenUtils
-import io.jsonwebtoken.Claims
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import jakarta.servlet.http.HttpServletRequest
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.nio.file.Paths
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
 
 @RestController
@@ -36,7 +33,7 @@ class FileAttachmentController(@Autowired private val fileUtils: FileUtils,
 
   @Operation(summary = "Upload profile image")
   @PostMapping("/profile/image/upload")
-  fun uploadImage(@RequestParam("file") file: MultipartFile, request: HttpServletRequest): ResponseEntity<Account> {
+  fun uploadImage(@RequestParam("file") file: MultipartFile, request: HttpServletRequest): ResponseEntity<SystemAccount> {
     TODO("to be updated")
 //    var status: Account? = null
 //    val header = request.getHeader("Authorization")

@@ -25,7 +25,7 @@ class JwtTokenUtils(@Autowired private val jwtTokenProperties: JwtTokenPropertie
   fun generateToken(username: String, claims: Map<String, Any>): String {
     val key: Key = SecretKeySpec(Base64.getEncoder().encode(jwtTokenProperties.key.toByteArray()),
         alg.jcaName)
-    val expiration = issuedAt.plus(jwtTokenProperties.ttl,
+    val expiration = issuedAt.plus(jwtTokenProperties.ttl.toLong(),
         ChronoUnit.SECONDS)
     return Jwts.builder()
         .setClaims(claims)

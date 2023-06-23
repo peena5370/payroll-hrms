@@ -4,25 +4,39 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 data class AccountDetails(
-    var authorities: MutableCollection<out GrantedAuthority>,
-    var password: String,
-    var username: String,
-    var accountNonExpired: Boolean,
-    var accountNonLocked: Boolean,
-    var credentialNonExpired: Boolean,
-    var enabled: Boolean
+    var accountAuthorities: MutableCollection<out GrantedAuthority>,
+    var accountPassword: String,
+    var accountUsername: String,
+    var accountExpired: Boolean,
+    var accountLocked: Boolean,
+    var credentialExpired: Boolean,
+    var accountEnabled: Boolean
 ): UserDetails {
-  override fun getAuthorities(): MutableCollection<out GrantedAuthority> = authorities
+  override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+    return this.accountAuthorities
+  }
 
-  override fun getPassword(): String = password
+  override fun getPassword(): String {
+    return this.accountPassword
+  }
 
-  override fun getUsername(): String = username
+  override fun getUsername(): String {
+    return this.accountUsername
+  }
 
-  override fun isAccountNonExpired(): Boolean = accountNonExpired
+  override fun isAccountNonExpired(): Boolean {
+    return this.accountExpired
+  }
 
-  override fun isAccountNonLocked(): Boolean = accountNonLocked
+  override fun isAccountNonLocked(): Boolean {
+    return this.accountLocked
+  }
 
-  override fun isCredentialsNonExpired(): Boolean = credentialNonExpired
+  override fun isCredentialsNonExpired(): Boolean {
+    return this.credentialExpired
+  }
 
-  override fun isEnabled(): Boolean = enabled
+  override fun isEnabled(): Boolean {
+    return this.accountEnabled
+  }
 }

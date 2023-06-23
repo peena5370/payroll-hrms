@@ -1,6 +1,6 @@
 package com.company.payroll.controller.api
 
-import com.company.payroll.model.Loan
+import com.company.payroll.model.StaffLoan
 import com.company.payroll.service.StaffApplicationService
 import com.github.pagehelper.PageInfo
 import io.swagger.v3.oas.annotations.Operation
@@ -15,32 +15,32 @@ import org.springframework.web.bind.annotation.*
 class StaffLoanController(@Autowired private val staffApplicationService: StaffApplicationService) {
   @Operation(summary = "Get loan list")
   @GetMapping
-  fun listLoan(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<Loan>> {
+  fun listLoan(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffLoan>> {
     return ResponseEntity.ok(staffApplicationService.listLoan(page, offset))
   }
 
   @Operation(summary = "Get loan list by employee id")
   @GetMapping("/{id}/all")
-  fun listLoanByEId(@Parameter(description = "employee id") @PathVariable("id") eid: Int): ResponseEntity<List<Loan>?> {
+  fun listLoanByEId(@Parameter(description = "employee id") @PathVariable("id") eid: Int): ResponseEntity<List<StaffLoan>?> {
     return ResponseEntity.ok(staffApplicationService.findLoanByEId(eid))
   }
 
   @Operation(summary = "Get loan info by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") lid: Int): ResponseEntity<Loan?> {
+  fun getById(@PathVariable("id") lid: Int): ResponseEntity<StaffLoan?> {
     return ResponseEntity.ok(staffApplicationService.findLoanById(lid))
   }
 
   @Operation(summary = "Add loan info")
   @PostMapping
-  fun insert(@RequestBody loan: Loan): ResponseEntity<Loan> {
-    return ResponseEntity.ok(staffApplicationService.insertLoan(loan))
+  fun insert(@RequestBody staffLoan: StaffLoan): ResponseEntity<StaffLoan> {
+    return ResponseEntity.ok(staffApplicationService.insertLoan(staffLoan))
   }
 
   @Operation(summary = "Update loan info.")
   @PutMapping("/{id}")
-  fun update(@RequestBody loan: Loan): ResponseEntity<Loan> {
-    return ResponseEntity.ok(staffApplicationService.updateLoan(loan))
+  fun update(@RequestBody staffLoan: StaffLoan): ResponseEntity<StaffLoan> {
+    return ResponseEntity.ok(staffApplicationService.updateLoan(staffLoan))
   }
 
   @Operation(summary = "Delete loan info.")

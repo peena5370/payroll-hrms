@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CompanyInfoServiceImpl: CompanyInfoService {
-  override fun deleteDepartment(deptNo: Int): Int? {
+  override fun deleteDepartment(deptNo: Int): Int {
     TODO("Not yet implemented")
   }
 

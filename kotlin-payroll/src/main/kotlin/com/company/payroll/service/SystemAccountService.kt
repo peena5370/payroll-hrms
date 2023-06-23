@@ -1,6 +1,6 @@
 package com.company.payroll.service
 
-import com.company.payroll.model.Account
+import com.company.payroll.model.SystemAccount
 import com.github.pagehelper.PageInfo
 import java.security.NoSuchAlgorithmException
 
@@ -9,14 +9,14 @@ interface SystemAccountService {
    *
    * @return
    */
-  fun list(page: Int, offset: Int): PageInfo<Account>
+  fun list(page: Int, offset: Int): PageInfo<SystemAccount>
 
   /**
    *
    * @param aId
    * @return
    */
-  fun findById(aId: Int): Account?
+  fun findById(aId: Int): SystemAccount?
 
   /**
    *
@@ -25,23 +25,23 @@ interface SystemAccountService {
    * @throws NoSuchAlgorithmException
    */
   @Throws(NoSuchAlgorithmException::class)
-  fun insert(row: Account): Account
+  fun insert(row: SystemAccount): SystemAccount
 
   /**
    *
-   * @param account
+   * @param systemAccount
    * @return
    * @throws NoSuchAlgorithmException
    */
   @Throws(NoSuchAlgorithmException::class)
-  fun updateListPassword(account: Account): Account
+  fun updateListPassword(systemAccount: SystemAccount): SystemAccount
 
   /**
    *
-   * @param account
+   * @param systemAccount
    * @return
    */
-  fun update(account: Account): Account
+  fun update(systemAccount: SystemAccount): SystemAccount
 
   /**
    *
@@ -55,12 +55,12 @@ interface SystemAccountService {
    * @param username
    * @return
    */
-  fun getByUsername(username: String): Account?
+  fun getByUsername(username: String): SystemAccount?
 
   /**
    *
-   * @param account
+   * @param systemAccount
    * @return
    */
-  fun updateImagePath(account: Account): Account
+  fun updateImagePath(systemAccount: SystemAccount): SystemAccount
 }

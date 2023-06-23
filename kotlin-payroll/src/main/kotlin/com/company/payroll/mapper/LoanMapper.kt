@@ -1,16 +1,16 @@
 package com.company.payroll.mapper
 
-import com.company.payroll.model.Loan
+import com.company.payroll.model.StaffLoan
 import org.springframework.stereotype.Repository
 
 @Repository
 interface LoanMapper {
   fun deleteByPrimaryKey(loanId: Int): Int
-  fun insert(row: Loan): Int
-  fun insertSelective(row: Loan): Int
-  fun selectList(): List<Loan>?
-  fun selectListByEId(staffId: Int): List<Loan>?
-  fun selectByPrimaryKey(loanId: Int): Loan?
-  fun updateByPrimaryKeySelective(row: Loan): Int
-  fun updateByPrimaryKey(row: Loan): Int
+  fun insert(row: StaffLoan): Int
+  fun insertSelective(row: StaffLoan): Int
+  fun selectList(): List<StaffLoan>?
+  fun selectListByEId(staffId: Int): List<StaffLoan>?
+  fun selectByPrimaryKey(loanId: Int): StaffLoan?
+  fun updateByPrimaryKeySelective(row: StaffLoan): Int
+  fun updateByPrimaryKey(row: StaffLoan): Int
 }

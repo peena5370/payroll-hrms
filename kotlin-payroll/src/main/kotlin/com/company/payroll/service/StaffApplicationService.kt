@@ -1,7 +1,7 @@
 package com.company.payroll.service
 
-import com.company.payroll.model.Leave
-import com.company.payroll.model.Loan
+import com.company.payroll.model.StaffLeave
+import com.company.payroll.model.StaffLoan
 import com.github.pagehelper.PageInfo
 
 interface StaffApplicationService {
@@ -24,50 +24,42 @@ interface StaffApplicationService {
    * @param eid
    * @return
    */
-  fun findLeaveByEId(eid: Int): List<Leave>?
+  fun findLeaveByEId(eid: Int): List<StaffLeave>?
 
   /**
    *
    * @param lid
    * @return
    */
-  fun findLeaveById(lid: Int): Leave?
+  fun findLeaveById(lid: Int): StaffLeave?
 
   /**
    *
    * @param eid
    * @return
    */
-  fun findLoanByEId(eid: Int): List<Loan>?
+  fun findLoanByEId(eid: Int): List<StaffLoan>?
 
   /**
    *
    * @param lid
    * @return
    */
-  fun findLoanById(lid: Int): Loan?
+  fun findLoanById(lid: Int): StaffLoan?
 
   /**
    *
-   * @param leave
+   * @param staffLeave
    * @return
    */
-  fun insertLeave(leave: Leave): Leave
+  fun insertLeave(staffLeave: StaffLeave): StaffLeave
 
   /**
    *
-   * @param loan
+   * @param staffLoan
    * @return
    */
-  fun insertLoan(loan: Loan): Loan
-
-  /**
-   *
-   * @param page
-   * @param offset
-   * @return
-   */
-  fun listLeave(page: Int, offset: Int): PageInfo<Leave>
+  fun insertLoan(staffLoan: StaffLoan): StaffLoan
 
   /**
    *
@@ -75,19 +67,27 @@ interface StaffApplicationService {
    * @param offset
    * @return
    */
-  fun listLoan(page: Int, offset: Int): PageInfo<Loan>
+  fun listLeave(page: Int, offset: Int): PageInfo<StaffLeave>
 
   /**
    *
-   * @param leave
+   * @param page
+   * @param offset
    * @return
    */
-  fun updateLeave(leave: Leave): Leave
+  fun listLoan(page: Int, offset: Int): PageInfo<StaffLoan>
 
   /**
    *
-   * @param loan
+   * @param staffLeave
    * @return
    */
-  fun updateLoan(loan: Loan): Loan
+  fun updateLeave(staffLeave: StaffLeave): StaffLeave
+
+  /**
+   *
+   * @param staffLoan
+   * @return
+   */
+  fun updateLoan(staffLoan: StaffLoan): StaffLoan
 }

@@ -15,6 +15,7 @@ data class StaffDetails(
     var martialStatus: String,
     var education: String,
     var address: String,
+    var postalCode: Int,
     var state: String,
     var country: String,
     var phone: String,
@@ -26,5 +27,5 @@ data class StaffDetails(
     var title: Title,
     var bankingInfo: BankingInfo,
     var salary: Salary,
-    var resignation: Resignation?
+    var manager: StaffDetails?
 )

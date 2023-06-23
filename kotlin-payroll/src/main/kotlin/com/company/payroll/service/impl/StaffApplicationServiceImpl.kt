@@ -1,7 +1,7 @@
 package com.company.payroll.service.impl
 
-import com.company.payroll.model.Leave
-import com.company.payroll.model.Loan
+import com.company.payroll.model.StaffLeave
+import com.company.payroll.model.StaffLoan
 import com.company.payroll.service.StaffApplicationService
 import com.github.pagehelper.PageInfo
 import org.springframework.stereotype.Service
@@ -16,43 +16,43 @@ class StaffApplicationServiceImpl: StaffApplicationService {
     TODO("Not yet implemented")
   }
 
-  override fun findLeaveByEId(eid: Int): List<Leave>? {
+  override fun findLeaveByEId(eid: Int): List<StaffLeave>? {
     TODO("Not yet implemented")
   }
 
-  override fun findLeaveById(lid: Int): Leave? {
+  override fun findLeaveById(lid: Int): StaffLeave? {
     TODO("Not yet implemented")
   }
 
-  override fun findLoanByEId(eid: Int): List<Loan>? {
+  override fun findLoanByEId(eid: Int): List<StaffLoan>? {
     TODO("Not yet implemented")
   }
 
-  override fun findLoanById(lid: Int): Loan? {
+  override fun findLoanById(lid: Int): StaffLoan? {
     TODO("Not yet implemented")
   }
 
-  override fun insertLeave(leave: Leave): Leave {
+  override fun insertLeave(staffLeave: StaffLeave): StaffLeave {
     TODO("Not yet implemented")
   }
 
-  override fun insertLoan(loan: Loan): Loan {
+  override fun insertLoan(staffLoan: StaffLoan): StaffLoan {
     TODO("Not yet implemented")
   }
 
-  override fun listLeave(page: Int, offset: Int): PageInfo<Leave> {
+  override fun listLeave(page: Int, offset: Int): PageInfo<StaffLeave> {
     TODO("Not yet implemented")
   }
 
-  override fun listLoan(page: Int, offset: Int): PageInfo<Loan> {
+  override fun listLoan(page: Int, offset: Int): PageInfo<StaffLoan> {
     TODO("Not yet implemented")
   }
 
-  override fun updateLeave(leave: Leave): Leave {
+  override fun updateLeave(staffLeave: StaffLeave): StaffLeave {
     TODO("Not yet implemented")
   }
 
-  override fun updateLoan(loan: Loan): Loan {
+  override fun updateLoan(staffLoan: StaffLoan): StaffLoan {
     TODO("Not yet implemented")
   }
 }
