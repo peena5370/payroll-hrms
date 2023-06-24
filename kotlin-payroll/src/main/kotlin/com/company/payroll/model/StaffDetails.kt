@@ -25,7 +25,8 @@ data class StaffDetails(
     var imgPath: String,
     var department: Department,
     var title: Title,
-    var bankingInfo: BankingInfo,
-    var salary: Salary,
+    var staffBankingInfo: StaffBankingInfo,
+    var staffSalary: StaffSalary,
+    var staffLeaveDetails: StaffLeaveDetails,
     var manager: StaffDetails?
 )

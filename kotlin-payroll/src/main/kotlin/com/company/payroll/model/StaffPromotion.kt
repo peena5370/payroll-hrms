@@ -7,12 +7,12 @@ import java.time.LocalDate
 
 @AllArgsConstructor
 @RequiredArgsConstructor
-data class Promotion(
+data class StaffPromotion(
     var pId: Int,
     var currentSalary: BigDecimal,
     var promoteSalary: BigDecimal,
     var promoteDate: LocalDate,
-    var title: Title,
     var comment: String,
+    var title: Title,
     var staffId: Int
 )

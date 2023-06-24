@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor
 
 @AllArgsConstructor
 @RequiredArgsConstructor
-data class BankingInfo(
+data class StaffBankingInfo(
     var bId: Int,
     var bankName: String,
     var bankAccount: Long,

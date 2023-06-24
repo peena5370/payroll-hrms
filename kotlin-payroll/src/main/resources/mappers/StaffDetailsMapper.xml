@@ -2,158 +2,141 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.company.payroll.mapper.StaffDetailsMapper">
   <resultMap id="BaseResultMap" type="com.company.payroll.model.StaffDetails">
-    <id column="e_id" jdbcType="INTEGER" property="staffId" />
-    <result column="fullname" jdbcType="VARCHAR" property="fullname" />
+    <id column="staff_id" jdbcType="INTEGER" property="staffId" />
+    <result column="staff_name" jdbcType="VARCHAR" property="staffName" />
     <result column="gender" jdbcType="VARCHAR" property="gender" />
-    <result column="dob" jdbcType="DATE" property="dob" />
-    <result column="age" jdbcType="SMALLINT" property="age" />
-    <result column="martialstatus" jdbcType="VARCHAR" property="martialstatus" />
+    <result column="date_of_birth" jdbcType="DATE" property="dateOfBirth" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="martial_status" jdbcType="VARCHAR" property="martialStatus" />
     <result column="education" jdbcType="VARCHAR" property="education" />
     <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="postal_code" jdbcType="INTEGER" property="postalCode" />
     <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="country" jdbcType="VARCHAR" property="country" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="company_email" jdbcType="VARCHAR" property="companyEmail" />
-    <result column="datehired" jdbcType="DATE" property="datehired" />
-    <result column="dateresign" jdbcType="DATE" property="dateresign" />
-    <result column="img_user" jdbcType="VARCHAR" property="imgUser" />
-    <result column="deptno" jdbcType="INTEGER" property="deptno" />
-    <result column="titleno" jdbcType="INTEGER" property="titleno" />
-    <result column="s_id" jdbcType="INTEGER" property="sId" />
-    <result column="b_id" jdbcType="INTEGER" property="bId" />
-    <result column="resign_id" jdbcType="INTEGER" property="resignId" />
-    
-	<association property="manager" javaType="com.company.payroll.model.StaffDetails">
-		<id column="m_id" jdbcType="INTEGER" property="mId" />
-	    <result column="mfullname" jdbcType="VARCHAR" property="fullname" />
-	</association>
-	<association property="salary" javaType="com.company.payroll.model.Salary">
-		<id column="s_id" jdbcType="INTEGER" property="sId" />
-	    <result column="monthlysalary" jdbcType="DECIMAL" property="monthlysalary" />
-	    <result column="annualsalary" jdbcType="DECIMAL" property="annualsalary" />
-	    <result column="dateupdate" jdbcType="DATE" property="dateupdate" />
-	</association>
-	<association property="bankingInfo" javaType="com.company.payroll.model.BankingInfo">
-		<id column="b_id" jdbcType="INTEGER" property="bId" />
-	    <result column="bankname" jdbcType="VARCHAR" property="bankname" />
-	    <result column="accountnum" jdbcType="BIGINT" property="accountnum" />
-	    <result column="incometaxno" jdbcType="VARCHAR" property="incometaxno" />
-	    <result column="epfno" jdbcType="INTEGER" property="epfno" />
-	</association>
-	
-    <collection property="department" ofType="com.company.payroll.model.Department">
-	    <id column="deptno" jdbcType="INTEGER" property="deptno" />
-	    <result column="deptname" jdbcType="VARCHAR" property="deptname" />
-	    <result column="dlocation" jdbcType="VARCHAR" property="location" />
-	    <result column="dstate" jdbcType="VARCHAR" property="state" />
-	    <result column="dcountry" jdbcType="VARCHAR" property="country" />
-    </collection>
-    <collection property="title" ofType="com.company.payroll.model.Title">
-      <id column="titleno" jdbcType="INTEGER" property="titleno" />
-      <result column="titlename" jdbcType="VARCHAR" property="titlename" />
-      <result column="titledesc" jdbcType="VARCHAR" property="titledesc" />
-    </collection>
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="date_hired" jdbcType="DATE" property="dateHired" />
+    <result column="date_resign" jdbcType="DATE" property="dateResign" />
+    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+    <association property="department" javaType="com.company.payroll.model.Department">
+      <id column="dept_no" jdbcType="INTEGER" property="deptNo" />
+      <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+      <result column="dept_address" jdbcType="VARCHAR" property="deptAddress" />
+      <result column="postal_code" jdbcType="INTEGER" property="postalCode" />
+      <result column="state" jdbcType="VARCHAR" property="state" />
+      <result column="country" jdbcType="VARCHAR" property="country" />
+    </association>
+    <association property="title" javaType="com.company.payroll.model.Title">
+      <id column="title_no" jdbcType="INTEGER" property="titleNo" />
+      <result column="title_name" jdbcType="VARCHAR" property="titleName" />
+      <result column="title_desc" jdbcType="VARCHAR" property="titleDesc" />
+    </association>
+    <association property="staffLeaveDetails" javaType="com.company.payroll.model.StaffLeaveDetails">
+      <id column="ld_id" jdbcType="INTEGER" property="ldId" />
+      <result column="annual_leave" jdbcType="INTEGER" property="annualLeave" />
+      <result column="hospitality_leave" jdbcType="INTEGER" property="hospitalityLeave" />
+      <result column="maternity_leave" jdbcType="INTEGER" property="maternityLeave" />
+      <result column="unpaid_leave" jdbcType="INTEGER" property="unpaidLeave" />
+    </association>
+    <association property="staffSalary" javaType="com.company.payroll.model.StaffSalary">
+      <id column="s_id" jdbcType="INTEGER" property="sId" />
+      <result column="monthly_salary" jdbcType="DECIMAL" property="monthlySalary" />
+      <result column="annual_salary" jdbcType="DECIMAL" property="annualSalary" />
+      <result column="date_update" jdbcType="DATE" property="dateUpdate" />
+    </association>
+    <association property="staffBankingInfo" javaType="com.company.payroll.model.StaffBankingInfo">
+      <id column="b_id" jdbcType="INTEGER" property="bId" />
+      <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+      <result column="bank_account" jdbcType="BIGINT" property="bankAccount" />
+      <result column="income_tax_no" jdbcType="VARCHAR" property="incomeTaxNo" />
+      <result column="epf_no" jdbcType="INTEGER" property="epfNo" />
+    </association>
+    <association property="manager" javaType="com.company.payroll.model.StaffDetails">
+      <id column="manager_id" jdbcType="INTEGER" property="staffId" />
+      <result column="staff_name" jdbcType="VARCHAR" property="staffName" />
+      <result column="gender" jdbcType="VARCHAR" property="gender" />
+      <result column="date_of_birth" jdbcType="DATE" property="dateOfBirth" />
+      <result column="age" jdbcType="INTEGER" property="age" />
+      <result column="martial_status" jdbcType="VARCHAR" property="martialStatus" />
+      <result column="education" jdbcType="VARCHAR" property="education" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="postal_code" jdbcType="INTEGER" property="postalCode" />
+      <result column="state" jdbcType="VARCHAR" property="state" />
+      <result column="country" jdbcType="VARCHAR" property="country" />
+      <result column="phone" jdbcType="VARCHAR" property="phone" />
+      <result column="email" jdbcType="VARCHAR" property="email" />
+      <result column="date_hired" jdbcType="DATE" property="dateHired" />
+      <result column="date_resign" jdbcType="DATE" property="dateResign" />
+      <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+      <result column="dept_no" jdbcType="INTEGER" property="deptNo" />
+      <result column="title_no" jdbcType="INTEGER" property="titleNo" />
+      <result column="ld_id" jdbcType="INTEGER" property="ldId" />
+      <result column="s_id" jdbcType="INTEGER" property="sId" />
+      <result column="b_id" jdbcType="INTEGER" property="bId" />
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
-    e_id, fullname, gender, dob, age, martialstatus, education, address, state, country, 
-    phone, company_email, datehired, dateresign, img_user, deptno, titleno, 
-    m_id, s_id, b_id, resign_id
+    staff_id, staff_name, gender, date_of_birth, age, martial_status, education, address, 
+    postal_code, state, country, phone, email, date_hired, date_resign, img_path, dept_no, 
+    title_no, manager_id, ld_id, s_id, b_id
   </sql>
-  <select id="selectList" resultMap="BaseResultMap">
-    select employee.e_id, employee.fullname, employee.gender, employee.dob, employee.age, 
-    employee.martialstatus, employee.education, employee.address, employee.state, 
-    employee.country, employee.phone, employee.company_email, employee.datehired, employee.dateresign, 
-    employee.img_user, employee.deptno, employee.titleno, employee.m_id, 
-    employee.s_id, employee.b_id, employee.resign_id,
-    department.deptname, title.titlename 
-    from employee
-    inner join department on employee.deptno=department.deptno
-    inner join title on employee.titleno=title.titleno
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select employee.e_id, employee.fullname, employee.gender, employee.dob, employee.age, 
-    employee.martialstatus, employee.education, employee.address, employee.state, 
-    employee.country, employee.phone, employee.company_email, employee.datehired, employee.dateresign, 
-    employee.img_user, employee.deptno, employee.titleno, employee.m_id, 
-    employee.s_id, employee.b_id, employee.resign_id,
-    department.deptname, title.titlename, 
-    manager.fullname as mfullname, 
-    salary.monthlysalary, salary.annualsalary, salary.dateupdate,
-    banking_info.bankname, banking_info.accountnum, banking_info.incometaxno, banking_info.epfno
-    from employee
-    inner join department on employee.deptno=department.deptno
-    inner join title on employee.titleno=title.titleno
-    left join manager on employee.m_id=manager.m_id
-    left join salary on employee.s_id=salary.s_id
-    left join banking_info on employee.b_id=banking_info.b_id
-    where e_id = #{eId,jdbcType=INTEGER}
-  </select>
-  <select id="selectByResignId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select e_id, fullname, gender, dob, age, martialstatus, education, address, state, country, 
-    phone, company_email, datehired, dateresign, img_user, deptno, titleno, 
-    m_id, s_id, b_id, resign_id
-    from employee
-    where resign_id = #{resignId,jdbcType=INTEGER}
-  </select>
-  <select id="countActiveDepartmentEmployee" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select COUNT(e_id)
-    from employee
-    where deptno= #{deptno,jdbcType=INTEGER} and resign_id is null
+    select 
+    <include refid="Base_Column_List" />
+    from staff_details
+    where staff_id = #{staffId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from employee
-    where e_id = #{eId,jdbcType=INTEGER}
+    delete from staff_details
+    where staff_id = #{staffId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.StaffDetails">
-  <selectKey keyProperty="eId" order="AFTER" resultType="java.lang.Integer">
-  	SELECT LAST_INSERT_ID()
-  </selectKey>
-    insert into employee (e_id, fullname, gender, 
-      dob, age, martialstatus, 
-      education, address, state, 
-      country, phone, company_email, 
-      datehired, dateresign, 
-      img_user, deptno, titleno, 
-      m_id, s_id, b_id, resign_id
-      )
-    values (#{eId,jdbcType=INTEGER}, #{fullname,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
-      #{dob,jdbcType=DATE}, #{age,jdbcType=SMALLINT}, #{martialstatus,jdbcType=VARCHAR}, 
-      #{education,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
-      #{country,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{companyEmail,jdbcType=VARCHAR}, 
-      #{datehired,jdbcType=DATE}, #{dateresign,jdbcType=DATE},  
-      #{imgUser,jdbcType=VARCHAR}, #{deptno,jdbcType=INTEGER}, #{titleno,jdbcType=INTEGER}, 
-      #{mId,jdbcType=INTEGER}, #{sId,jdbcType=INTEGER}, #{bId,jdbcType=INTEGER}, #{resignId,jdbcType=INTEGER}
-      )
+    insert into staff_details (staff_id, staff_name, gender, 
+      date_of_birth, age, martial_status, 
+      education, address, postal_code, 
+      state, country, phone, 
+      email, date_hired, date_resign, 
+      img_path, dept_no, title_no, 
+      manager_id, ld_id, s_id, 
+      b_id)
+    values (#{staffId,jdbcType=INTEGER}, #{staffName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{dateOfBirth,jdbcType=DATE}, #{age,jdbcType=INTEGER}, #{martialStatus,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{postalCode,jdbcType=INTEGER}, 
+      #{state,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{dateHired,jdbcType=DATE}, #{dateResign,jdbcType=DATE}, 
+      #{imgPath,jdbcType=VARCHAR}, #{deptNo,jdbcType=INTEGER}, #{titleNo,jdbcType=INTEGER}, 
+      #{managerId,jdbcType=INTEGER}, #{ldId,jdbcType=INTEGER}, #{sId,jdbcType=INTEGER}, 
+      #{bId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffDetails">
-  <selectKey keyProperty="eId" order="AFTER" resultType="java.lang.Integer">
-  	SELECT LAST_INSERT_ID()
-  </selectKey>
-    insert into employee
+    insert into staff_details
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="eId != null">
-        e_id,
+      <if test="staffId != null">
+        staff_id,
       </if>
-      <if test="fullname != null">
-        fullname,
+      <if test="staffName != null">
+        staff_name,
       </if>
       <if test="gender != null">
         gender,
       </if>
-      <if test="dob != null">
-        dob,
+      <if test="dateOfBirth != null">
+        date_of_birth,
       </if>
       <if test="age != null">
         age,
       </if>
-      <if test="martialstatus != null">
-        martialstatus,
+      <if test="martialStatus != null">
+        martial_status,
       </if>
       <if test="education != null">
         education,
       </if>
       <if test="address != null">
         address,
+      </if>
+      <if test="postalCode != null">
+        postal_code,
       </if>
       <if test="state != null">
         state,
@@ -164,26 +147,29 @@
       <if test="phone != null">
         phone,
       </if>
-      <if test="companyEmail != null">
-        company_email,
+      <if test="email != null">
+        email,
       </if>
-      <if test="datehired != null">
-        datehired,
+      <if test="dateHired != null">
+        date_hired,
       </if>
-      <if test="dateresign != null">
-        dateresign,
+      <if test="dateResign != null">
+        date_resign,
       </if>
-      <if test="imgUser != null">
-        img_user,
+      <if test="imgPath != null">
+        img_path,
       </if>
-      <if test="deptno != null">
-        deptno,
+      <if test="deptNo != null">
+        dept_no,
       </if>
-      <if test="titleno != null">
-        titleno,
+      <if test="titleNo != null">
+        title_no,
       </if>
-      <if test="mId != null">
-        m_id,
+      <if test="managerId != null">
+        manager_id,
+      </if>
+      <if test="ldId != null">
+        ld_id,
       </if>
       <if test="sId != null">
         s_id,
@@ -191,34 +177,34 @@
       <if test="bId != null">
         b_id,
       </if>
-      <if test="resignId != null">
-        resign_id,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="eId != null">
-        #{eId,jdbcType=INTEGER},
+      <if test="staffId != null">
+        #{staffId,jdbcType=INTEGER},
       </if>
-      <if test="fullname != null">
-        #{fullname,jdbcType=VARCHAR},
+      <if test="staffName != null">
+        #{staffName,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=VARCHAR},
       </if>
-      <if test="dob != null">
-        #{dob,jdbcType=DATE},
+      <if test="dateOfBirth != null">
+        #{dateOfBirth,jdbcType=DATE},
       </if>
       <if test="age != null">
-        #{age,jdbcType=SMALLINT},
+        #{age,jdbcType=INTEGER},
       </if>
-      <if test="martialstatus != null">
-        #{martialstatus,jdbcType=VARCHAR},
+      <if test="martialStatus != null">
+        #{martialStatus,jdbcType=VARCHAR},
       </if>
       <if test="education != null">
         #{education,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null">
+        #{postalCode,jdbcType=INTEGER},
       </if>
       <if test="state != null">
         #{state,jdbcType=VARCHAR},
@@ -229,26 +215,29 @@
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="companyEmail != null">
-        #{companyEmail,jdbcType=VARCHAR},
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
       </if>
-      <if test="datehired != null">
-        #{datehired,jdbcType=DATE},
+      <if test="dateHired != null">
+        #{dateHired,jdbcType=DATE},
       </if>
-      <if test="dateresign != null">
-        #{dateresign,jdbcType=DATE},
+      <if test="dateResign != null">
+        #{dateResign,jdbcType=DATE},
       </if>
-      <if test="imgUser != null">
-        #{imgUser,jdbcType=VARCHAR},
+      <if test="imgPath != null">
+        #{imgPath,jdbcType=VARCHAR},
       </if>
-      <if test="deptno != null">
-        #{deptno,jdbcType=INTEGER},
+      <if test="deptNo != null">
+        #{deptNo,jdbcType=INTEGER},
       </if>
-      <if test="titleno != null">
-        #{titleno,jdbcType=INTEGER},
+      <if test="titleNo != null">
+        #{titleNo,jdbcType=INTEGER},
       </if>
-      <if test="mId != null">
-        #{mId,jdbcType=INTEGER},
+      <if test="managerId != null">
+        #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="ldId != null">
+        #{ldId,jdbcType=INTEGER},
       </if>
       <if test="sId != null">
         #{sId,jdbcType=INTEGER},
@@ -256,34 +245,34 @@
       <if test="bId != null">
         #{bId,jdbcType=INTEGER},
       </if>
-      <if test="resignId != null">
-        #{resignId,jdbcType=INTEGER},
-      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.StaffDetails">
-    update employee
+    update staff_details
     <set>
-      <if test="fullname != null">
-        fullname = #{fullname,jdbcType=VARCHAR},
+      <if test="staffName != null">
+        staff_name = #{staffName,jdbcType=VARCHAR},
       </if>
       <if test="gender != null">
         gender = #{gender,jdbcType=VARCHAR},
       </if>
-      <if test="dob != null">
-        dob = #{dob,jdbcType=DATE},
+      <if test="dateOfBirth != null">
+        date_of_birth = #{dateOfBirth,jdbcType=DATE},
       </if>
       <if test="age != null">
-        age = #{age,jdbcType=SMALLINT},
+        age = #{age,jdbcType=INTEGER},
       </if>
-      <if test="martialstatus != null">
-        martialstatus = #{martialstatus,jdbcType=VARCHAR},
+      <if test="martialStatus != null">
+        martial_status = #{martialStatus,jdbcType=VARCHAR},
       </if>
       <if test="education != null">
         education = #{education,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null">
+        postal_code = #{postalCode,jdbcType=INTEGER},
       </if>
       <if test="state != null">
         state = #{state,jdbcType=VARCHAR},
@@ -294,26 +283,29 @@
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="companyEmail != null">
-        company_email = #{companyEmail,jdbcType=VARCHAR},
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="datehired != null">
-        datehired = #{datehired,jdbcType=DATE},
+      <if test="dateHired != null">
+        date_hired = #{dateHired,jdbcType=DATE},
       </if>
-      <if test="dateresign != null">
-        dateresign = #{dateresign,jdbcType=DATE},
+      <if test="dateResign != null">
+        date_resign = #{dateResign,jdbcType=DATE},
       </if>
-      <if test="imgUser != null">
-        img_user = #{imgUser,jdbcType=VARCHAR},
+      <if test="imgPath != null">
+        img_path = #{imgPath,jdbcType=VARCHAR},
       </if>
-      <if test="deptno != null">
-        deptno = #{deptno,jdbcType=INTEGER},
+      <if test="deptNo != null">
+        dept_no = #{deptNo,jdbcType=INTEGER},
       </if>
-      <if test="titleno != null">
-        titleno = #{titleno,jdbcType=INTEGER},
+      <if test="titleNo != null">
+        title_no = #{titleNo,jdbcType=INTEGER},
       </if>
-      <if test="mId != null">
-        m_id = #{mId,jdbcType=INTEGER},
+      <if test="managerId != null">
+        manager_id = #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="ldId != null">
+        ld_id = #{ldId,jdbcType=INTEGER},
       </if>
       <if test="sId != null">
         s_id = #{sId,jdbcType=INTEGER},
@@ -321,34 +313,32 @@
       <if test="bId != null">
         b_id = #{bId,jdbcType=INTEGER},
       </if>
-      <if test="resignId != null">
-        resign_id = #{resignId,jdbcType=INTEGER},
-      </if>
     </set>
-    where e_id = #{eId,jdbcType=INTEGER}
+    where staff_id = #{staffId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.StaffDetails">
-    update employee
-    set fullname = #{fullname,jdbcType=VARCHAR},
+    update staff_details
+    set staff_name = #{staffName,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=VARCHAR},
-      dob = #{dob,jdbcType=DATE},
-      age = #{age,jdbcType=SMALLINT},
-      martialstatus = #{martialstatus,jdbcType=VARCHAR},
+      date_of_birth = #{dateOfBirth,jdbcType=DATE},
+      age = #{age,jdbcType=INTEGER},
+      martial_status = #{martialStatus,jdbcType=VARCHAR},
       education = #{education,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
+      postal_code = #{postalCode,jdbcType=INTEGER},
       state = #{state,jdbcType=VARCHAR},
       country = #{country,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      company_email = #{companyEmail,jdbcType=VARCHAR},
-      datehired = #{datehired,jdbcType=DATE},
-      dateresign = #{dateresign,jdbcType=DATE},
-      img_user = #{imgUser,jdbcType=VARCHAR},
-      deptno = #{deptno,jdbcType=INTEGER},
-      titleno = #{titleno,jdbcType=INTEGER},
-      m_id = #{mId,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      date_hired = #{dateHired,jdbcType=DATE},
+      date_resign = #{dateResign,jdbcType=DATE},
+      img_path = #{imgPath,jdbcType=VARCHAR},
+      dept_no = #{deptNo,jdbcType=INTEGER},
+      title_no = #{titleNo,jdbcType=INTEGER},
+      manager_id = #{managerId,jdbcType=INTEGER},
+      ld_id = #{ldId,jdbcType=INTEGER},
       s_id = #{sId,jdbcType=INTEGER},
-      b_id = #{bId,jdbcType=INTEGER},
-      resign_id = #{resignId,jdbcType=INTEGER}
-    where e_id = #{eId,jdbcType=INTEGER}
+      b_id = #{bId,jdbcType=INTEGER}
+    where staff_id = #{staffId,jdbcType=INTEGER}
   </update>
 </mapper>

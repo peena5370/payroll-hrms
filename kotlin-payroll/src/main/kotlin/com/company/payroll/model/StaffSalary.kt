@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 @AllArgsConstructor
 @RequiredArgsConstructor
-data class Salary(
+data class StaffSalary(
     var sId: Int,
     var monthlySalary: BigDecimal,
     var annualSalary: BigDecimal,

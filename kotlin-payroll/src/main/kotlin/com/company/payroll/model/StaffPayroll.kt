@@ -9,7 +9,7 @@ import java.time.LocalDate
 @RequiredArgsConstructor
 data class StaffPayroll(
     var prId: Int,
-    var basicSalary: BigDecimal,
+    var basicPay: BigDecimal,
     var overtimePay: BigDecimal,
     var allowance: BigDecimal,
     var transport: BigDecimal,

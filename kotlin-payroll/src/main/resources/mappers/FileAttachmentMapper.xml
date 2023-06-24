@@ -5,26 +5,15 @@
     <id column="f_id" jdbcType="INTEGER" property="fId" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="file_size" jdbcType="BIGINT" property="fileSize" />
-    <result column="attachment_path" jdbcType="VARCHAR" property="attachmentPath" />
-    <result column="m_id" jdbcType="INTEGER" property="mId" />
-    <result column="e_id" jdbcType="INTEGER" property="eId" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="staff_id" jdbcType="INTEGER" property="staffId" />
   </resultMap>
-  <sql id="tb">file_attachment</sql>
   <sql id="Base_Column_List">
-    f_id, file_name, file_size, attachment_path, m_id, e_id
+    f_id, file_name, file_size, file_path, staff_id
   </sql>
-  <select id="selectListByEId"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select f_id, file_name, file_size, attachment_path, m_id, e_id
-    from file_attachment
-    where e_id = #{eId,jdbcType=INTEGER}
-  </select>
-  <select id="selectListByMId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select f_id, file_name, file_size, attachment_path, m_id, e_id
-    from file_attachment
-    where m_id = #{mId,jdbcType=INTEGER}
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select f_id, file_name, file_size, attachment_path, m_id, e_id
+    select
+    <include refid="Base_Column_List" />
     from file_attachment
     where f_id = #{fId,jdbcType=INTEGER}
   </select>
@@ -33,18 +22,12 @@
     where f_id = #{fId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.FileAttachment">
-  <selectKey keyProperty="fId" order="AFTER" resultType="java.lang.Integer">
-  	SELECT LAST_INSERT_ID()
-  </selectKey>
-    insert into file_attachment (f_id, file_name, file_size, 
-      attachment_path, m_id, e_id)
-    values (#{fId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, 
-      #{attachmentPath,jdbcType=VARCHAR}, #{mId,jdbcType=INTEGER}, #{eId,jdbcType=INTEGER})
+    insert into file_attachment (f_id, file_name, file_size,
+    file_path, staff_id)
+    values (#{fId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT},
+    #{filePath,jdbcType=VARCHAR}, #{staffId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.FileAttachment">
-  <selectKey keyProperty="fId" order="AFTER" resultType="java.lang.Integer">
-  	SELECT LAST_INSERT_ID()
-  </selectKey>
     insert into file_attachment
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="fId != null">
@@ -56,14 +39,11 @@
       <if test="fileSize != null">
         file_size,
       </if>
-      <if test="attachmentPath != null">
-        attachment_path,
+      <if test="filePath != null">
+        file_path,
       </if>
-      <if test="mId != null">
-        m_id,
-      </if>
-      <if test="eId != null">
-        e_id,
+      <if test="staffId != null">
+        staff_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -76,14 +56,11 @@
       <if test="fileSize != null">
         #{fileSize,jdbcType=BIGINT},
       </if>
-      <if test="attachmentPath != null">
-        #{attachmentPath,jdbcType=VARCHAR},
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
       </if>
-      <if test="mId != null">
-        #{mId,jdbcType=INTEGER},
-      </if>
-      <if test="eId != null">
-        #{eId,jdbcType=INTEGER},
+      <if test="staffId != null">
+        #{staffId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -96,14 +73,11 @@
       <if test="fileSize != null">
         file_size = #{fileSize,jdbcType=BIGINT},
       </if>
-      <if test="attachmentPath != null">
-        attachment_path = #{attachmentPath,jdbcType=VARCHAR},
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
       </if>
-      <if test="mId != null">
-        m_id = #{mId,jdbcType=INTEGER},
-      </if>
-      <if test="eId != null">
-        e_id = #{eId,jdbcType=INTEGER},
+      <if test="staffId != null">
+        staff_id = #{staffId,jdbcType=INTEGER},
       </if>
     </set>
     where f_id = #{fId,jdbcType=INTEGER}
@@ -111,10 +85,9 @@
   <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.FileAttachment">
     update file_attachment
     set file_name = #{fileName,jdbcType=VARCHAR},
-      file_size = #{fileSize,jdbcType=BIGINT},
-      attachment_path = #{attachmentPath,jdbcType=VARCHAR},
-      m_id = #{mId,jdbcType=INTEGER},
-      e_id = #{eId,jdbcType=INTEGER}
+    file_size = #{fileSize,jdbcType=BIGINT},
+    file_path = #{filePath,jdbcType=VARCHAR},
+    staff_id = #{staffId,jdbcType=INTEGER}
     where f_id = #{fId,jdbcType=INTEGER}
   </update>
 </mapper>

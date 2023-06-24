@@ -6,8 +6,9 @@ import java.time.LocalDate
 
 @AllArgsConstructor
 @RequiredArgsConstructor
-data class Resignation(
+data class StaffResignation(
     var resignId: String,
+    var reason: String,
     var resignDate: LocalDate,
     var resignStatus: UByte,
     var fileName: String,

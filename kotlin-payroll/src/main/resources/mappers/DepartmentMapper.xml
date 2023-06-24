@@ -2,53 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.company.payroll.mapper.DepartmentMapper">
   <resultMap id="BaseResultMap" type="com.company.payroll.model.Department">
-    <id column="deptno" jdbcType="INTEGER" property="deptno" />
-    <result column="deptname" jdbcType="VARCHAR" property="deptname" />
-    <result column="location" jdbcType="VARCHAR" property="location" />
+    <id column="dept_no" jdbcType="INTEGER" property="deptNo" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="dept_address" jdbcType="VARCHAR" property="deptAddress" />
+    <result column="postal_code" jdbcType="INTEGER" property="postalCode" />
     <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="country" jdbcType="VARCHAR" property="country" />
   </resultMap>
   <sql id="Base_Column_List">
-    deptno, deptname, location, state, country
+    dept_no, dept_name, dept_address, postal_code, state, country
   </sql>
-  <select id="selectList" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from department
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from department
-    where deptno = #{deptno,jdbcType=INTEGER}
+    where dept_no = #{deptNo,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from department
-    where deptno = #{deptno,jdbcType=INTEGER}
+    where dept_no = #{deptNo,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Department">
-  <selectKey keyProperty="deptno" order="AFTER" resultType="java.lang.Integer">
-  	SELECT LAST_INSERT_ID()
-  </selectKey>
-    insert into department (deptno, deptname, location, 
-      state, country)
-    values (#{deptno,jdbcType=INTEGER}, #{deptname,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
-      #{state,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR})
+    insert into department (dept_no, dept_name, dept_address,
+    postal_code, state, country
+    )
+    values (#{deptNo,jdbcType=INTEGER}, #{deptName,jdbcType=VARCHAR}, #{deptAddress,jdbcType=VARCHAR},
+    #{postalCode,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Department">
-  <selectKey keyProperty="deptno" order="AFTER" resultType="java.lang.Integer">
-  	SELECT LAST_INSERT_ID()
-  </selectKey>
     insert into department
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="deptno != null">
-        deptno,
+      <if test="deptNo != null">
+        dept_no,
       </if>
-      <if test="deptname != null">
-        deptname,
+      <if test="deptName != null">
+        dept_name,
       </if>
-      <if test="location != null">
-        location,
+      <if test="deptAddress != null">
+        dept_address,
+      </if>
+      <if test="postalCode != null">
+        postal_code,
       </if>
       <if test="state != null">
         state,
@@ -58,14 +53,17 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="deptno != null">
-        #{deptno,jdbcType=INTEGER},
+      <if test="deptNo != null">
+        #{deptNo,jdbcType=INTEGER},
       </if>
-      <if test="deptname != null">
-        #{deptname,jdbcType=VARCHAR},
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
       </if>
-      <if test="location != null">
-        #{location,jdbcType=VARCHAR},
+      <if test="deptAddress != null">
+        #{deptAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null">
+        #{postalCode,jdbcType=INTEGER},
       </if>
       <if test="state != null">
         #{state,jdbcType=VARCHAR},
@@ -78,11 +76,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.Department">
     update department
     <set>
-      <if test="deptname != null">
-        deptname = #{deptname,jdbcType=VARCHAR},
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
       </if>
-      <if test="location != null">
-        location = #{location,jdbcType=VARCHAR},
+      <if test="deptAddress != null">
+        dept_address = #{deptAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null">
+        postal_code = #{postalCode,jdbcType=INTEGER},
       </if>
       <if test="state != null">
         state = #{state,jdbcType=VARCHAR},
@@ -91,14 +92,15 @@
         country = #{country,jdbcType=VARCHAR},
       </if>
     </set>
-    where deptno = #{deptno,jdbcType=INTEGER}
+    where dept_no = #{deptNo,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.Department">
     update department
-    set deptname = #{deptname,jdbcType=VARCHAR},
-      location = #{location,jdbcType=VARCHAR},
-      state = #{state,jdbcType=VARCHAR},
-      country = #{country,jdbcType=VARCHAR}
-    where deptno = #{deptno,jdbcType=INTEGER}
+    set dept_name = #{deptName,jdbcType=VARCHAR},
+    dept_address = #{deptAddress,jdbcType=VARCHAR},
+    postal_code = #{postalCode,jdbcType=INTEGER},
+    state = #{state,jdbcType=VARCHAR},
+    country = #{country,jdbcType=VARCHAR}
+    where dept_no = #{deptNo,jdbcType=INTEGER}
   </update>
 </mapper>

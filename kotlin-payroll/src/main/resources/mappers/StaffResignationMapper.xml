@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.StaffResignationMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.StaffResignation">
+    <id column="resign_id" jdbcType="INTEGER" property="resignId" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="resign_date" jdbcType="DATE" property="resignDate" />
+    <result column="resign_status" jdbcType="TINYINT" property="resignStatus" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_size" jdbcType="BIGINT" property="fileSize" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="staff_id" jdbcType="INTEGER" property="staffId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    resign_id, reason, resign_date, resign_status, file_name, file_size, file_path, staff_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from staff_resignation
+    where resign_id = #{resignId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from staff_resignation
+    where resign_id = #{resignId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.StaffResignation">
+    insert into staff_resignation (resign_id, reason, resign_date, 
+      resign_status, file_name, file_size, 
+      file_path, staff_id)
+    values (#{resignId,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, #{resignDate,jdbcType=DATE}, 
+      #{resignStatus,jdbcType=TINYINT}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, 
+      #{filePath,jdbcType=VARCHAR}, #{staffId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.StaffResignation">
+    insert into staff_resignation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resignId != null">
+        resign_id,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="resignDate != null">
+        resign_date,
+      </if>
+      <if test="resignStatus != null">
+        resign_status,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="staffId != null">
+        staff_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resignId != null">
+        #{resignId,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="resignDate != null">
+        #{resignDate,jdbcType=DATE},
+      </if>
+      <if test="resignStatus != null">
+        #{resignStatus,jdbcType=TINYINT},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="staffId != null">
+        #{staffId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.StaffResignation">
+    update staff_resignation
+    <set>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="resignDate != null">
+        resign_date = #{resignDate,jdbcType=DATE},
+      </if>
+      <if test="resignStatus != null">
+        resign_status = #{resignStatus,jdbcType=TINYINT},
+      </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="staffId != null">
+        staff_id = #{staffId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where resign_id = #{resignId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.StaffResignation">
+    update staff_resignation
+    set reason = #{reason,jdbcType=VARCHAR},
+      resign_date = #{resignDate,jdbcType=DATE},
+      resign_status = #{resignStatus,jdbcType=TINYINT},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=BIGINT},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      staff_id = #{staffId,jdbcType=INTEGER}
+    where resign_id = #{resignId,jdbcType=INTEGER}
+  </update>
+</mapper>
