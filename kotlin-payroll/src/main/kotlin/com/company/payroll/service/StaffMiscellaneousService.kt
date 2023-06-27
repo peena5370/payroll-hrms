@@ -1,8 +1,8 @@
 package com.company.payroll.service
 
-import com.company.payroll.model.Promotion
-import com.company.payroll.model.Resignation
-import com.company.payroll.model.Training
+import com.company.payroll.model.StaffPromotion
+import com.company.payroll.model.StaffResignation
+import com.company.payroll.model.StaffTraining
 import com.github.pagehelper.PageInfo
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -35,36 +35,36 @@ interface StaffMiscellaneousService {
    * @param pId
    * @return
    */
-  fun findPromotionById(pId: Int): Promotion?
+  fun findPromotionById(pId: Int): StaffPromotion?
 
   /**
    *
    * @param resignId
    * @return
    */
-  fun findResignationById(resignId: Int): Resignation?
+  fun findResignationById(resignId: Int): StaffResignation?
 
   /**
    *
    * @param staffId
    * @return
    */
-  fun findTrainingByStaffId(staffId: Int): List<Training>?
+  fun findTrainingByStaffId(staffId: Int): List<StaffTraining>?
 
   /**
    *
    * @param tId
    * @return
    */
-  fun findTrainingById(tId: Int): Training?
+  fun findTrainingById(tId: Int): StaffTraining?
 
   /**
    *
-   * @param promotion
+   * @param staffPromotion
    * @return
    */
   @Transactional(rollbackFor = [Exception::class], propagation = Propagation.REQUIRES_NEW)
-  fun insertPromotion(promotion: Promotion): Promotion
+  fun insertPromotion(staffPromotion: StaffPromotion): StaffPromotion
 
   /**
    *
@@ -72,14 +72,14 @@ interface StaffMiscellaneousService {
    * @return
    */
   @Transactional(rollbackFor = [Exception::class], propagation = Propagation.REQUIRES_NEW)
-  fun insertResignation(resign: Resignation): Resignation
+  fun insertResignation(resign: StaffResignation): StaffResignation
 
   /**
    *
-   * @param training
+   * @param staffTraining
    * @return
    */
-  fun insertTraining(training: Training): Training
+  fun insertTraining(staffTraining: StaffTraining): StaffTraining
 
   /**
    *
@@ -87,7 +87,7 @@ interface StaffMiscellaneousService {
    * @param offset
    * @return
    */
-  fun listPromotion(page: Int, offset: Int): PageInfo<Promotion>
+  fun listPromotion(page: Int, offset: Int): PageInfo<StaffPromotion>
 
   /**
    *
@@ -96,7 +96,7 @@ interface StaffMiscellaneousService {
    * @param staffId
    * @return
    */
-  fun listPromotionByStaffId(page: Int, offset: Int, staffId: Int): PageInfo<Promotion>
+  fun listPromotionByStaffId(page: Int, offset: Int, staffId: Int): PageInfo<StaffPromotion>
 
   /**
    *
@@ -104,7 +104,7 @@ interface StaffMiscellaneousService {
    * @param offset
    * @return
    */
-  fun listResignation(page: Int, offset: Int): PageInfo<Resignation>
+  fun listResignation(page: Int, offset: Int): PageInfo<StaffResignation>
 
   /**
    *
@@ -112,15 +112,15 @@ interface StaffMiscellaneousService {
    * @param offset
    * @return
    */
-  fun listTraining(page: Int, offset: Int): PageInfo<Training>
+  fun listTraining(page: Int, offset: Int): PageInfo<StaffTraining>
 
   /**
    *
-   * @param promotion
+   * @param staffPromotion
    * @return
    */
   @Transactional(rollbackFor = [Exception::class], propagation = Propagation.REQUIRES_NEW)
-  fun updatePromotion(promotion: Promotion): Promotion
+  fun updatePromotion(staffPromotion: StaffPromotion): StaffPromotion
 
   /**
    *
@@ -128,12 +128,12 @@ interface StaffMiscellaneousService {
    * @return
    */
   @Transactional(rollbackFor = [Exception::class], propagation = Propagation.REQUIRES_NEW)
-  fun updateResignation(resign: Resignation): Resignation
+  fun updateResignation(resign: StaffResignation): StaffResignation
 
   /**
    *
-   * @param training
+   * @param staffTraining
    * @return
    */
-  fun updateTraining(training: Training): Training
+  fun updateTraining(staffTraining: StaffTraining): StaffTraining
 }

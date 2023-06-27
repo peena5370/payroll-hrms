@@ -11,7 +11,9 @@ interface TitleMapper {
 
   fun insertSelective(row: Title): Int
 
-  fun selectByPrimaryKey(titleNo: Int): Title?
+  fun selectByPrimaryKey(titleNo: Int): Title
+
+  fun selectList(): List<Title>
 
   fun updateByPrimaryKeySelective(row: Title): Int
 

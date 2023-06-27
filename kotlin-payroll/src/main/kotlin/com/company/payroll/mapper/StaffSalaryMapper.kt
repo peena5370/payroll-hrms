@@ -11,7 +11,7 @@ interface StaffSalaryMapper {
 
   fun insertSelective(row: StaffSalary): Int
 
-  fun selectByPrimaryKey(sId: Int): StaffSalary?
+  fun selectByPrimaryKey(sId: Int): StaffSalary
 
   fun updateByPrimaryKeySelective(row: StaffSalary): Int
 

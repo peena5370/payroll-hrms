@@ -49,7 +49,7 @@ class FileUtils(@Value("\${file.upload.directory}") directory: String) {
    * Image upload utility. Accepted image file format in (filename).(jpg/jpeg/png/gif)
    * Modified at 30 Apr 2023
    *
-   *  Change from upload(MultipartFile file, String path, int id) to imageUpload(MultipartFile file, String impPath)
+   * Change from upload(MultipartFile file, String path, int id) to imageUpload(MultipartFile file, String impPath)
    *
    * @param file
    * @param imgPath
@@ -136,11 +136,11 @@ class FileUtils(@Value("\${file.upload.directory}") directory: String) {
    * @return boolean
    */
   fun delete(path: Path): Boolean {
-    var bool = false
-    try {
-      bool = Files.deleteIfExists(path)
+    val bool = try {
+      Files.deleteIfExists(path)
     } catch (e: IOException) {
       log.warn { "Delete file fail. Error message: ${e.message}" }
+      false
     }
 
     return bool

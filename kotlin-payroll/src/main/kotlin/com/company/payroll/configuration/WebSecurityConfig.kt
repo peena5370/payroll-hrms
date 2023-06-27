@@ -5,6 +5,7 @@ import com.company.payroll.filter.JwtAuthenticationFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.web.CorsDsl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -21,7 +22,8 @@ class WebSecurityConfig(@Autowired private val jwtAuthenticationFilter: JwtAuthe
   @Bean
   fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
     http {
-      cors { disable() }
+      csrf { disable() }
+      cors { CorsDsl().configurationSource = corsConfigurationSource() }
       authorizeRequests {
 //        authorize("/api/users/login", permitAll)
 //        authorize("/swagger-ui/**",permitAll)

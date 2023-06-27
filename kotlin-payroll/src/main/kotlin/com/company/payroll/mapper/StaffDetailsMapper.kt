@@ -11,7 +11,9 @@ interface StaffDetailsMapper {
 
   fun insertSelective(row: StaffDetails): Int
 
-  fun selectByPrimaryKey(staffId: Int): StaffDetails?
+  fun selectList(): List<StaffDetails>
+
+  fun selectByPrimaryKey(staffId: Int): StaffDetails
 
   fun updateByPrimaryKeySelective(row: StaffDetails): Int
 

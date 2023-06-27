@@ -19,7 +19,7 @@ class DepartmentController(@Autowired private val companyInfoService: CompanyInf
 
   @Operation(summary = "Get department info by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") deptNo: Int): ResponseEntity<Department?> {
+  fun getById(@PathVariable("id") deptNo: Int): ResponseEntity<Department> {
     return ResponseEntity.ok(companyInfoService.findDepartmentById(deptNo))
   }
 

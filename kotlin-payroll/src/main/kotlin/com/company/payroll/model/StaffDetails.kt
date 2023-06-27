@@ -1,11 +1,9 @@
 package com.company.payroll.model
 
-import lombok.AllArgsConstructor
-import lombok.RequiredArgsConstructor
+import com.company.payroll.annotation.NoArg
 import java.time.LocalDate
 
-@AllArgsConstructor
-@RequiredArgsConstructor
+@NoArg
 data class StaffDetails(
     var staffId: Int,
     var staffName: String,
@@ -21,12 +19,18 @@ data class StaffDetails(
     var phone: String,
     var email: String,
     var dateHired: LocalDate,
-    var dateResign: LocalDate,
-    var imgPath: String,
-    var department: Department,
-    var title: Title,
-    var staffBankingInfo: StaffBankingInfo,
-    var staffSalary: StaffSalary,
-    var staffLeaveDetails: StaffLeaveDetails,
-    var manager: StaffDetails?
+    var dateResign: LocalDate?,
+    var imgPath: String?,
+    var department: Department?,
+    var title: Title?,
+    var staffBankingInfo: StaffBankingInfo?,
+    var staffSalary: StaffSalary?,
+    var staffLeaveDetails: StaffLeaveDetails?,
+    var manager: StaffDetails?,
+    var deptNo: Int,
+    var titleNo: Int,
+    var managerId: Int?,
+    var ldId: Int,
+    var sId: Int,
+    var bId: Int
 )

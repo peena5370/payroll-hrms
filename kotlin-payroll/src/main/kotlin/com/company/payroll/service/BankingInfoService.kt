@@ -1,6 +1,6 @@
 package com.company.payroll.service
 
-import com.company.payroll.model.BankingInfo
+import com.company.payroll.model.StaffBankingInfo
 
 import com.github.pagehelper.PageInfo
 
@@ -10,18 +10,18 @@ interface BankingInfoService {
    * @param bid
    * @return
    */
-  fun findById(bid: Int): BankingInfo?
+  fun findById(bid: Int): StaffBankingInfo?
 
   /**
    *
    * @return
    */
-  fun list(page: Int, offset: Int): PageInfo<BankingInfo>
+  fun list(page: Int, offset: Int): PageInfo<StaffBankingInfo>
 
   /**
    *
    * @param bank
    * @return
    */
-  fun update(bank: BankingInfo): BankingInfo
+  fun update(bank: StaffBankingInfo): StaffBankingInfo
 }

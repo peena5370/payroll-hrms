@@ -11,7 +11,7 @@ interface StaffLeaveDetailsMapper {
 
   fun insertSelective(row: StaffLeaveDetails): Int
 
-  fun selectByPrimaryKey(ldId: Int): StaffLeaveDetails?
+  fun selectByPrimaryKey(ldId: Int): StaffLeaveDetails
 
   fun updateByPrimaryKeySelective(row: StaffLeaveDetails): Int
 

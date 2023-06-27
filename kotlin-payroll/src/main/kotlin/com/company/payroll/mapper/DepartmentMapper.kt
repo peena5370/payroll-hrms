@@ -11,7 +11,9 @@ interface DepartmentMapper {
 
   fun insertSelective(row: Department): Int
 
-  fun selectByPrimaryKey(deptNo: Int): Department?
+  fun selectByPrimaryKey(deptNo: Int): Department
+
+  fun selectList(): List<Department>
 
   fun updateByPrimaryKeySelective(row: Department): Int
 

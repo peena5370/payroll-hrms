@@ -10,11 +10,11 @@ interface CompanyInfoService {
    * @param deptNo
    * @return
    */
-  fun deleteDepartment(deptNo: Int): Int?
+  fun deleteDepartment(deptNo: Int): Int
 
   /**
    *
-   * @param titleno
+   * @param titleNo
    * @return
    */
   fun deleteTitle(titleNo: Int): Int
@@ -24,14 +24,14 @@ interface CompanyInfoService {
    * @param deptNo
    * @return
    */
-  fun findDepartmentById(deptNo: Int): Department?
+  fun findDepartmentById(deptNo: Int): Department
 
   /**
    *
    * @param titleNo
    * @return
    */
-  fun findTitleById(titleNo: Int): Title?
+  fun findTitleById(titleNo: Int): Title
 
   /**
    *

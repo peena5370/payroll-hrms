@@ -11,7 +11,7 @@ interface StaffBankingInfoMapper {
 
   fun insertSelective(row: StaffBankingInfo): Int
 
-  fun selectByPrimaryKey(bId: Int): StaffBankingInfo?
+  fun selectByPrimaryKey(bId: Int): StaffBankingInfo
 
   fun updateByPrimaryKeySelective(row: StaffBankingInfo): Int
 

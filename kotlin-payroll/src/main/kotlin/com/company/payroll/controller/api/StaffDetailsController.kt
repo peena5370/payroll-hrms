@@ -38,15 +38,15 @@ class StaffDetailsController(@Autowired private val staffDetailsService: StaffDe
 
   @Operation(summary = "Get employee info by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") staffId: Int): ResponseEntity<StaffDetails?> {
+  fun getById(@PathVariable("id") staffId: Int): ResponseEntity<StaffDetails> {
     return ResponseEntity.ok(staffDetailsService.findByStaffId(staffId))
   }
 
   @Operation(summary = "Load employee image")
   @PostMapping("/{id}/image")
   fun loadImage(@PathVariable("id") staffId: Int, request: HttpServletRequest): ResponseEntity<Resource> {
-    val staff: StaffDetails? = staffDetailsService.findByStaffId(staffId)
-    val resource: Resource? = staff?.imgPath?.let { Paths.get(it) }?.let { fileUtils.download(it) }
+    val staff: StaffDetails = staffDetailsService.findByStaffId(staffId)
+    val resource: Resource? = staff.imgPath?.let { Paths.get(it) }?.let { fileUtils.download(it) }
     var contentType = ""
     if (resource != null) {
       contentType = try {
@@ -62,7 +62,7 @@ class StaffDetailsController(@Autowired private val staffDetailsService: StaffDe
   @Operation(summary = "Insert employee info")
   @PostMapping
   fun insert(@Parameter(description = "image file") @RequestPart("img") image: MultipartFile, @RequestPart("employee") staffDetails: StaffDetails): ResponseEntity<StaffDetails> {
-    val filepath = "/files/staff/list"
+    val filepath = "/staff/list"
     val contentType = image.contentType
     if (contentType == "image/jpeg" || contentType == "image/png" || contentType == "image/gif") {
       staffDetails.imgPath = fileUtils.imageUpload(image, filepath)
@@ -85,8 +85,8 @@ class StaffDetailsController(@Autowired private val staffDetailsService: StaffDe
   }
 
   @Operation(summary = "Get active employee count.")
-  @GetMapping("/count/{deptno}/active")
-  fun count(@PathVariable("deptno") deptNo: Int): ResponseEntity<Int> {
+  @GetMapping("/count/{dept_no}/active")
+  fun count(@PathVariable("dept_no") deptNo: Int): ResponseEntity<Int> {
     return ResponseEntity.ok(staffDetailsService.countActiveStaff(deptNo))
   }
 }

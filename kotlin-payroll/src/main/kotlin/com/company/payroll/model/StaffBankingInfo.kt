@@ -1,10 +1,8 @@
 package com.company.payroll.model
 
-import lombok.AllArgsConstructor
-import lombok.RequiredArgsConstructor
+import com.company.payroll.annotation.NoArg
 
-@AllArgsConstructor
-@RequiredArgsConstructor
+@NoArg
 data class StaffBankingInfo(
     var bId: Int,
     var bankName: String,

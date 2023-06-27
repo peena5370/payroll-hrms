@@ -9,8 +9,8 @@ interface AccountMapper {
   fun insert(row: SystemAccount): Int
   fun insertSelective(row: SystemAccount): Int
   fun selectList(): List<SystemAccount>
-  fun selectByPrimaryKey(aId: Int): SystemAccount?
-  fun selectByUsername(username: String): SystemAccount?
+  fun selectByPrimaryKey(aId: Int): SystemAccount
+  fun selectByUsername(username: String): SystemAccount
   fun updateByPrimaryKeySelective(row: SystemAccount): Int
   fun updateByPrimaryKey(row: SystemAccount): Int
   fun updateImagePathByUsername(row: SystemAccount): Int

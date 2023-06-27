@@ -16,7 +16,7 @@ interface SystemAccountService {
    * @param aId
    * @return
    */
-  fun findById(aId: Int): SystemAccount?
+  fun findById(aId: Int): SystemAccount
 
   /**
    *

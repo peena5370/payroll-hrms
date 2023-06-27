@@ -1,6 +1,6 @@
 package com.company.payroll.controller.api
 
-import com.company.payroll.model.Resignation
+import com.company.payroll.model.StaffResignation
 import com.company.payroll.service.StaffMiscellaneousService
 import com.company.payroll.util.FileUtils
 import com.github.pagehelper.PageInfo
@@ -26,26 +26,26 @@ class StaffResignationController(@Autowired private val staffMiscellaneousServic
 
   @Operation(summary = "Get resignation list")
   @GetMapping
-  fun listResignation(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<Resignation>> {
+  fun listResignation(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffResignation>> {
     return ResponseEntity.ok(staffMiscellaneousService.listResignation(page, offset))
   }
 
   @Operation(summary = "Get resign info by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") id: Int): ResponseEntity<Resignation?> {
+  fun getById(@PathVariable("id") id: Int): ResponseEntity<StaffResignation?> {
     return ResponseEntity.ok(staffMiscellaneousService.findResignationById(id))
   }
 
   @Operation(summary = "Insert resign info")
   @PostMapping
-  fun insert(@RequestPart("file") file: MultipartFile, @RequestPart("resignation") resignation: Resignation): ResponseEntity<String?>? {
-    val filepath = "/files/staffs/resign_files/${resignation.staffId}"
+  fun insert(@RequestPart("file") file: MultipartFile, @RequestPart("resignation") staffResignation: StaffResignation): ResponseEntity<String?>? {
+    val filepath = "/files/staffs/resign_files/${staffResignation.staffId}"
 
     if (file.contentType == "application/msword" || file.contentType == "application/pdf" || file.contentType == "application/wps-office.doc" || file.contentType == "application/wps-office.docx") {
-      resignation.fileName = file.originalFilename!!
-      resignation.fileSize = file.size
-      resignation.filePath = fileUtils.fileUpload(file, filepath)
-      staffMiscellaneousService.insertResignation(resignation)
+      staffResignation.fileName = file.originalFilename!!
+      staffResignation.fileSize = file.size
+      staffResignation.filePath = fileUtils.fileUpload(file, filepath)
+      staffMiscellaneousService.insertResignation(staffResignation)
     } else {
       return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("unsupported media type")
     }
@@ -55,7 +55,7 @@ class StaffResignationController(@Autowired private val staffMiscellaneousServic
   @Operation(summary = "Download attachment")
   @PostMapping("/{id}/attachment/download")
   fun downloadAttachment(@PathVariable("id") id: Int, request: HttpServletRequest): ResponseEntity<out Resource>? {
-    val resign: Resignation? = staffMiscellaneousService.findResignationById(id)
+    val resign: StaffResignation? = staffMiscellaneousService.findResignationById(id)
     val resource: Resource? = resign?.filePath?.let { Paths.get(it) }?.let { fileUtils.download(it) }
     var contentType: String? = null
     if (resource != null) {
@@ -76,14 +76,14 @@ class StaffResignationController(@Autowired private val staffMiscellaneousServic
 
   @Operation(summary = "Update resign info.")
   @PutMapping("/{id}")
-  fun update(@RequestBody resignation: Resignation): ResponseEntity<Resignation> {
-    return ResponseEntity.ok(staffMiscellaneousService.updateResignation(resignation))
+  fun update(@RequestBody staffResignation: StaffResignation): ResponseEntity<StaffResignation> {
+    return ResponseEntity.ok(staffMiscellaneousService.updateResignation(staffResignation))
   }
 
   @Operation(summary = "Delete resign info.")
   @DeleteMapping("/{id}")
   fun delete(@PathVariable("id") id: Int): ResponseEntity<Int?>? {
-    val resign: Resignation? = staffMiscellaneousService.findResignationById(id)
+    val resign: StaffResignation? = staffMiscellaneousService.findResignationById(id)
     if (resign != null) {
       fileUtils.delete(Paths.get(resign.filePath))
     }

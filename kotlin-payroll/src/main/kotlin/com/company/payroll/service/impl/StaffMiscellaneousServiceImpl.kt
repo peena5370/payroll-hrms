@@ -1,8 +1,8 @@
 package com.company.payroll.service.impl
 
-import com.company.payroll.model.Promotion
-import com.company.payroll.model.Resignation
-import com.company.payroll.model.Training
+import com.company.payroll.model.StaffPromotion
+import com.company.payroll.model.StaffResignation
+import com.company.payroll.model.StaffTraining
 import com.company.payroll.service.StaffMiscellaneousService
 import com.github.pagehelper.PageInfo
 import org.springframework.stereotype.Service
@@ -21,59 +21,59 @@ class StaffMiscellaneousServiceImpl: StaffMiscellaneousService {
     TODO("Not yet implemented")
   }
 
-  override fun findPromotionById(pId: Int): Promotion? {
+  override fun findPromotionById(pId: Int): StaffPromotion? {
     TODO("Not yet implemented")
   }
 
-  override fun findResignationById(resignId: Int): Resignation? {
+  override fun findResignationById(resignId: Int): StaffResignation? {
     TODO("Not yet implemented")
   }
 
-  override fun findTrainingByStaffId(staffId: Int): List<Training>? {
+  override fun findTrainingByStaffId(staffId: Int): List<StaffTraining>? {
     TODO("Not yet implemented")
   }
 
-  override fun findTrainingById(tId: Int): Training? {
+  override fun findTrainingById(tId: Int): StaffTraining? {
     TODO("Not yet implemented")
   }
 
-  override fun insertPromotion(promotion: Promotion): Promotion {
+  override fun insertPromotion(staffPromotion: StaffPromotion): StaffPromotion {
     TODO("Not yet implemented")
   }
 
-  override fun insertResignation(resign: Resignation): Resignation {
+  override fun insertResignation(resign: StaffResignation): StaffResignation {
     TODO("Not yet implemented")
   }
 
-  override fun insertTraining(training: Training): Training {
+  override fun insertTraining(staffTraining: StaffTraining): StaffTraining {
     TODO("Not yet implemented")
   }
 
-  override fun listPromotion(page: Int, offset: Int): PageInfo<Promotion> {
+  override fun listPromotion(page: Int, offset: Int): PageInfo<StaffPromotion> {
     TODO("Not yet implemented")
   }
 
-  override fun listPromotionByStaffId(page: Int, offset: Int, staffId: Int): PageInfo<Promotion> {
+  override fun listPromotionByStaffId(page: Int, offset: Int, staffId: Int): PageInfo<StaffPromotion> {
     TODO("Not yet implemented")
   }
 
-  override fun listResignation(page: Int, offset: Int): PageInfo<Resignation> {
+  override fun listResignation(page: Int, offset: Int): PageInfo<StaffResignation> {
     TODO("Not yet implemented")
   }
 
-  override fun listTraining(page: Int, offset: Int): PageInfo<Training> {
+  override fun listTraining(page: Int, offset: Int): PageInfo<StaffTraining> {
     TODO("Not yet implemented")
   }
 
-  override fun updatePromotion(promotion: Promotion): Promotion {
+  override fun updatePromotion(staffPromotion: StaffPromotion): StaffPromotion {
     TODO("Not yet implemented")
   }
 
-  override fun updateResignation(resign: Resignation): Resignation {
+  override fun updateResignation(resign: StaffResignation): StaffResignation {
     TODO("Not yet implemented")
   }
 
-  override fun updateTraining(training: Training): Training {
+  override fun updateTraining(staffTraining: StaffTraining): StaffTraining {
     TODO("Not yet implemented")
   }
 }

@@ -26,7 +26,7 @@ interface StaffDetailsService {
    * @param staffId
    * @return
    */
-  fun findByStaffId(staffId: Int): StaffDetails?
+  fun findByStaffId(staffId: Int): StaffDetails
 
   /**
    *
