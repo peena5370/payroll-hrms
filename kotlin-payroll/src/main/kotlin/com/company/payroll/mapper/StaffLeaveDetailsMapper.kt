@@ -13,6 +13,8 @@ interface StaffLeaveDetailsMapper {
 
   fun selectByPrimaryKey(ldId: Int): StaffLeaveDetails
 
+  fun selectList(): List<StaffLeaveDetails>
+
   fun updateByPrimaryKeySelective(row: StaffLeaveDetails): Int
 
   fun updateByPrimaryKey(row: StaffLeaveDetails): Int

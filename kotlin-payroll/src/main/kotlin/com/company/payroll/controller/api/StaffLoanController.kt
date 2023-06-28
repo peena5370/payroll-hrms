@@ -6,29 +6,28 @@ import com.github.pagehelper.PageInfo
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/loan")
+@RequestMapping("/api/application/loan")
 class StaffLoanController(@Autowired private val staffApplicationService: StaffApplicationService) {
   @Operation(summary = "Get loan list")
   @GetMapping
-  fun listLoan(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffLoan>> {
+  fun list(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffLoan>> {
     return ResponseEntity.ok(staffApplicationService.listLoan(page, offset))
   }
 
   @Operation(summary = "Get loan list by employee id")
   @GetMapping("/{id}/all")
-  fun listLoanByEId(@Parameter(description = "employee id") @PathVariable("id") eid: Int): ResponseEntity<List<StaffLoan>?> {
-    return ResponseEntity.ok(staffApplicationService.findLoanByEId(eid))
+  fun listByStaffId(@Parameter(description = "employee id") @PathVariable("id") staffId: Int): ResponseEntity<List<StaffLoan>> {
+    return ResponseEntity.ok(staffApplicationService.findLoanByStaffId(staffId))
   }
 
   @Operation(summary = "Get loan info by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") lid: Int): ResponseEntity<StaffLoan?> {
-    return ResponseEntity.ok(staffApplicationService.findLoanById(lid))
+  fun findById(@PathVariable("id") loanId: Int): ResponseEntity<StaffLoan> {
+    return ResponseEntity.ok(staffApplicationService.findLoanById(loanId))
   }
 
   @Operation(summary = "Add loan info")
@@ -45,10 +44,7 @@ class StaffLoanController(@Autowired private val staffApplicationService: StaffA
 
   @Operation(summary = "Delete loan info.")
   @DeleteMapping("/{id}")
-  fun delete(@PathVariable("id") lid: Int): ResponseEntity<Int> {
-    val status = staffApplicationService.deleteLoan(lid)
-    return if (status == 0) {
-      ResponseEntity.status(HttpStatus.FORBIDDEN).body(status)
-    } else ResponseEntity.ok(status)
+  fun delete(@PathVariable("id") loanId: Int): ResponseEntity<Int> {
+    return ResponseEntity.ok(staffApplicationService.deleteLoan(loanId))
   }
 }

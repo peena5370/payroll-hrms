@@ -1,12 +1,10 @@
 package com.company.payroll.model
 
-import lombok.AllArgsConstructor
-import lombok.RequiredArgsConstructor
+import com.company.payroll.annotation.NoArg
 import java.math.BigDecimal
 import java.time.LocalDate
 
-@AllArgsConstructor
-@RequiredArgsConstructor
+@NoArg
 data class StaffPayroll(
     var prId: Int,
     var basicPay: BigDecimal,

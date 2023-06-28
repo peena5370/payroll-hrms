@@ -1,33 +1,39 @@
 package com.company.payroll.service.impl
 
+import com.company.payroll.mapper.StaffPayrollMapper
 import com.company.payroll.model.StaffPayroll
 import com.company.payroll.service.StaffPayrollService
+import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class StaffPayrollServiceImpl: StaffPayrollService {
+class StaffPayrollServiceImpl(@Autowired private val staffPayrollMapper: StaffPayrollMapper): StaffPayrollService {
   override fun deleteStaffPayroll(prId: Int): Int {
-    TODO("Not yet implemented")
+    return staffPayrollMapper.deleteByPrimaryKey(prId)
   }
 
-  override fun findStaffPayrollById(prId: Int): StaffPayroll? {
-    TODO("Not yet implemented")
+  override fun findStaffPayrollById(prId: Int): StaffPayroll {
+    return staffPayrollMapper.selectByPrimaryKey(prId)
   }
 
-  override fun findStaffPayrollByStaffId(staffId: Int): List<StaffPayroll>? {
-    TODO("Not yet implemented")
+  override fun findStaffPayrollByStaffId(staffId: Int): List<StaffPayroll> {
+    return staffPayrollMapper.selectListByStaffId(staffId)
   }
 
   override fun insertStaffPayroll(staffPayroll: StaffPayroll): StaffPayroll {
-    TODO("Not yet implemented")
+    staffPayrollMapper.insertSelective(staffPayroll)
+    return staffPayroll
   }
 
   override fun listStaffPayroll(page: Int, offset: Int): PageInfo<StaffPayroll> {
-    TODO("Not yet implemented")
+    PageHelper.startPage<StaffPayroll>(page, offset)
+    return PageInfo<StaffPayroll>(staffPayrollMapper.selectList())
   }
 
   override fun updateStaffPayroll(staffPayroll: StaffPayroll): StaffPayroll {
-    TODO("Not yet implemented")
+    staffPayrollMapper.updateByPrimaryKeySelective(staffPayroll)
+    return staffPayroll
   }
 }

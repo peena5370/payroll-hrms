@@ -11,7 +11,11 @@ interface StaffPayrollMapper {
 
   fun insertSelective(row: StaffPayroll): Int
 
-  fun selectByPrimaryKey(prId: Int): StaffPayroll?
+  fun selectByPrimaryKey(prId: Int): StaffPayroll
+
+  fun selectList(): List<StaffPayroll>
+
+  fun selectListByStaffId(staffId: Int): List<StaffPayroll>
 
   fun updateByPrimaryKeySelective(row: StaffPayroll): Int
 

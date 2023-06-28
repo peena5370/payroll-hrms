@@ -10,24 +10,24 @@ import org.springframework.web.bind.annotation.*
 import io.swagger.v3.oas.annotations.Parameter
 
 @RestController
-@RequestMapping("/api/training")
+@RequestMapping("/api/staff/training")
 class StaffTrainingController(@Autowired private val staffMiscellaneousService: StaffMiscellaneousService) {
   @Operation(summary = "Get training list")
   @GetMapping
-  fun listTraining(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffTraining>> {
+  fun list(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffTraining>> {
     return ResponseEntity.ok(staffMiscellaneousService.listTraining(page, offset))
   }
 
   @Operation(summary = "Get training info by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") tId: Int): ResponseEntity<StaffTraining?> {
+  fun findById(@PathVariable("id") tId: Int): ResponseEntity<StaffTraining> {
     return ResponseEntity.ok(staffMiscellaneousService.findTrainingById(tId))
   }
 
-  @Operation(summary = "Get training list by employee id")
-  @GetMapping("/employee/{id}/all")
-  fun getListByStaffId(@Parameter(description = "employee id") @PathVariable("id") eId: Int): ResponseEntity<List<StaffTraining>?> {
-    return ResponseEntity.ok(staffMiscellaneousService.findTrainingByStaffId(eId))
+  @Operation(summary = "Get training list by staff_id")
+  @GetMapping("/{staff_id}/all")
+  fun listByStaffId(@Parameter(description = "employee id") @PathVariable("staff_id") staffId: Int): ResponseEntity<List<StaffTraining>> {
+    return ResponseEntity.ok(staffMiscellaneousService.listTrainingByStaffId(staffId))
   }
 
   @Operation(summary = "Insert training info")

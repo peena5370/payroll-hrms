@@ -6,6 +6,7 @@ import com.company.payroll.model.StaffTraining
 import com.github.pagehelper.PageInfo
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 interface StaffMiscellaneousService {
   /**
@@ -35,28 +36,21 @@ interface StaffMiscellaneousService {
    * @param pId
    * @return
    */
-  fun findPromotionById(pId: Int): StaffPromotion?
+  fun findPromotionById(pId: Int): StaffPromotion
 
   /**
    *
    * @param resignId
    * @return
    */
-  fun findResignationById(resignId: Int): StaffResignation?
-
-  /**
-   *
-   * @param staffId
-   * @return
-   */
-  fun findTrainingByStaffId(staffId: Int): List<StaffTraining>?
+  fun findResignationById(resignId: Int): StaffResignation
 
   /**
    *
    * @param tId
    * @return
    */
-  fun findTrainingById(tId: Int): StaffTraining?
+  fun findTrainingById(tId: Int): StaffTraining
 
   /**
    *
@@ -72,7 +66,7 @@ interface StaffMiscellaneousService {
    * @return
    */
   @Transactional(rollbackFor = [Exception::class], propagation = Propagation.REQUIRES_NEW)
-  fun insertResignation(resign: StaffResignation): StaffResignation
+  fun insertResignation(attachment: MultipartFile, staffResignation: StaffResignation): StaffResignation
 
   /**
    *
@@ -116,6 +110,13 @@ interface StaffMiscellaneousService {
 
   /**
    *
+   * @param staffId
+   * @return
+   */
+  fun listTrainingByStaffId(staffId: Int): List<StaffTraining>
+
+  /**
+   *
    * @param staffPromotion
    * @return
    */
@@ -128,7 +129,7 @@ interface StaffMiscellaneousService {
    * @return
    */
   @Transactional(rollbackFor = [Exception::class], propagation = Propagation.REQUIRES_NEW)
-  fun updateResignation(resign: StaffResignation): StaffResignation
+  fun updateResignation(staffResignation: StaffResignation): StaffResignation
 
   /**
    *

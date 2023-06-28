@@ -11,7 +11,11 @@ interface StaffPromotionMapper {
 
   fun insertSelective(row: StaffPromotion): Int
 
-  fun selectByPrimaryKey(pId: Int): StaffPromotion?
+  fun selectByPrimaryKey(pId: Int): StaffPromotion
+
+  fun selectList(): List<StaffPromotion>
+
+  fun selectListByStaffId(staffId: Int): List<StaffPromotion>
 
   fun updateByPrimaryKeySelective(row: StaffPromotion): Int
 

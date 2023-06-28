@@ -11,7 +11,11 @@ interface StaffLoanMapper {
 
   fun insertSelective(row: StaffLoan): Int
 
-  fun selectByPrimaryKey(loanId: Int): StaffLoan?
+  fun selectByPrimaryKey(loanId: Int): StaffLoan
+
+  fun selectList(): List<StaffLoan>
+
+  fun selectListByStaffId(staffId: Int): List<StaffLoan>
 
   fun updateByPrimaryKeySelective(row: StaffLoan): Int
 

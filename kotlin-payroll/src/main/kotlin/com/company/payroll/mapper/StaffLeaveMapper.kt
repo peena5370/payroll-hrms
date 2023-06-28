@@ -12,7 +12,11 @@ interface StaffLeaveMapper {
 
   fun insertSelective(row: StaffLeave): Int
 
-  fun selectByPrimaryKey(lId: Int): StaffLeave?
+  fun selectByPrimaryKey(lId: Int): StaffLeave
+
+  fun selectList(): List<StaffLeave>
+
+  fun selectListByStaffId(staffId: Int): List<StaffLeave>
 
   fun updateByPrimaryKeySelective(row: StaffLeave): Int
 

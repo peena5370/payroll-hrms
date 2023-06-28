@@ -14,38 +14,38 @@ interface StaffApplicationService {
 
   /**
    *
-   * @param lid
+   * @param loanId
    * @return
    */
-  fun deleteLoan(lid: Int): Int
+  fun deleteLoan(loanId: Int): Int
 
   /**
    *
-   * @param eid
+   * @param staffId
    * @return
    */
-  fun findLeaveByEId(eid: Int): List<StaffLeave>?
-
-  /**
-   *
-   * @param lid
-   * @return
-   */
-  fun findLeaveById(lid: Int): StaffLeave?
-
-  /**
-   *
-   * @param eid
-   * @return
-   */
-  fun findLoanByEId(eid: Int): List<StaffLoan>?
+  fun findLeaveByStaffId(staffId: Int): List<StaffLeave>
 
   /**
    *
    * @param lid
    * @return
    */
-  fun findLoanById(lid: Int): StaffLoan?
+  fun findLeaveById(lid: Int): StaffLeave
+
+  /**
+   *
+   * @param staffId
+   * @return
+   */
+  fun findLoanByStaffId(staffId: Int): List<StaffLoan>
+
+  /**
+   *
+   * @param loanId
+   * @return
+   */
+  fun findLoanById(loanId: Int): StaffLoan
 
   /**
    *

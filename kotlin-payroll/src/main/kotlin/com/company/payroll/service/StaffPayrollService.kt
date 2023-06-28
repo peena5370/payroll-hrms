@@ -16,14 +16,14 @@ interface StaffPayrollService {
    * @param prId
    * @return
    */
-  fun findStaffPayrollById(prId: Int): StaffPayroll?
+  fun findStaffPayrollById(prId: Int): StaffPayroll
 
   /**
    *
    * @param staffId
    * @return
    */
-  fun findStaffPayrollByStaffId(staffId: Int): List<StaffPayroll>?
+  fun findStaffPayrollByStaffId(staffId: Int): List<StaffPayroll>
 
   /**
    *

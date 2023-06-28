@@ -13,6 +13,8 @@ interface StaffSalaryMapper {
 
   fun selectByPrimaryKey(sId: Int): StaffSalary
 
+  fun selectList(): List<StaffSalary>
+
   fun updateByPrimaryKeySelective(row: StaffSalary): Int
 
   fun updateByPrimaryKey(row: StaffSalary): Int

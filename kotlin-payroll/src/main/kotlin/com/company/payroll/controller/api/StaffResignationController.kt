@@ -19,7 +19,7 @@ import java.io.IOException
 import java.nio.file.Paths
 
 @RestController
-@RequestMapping("/api/resign")
+@RequestMapping("/api/staff/resign")
 class StaffResignationController(@Autowired private val staffMiscellaneousService: StaffMiscellaneousService,
                                  @Autowired private val fileUtils: FileUtils) {
   private val log = KotlinLogging.logger {}
@@ -38,25 +38,15 @@ class StaffResignationController(@Autowired private val staffMiscellaneousServic
 
   @Operation(summary = "Insert resign info")
   @PostMapping
-  fun insert(@RequestPart("file") file: MultipartFile, @RequestPart("resignation") staffResignation: StaffResignation): ResponseEntity<String?>? {
-    val filepath = "/files/staffs/resign_files/${staffResignation.staffId}"
-
-    if (file.contentType == "application/msword" || file.contentType == "application/pdf" || file.contentType == "application/wps-office.doc" || file.contentType == "application/wps-office.docx") {
-      staffResignation.fileName = file.originalFilename!!
-      staffResignation.fileSize = file.size
-      staffResignation.filePath = fileUtils.fileUpload(file, filepath)
-      staffMiscellaneousService.insertResignation(staffResignation)
-    } else {
-      return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("unsupported media type")
-    }
-    return ResponseEntity.ok("success")
+  fun insert(@RequestPart("file") attachment: MultipartFile, @RequestPart("resignation") staffResignation: StaffResignation): ResponseEntity<StaffResignation> {
+    return ResponseEntity.ok(staffMiscellaneousService.insertResignation(attachment, staffResignation))
   }
 
   @Operation(summary = "Download attachment")
   @PostMapping("/{id}/attachment/download")
   fun downloadAttachment(@PathVariable("id") id: Int, request: HttpServletRequest): ResponseEntity<out Resource>? {
-    val resign: StaffResignation? = staffMiscellaneousService.findResignationById(id)
-    val resource: Resource? = resign?.filePath?.let { Paths.get(it) }?.let { fileUtils.download(it) }
+    val resign: StaffResignation = staffMiscellaneousService.findResignationById(id)
+    val resource: Resource? = resign.filePath?.let { Paths.get(it) }?.let { fileUtils.download(it) }
     var contentType: String? = null
     if (resource != null) {
       contentType = try {
@@ -82,11 +72,7 @@ class StaffResignationController(@Autowired private val staffMiscellaneousServic
 
   @Operation(summary = "Delete resign info.")
   @DeleteMapping("/{id}")
-  fun delete(@PathVariable("id") id: Int): ResponseEntity<Int?>? {
-    val resign: StaffResignation? = staffMiscellaneousService.findResignationById(id)
-    if (resign != null) {
-      fileUtils.delete(Paths.get(resign.filePath))
-    }
+  fun delete(@PathVariable("id") id: Int): ResponseEntity<Int> {
     return ResponseEntity.ok(staffMiscellaneousService.deleteResignation(id))
   }
 }

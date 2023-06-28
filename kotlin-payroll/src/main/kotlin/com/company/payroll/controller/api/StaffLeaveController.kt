@@ -5,13 +5,12 @@ import com.company.payroll.service.StaffApplicationService
 import com.github.pagehelper.PageInfo
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
-@RequestMapping("/api/leave")
+@RequestMapping("/api/application/leave")
 class StaffLeaveController(@Autowired private val staffApplicationService: StaffApplicationService) {
   @Operation(summary = "Get leave list")
   @GetMapping
@@ -21,13 +20,13 @@ class StaffLeaveController(@Autowired private val staffApplicationService: Staff
 
   @Operation(summary = "Get leave list by employee id")
   @GetMapping("/{id}/all")
-  fun listByEId(@Parameter(description = "employee id") @PathVariable("id") eid: Int): ResponseEntity<List<StaffLeave>?> {
-    return ResponseEntity.ok(staffApplicationService.findLeaveByEId(eid))
+  fun listByEId(@Parameter(description = "employee id") @PathVariable("id") staffId: Int): ResponseEntity<List<StaffLeave>> {
+    return ResponseEntity.ok(staffApplicationService.findLeaveByStaffId(staffId))
   }
 
   @Operation(summary = "Get leave info by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") lid: Int): ResponseEntity<StaffLeave?> {
+  fun getById(@PathVariable("id") lid: Int): ResponseEntity<StaffLeave> {
     return ResponseEntity.ok(staffApplicationService.findLeaveById(lid))
   }
 
@@ -46,9 +45,6 @@ class StaffLeaveController(@Autowired private val staffApplicationService: Staff
   @Operation(summary = "Delete leave info.")
   @DeleteMapping("/{id}")
   fun delete(@PathVariable("id") lid: Int): ResponseEntity<Int> {
-    val status = staffApplicationService.deleteLeave(lid)
-    return if (status == 0) {
-      ResponseEntity.status(HttpStatus.FORBIDDEN).body(status)
-    } else ResponseEntity.ok(status)
+    return ResponseEntity.ok(staffApplicationService.deleteLeave(lid))
   }
 }

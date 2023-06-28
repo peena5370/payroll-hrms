@@ -13,6 +13,8 @@ interface StaffBankingInfoMapper {
 
   fun selectByPrimaryKey(bId: Int): StaffBankingInfo
 
+  fun selectList(): List<StaffBankingInfo>
+
   fun updateByPrimaryKeySelective(row: StaffBankingInfo): Int
 
   fun updateByPrimaryKey(row: StaffBankingInfo): Int

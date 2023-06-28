@@ -11,7 +11,9 @@ interface StaffResignationMapper {
 
   fun insertSelective(row: StaffResignation): Int
 
-  fun selectByPrimaryKey(resignId: Int): StaffResignation?
+  fun selectByPrimaryKey(resignId: Int): StaffResignation
+
+  fun selectList(): List<StaffResignation>
 
   fun updateByPrimaryKeySelective(row: StaffResignation): Int
 

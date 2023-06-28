@@ -20,7 +20,7 @@ class TitleController(@Autowired private val companyInfoService: CompanyInfoServ
 
   @Operation(summary = "Get title info by id")
   @GetMapping("/{id}")
-  fun getByTitleNo(@PathVariable("id") titleNo: Int): ResponseEntity<Title?> {
+  fun getByTitleNo(@PathVariable("id") titleNo: Int): ResponseEntity<Title> {
     return ResponseEntity.ok(companyInfoService.findTitleById(titleNo))
   }
 

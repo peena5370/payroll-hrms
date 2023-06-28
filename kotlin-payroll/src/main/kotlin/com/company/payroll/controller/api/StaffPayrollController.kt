@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 import io.swagger.v3.oas.annotations.Parameter
 
 @RestController
-@RequestMapping("/api/payroll")
+@RequestMapping("/api/staff/payroll")
 class StaffPayrollController(@Autowired private val staffPayrollService: StaffPayrollService) {
   @Operation(summary = "Get employee payroll list")
   @GetMapping
@@ -20,13 +20,13 @@ class StaffPayrollController(@Autowired private val staffPayrollService: StaffPa
 
   @Operation(summary = "Get payroll list by employee id")
   @GetMapping("/{id}/all")
-  fun listPayrollEmployeeByEId(@Parameter(description = "employee id") @PathVariable("id") eid: Int): ResponseEntity<List<StaffPayroll>?> {
+  fun listPayrollEmployeeByEId(@Parameter(description = "employee id") @PathVariable("id") eid: Int): ResponseEntity<List<StaffPayroll>> {
     return ResponseEntity.ok(staffPayrollService.findStaffPayrollByStaffId(eid))
   }
 
   @Operation(summary = "Get employee payroll list by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") id: Int): ResponseEntity<StaffPayroll?> {
+  fun getById(@PathVariable("id") id: Int): ResponseEntity<StaffPayroll> {
     return ResponseEntity.ok(staffPayrollService.findStaffPayrollById(id))
   }
 

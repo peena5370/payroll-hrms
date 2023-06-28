@@ -4,6 +4,7 @@ import com.company.payroll.model.StaffDetails
 import com.github.pagehelper.PageInfo
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 interface StaffDetailsService {
   /**
@@ -42,7 +43,7 @@ interface StaffDetailsService {
    * @return
    */
   @Transactional(rollbackFor = [Exception::class], propagation = Propagation.REQUIRES_NEW)
-  fun addStaffDetails(staffDetails: StaffDetails): StaffDetails
+  fun addStaffDetails(staffImage: MultipartFile, staffDetails: StaffDetails): StaffDetails
 
   /**
    *

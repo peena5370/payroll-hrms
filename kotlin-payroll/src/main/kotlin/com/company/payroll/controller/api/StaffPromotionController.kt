@@ -9,23 +9,26 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/promotion")
+@RequestMapping("/api/staff/promotion")
 class StaffPromotionController(@Autowired private val staffMiscellaneousService: StaffMiscellaneousService) {
   @Operation(summary = "Get promotion list")
   @GetMapping
-  fun listPromotion(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffPromotion>> {
+  fun listPromotion(@RequestParam(value = "page", required = true) page: Int,
+                    @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffPromotion>> {
     return ResponseEntity.ok(staffMiscellaneousService.listPromotion(page, offset))
   }
 
-  @Operation(summary = "Get promotion list by eid")
-  @GetMapping("/{id}/all")
-  fun listByEId(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int, @PathVariable("id") eid: Int): ResponseEntity<PageInfo<StaffPromotion>> {
-    return ResponseEntity.ok(staffMiscellaneousService.listPromotionByStaffId(page, offset, eid))
+  @Operation(summary = "Get promotion list by staff_id")
+  @GetMapping("/{staff_id}/all")
+  fun listByEId(@RequestParam(value = "page", required = true) page: Int,
+                @RequestParam(value = "size", required = true) offset: Int,
+                @PathVariable("staff_id") staffId: Int): ResponseEntity<PageInfo<StaffPromotion>> {
+    return ResponseEntity.ok(staffMiscellaneousService.listPromotionByStaffId(page, offset, staffId))
   }
 
   @Operation(summary = "Get promotion info by id")
   @GetMapping("/{id}")
-  fun getById(@PathVariable("id") pid: Int): ResponseEntity<StaffPromotion?> {
+  fun getById(@PathVariable("id") pid: Int): ResponseEntity<StaffPromotion> {
     return ResponseEntity.ok(staffMiscellaneousService.findPromotionById(pid))
   }
 

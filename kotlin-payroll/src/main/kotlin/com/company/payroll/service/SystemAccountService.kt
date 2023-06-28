@@ -2,6 +2,7 @@ package com.company.payroll.service
 
 import com.company.payroll.model.SystemAccount
 import com.github.pagehelper.PageInfo
+import org.springframework.web.multipart.MultipartFile
 import java.security.NoSuchAlgorithmException
 
 interface SystemAccountService {
@@ -20,15 +21,22 @@ interface SystemAccountService {
 
   /**
    *
-   * @param row
+   * @param username
+   * @return
+   */
+  fun findByUsername(username: String): SystemAccount
+
+  /**
+   *
+   * @param systemAccount
    * @return
    * @throws NoSuchAlgorithmException
    */
   @Throws(NoSuchAlgorithmException::class)
-  fun insert(row: SystemAccount): SystemAccount
+  fun insert(systemAccount: SystemAccount): SystemAccount
 
   /**
-   *
+   * <p> Method for administrator to modify user account password
    * @param systemAccount
    * @return
    * @throws NoSuchAlgorithmException
@@ -37,11 +45,11 @@ interface SystemAccountService {
   fun updateListPassword(systemAccount: SystemAccount): SystemAccount
 
   /**
-   *
+   * <p> Method for administrator to modify account information besides password
    * @param systemAccount
    * @return
    */
-  fun update(systemAccount: SystemAccount): SystemAccount
+  fun modifyStatusRoles(systemAccount: SystemAccount): SystemAccount
 
   /**
    *
@@ -51,16 +59,19 @@ interface SystemAccountService {
   fun delete(aId: Int): Int
 
   /**
-   *
-   * @param username
-   * @return
-   */
-  fun getByUsername(username: String): SystemAccount?
-
-  /**
-   *
+   * <p> Created 28 June 2023
+   * <p> Method for user to update account image
    * @param systemAccount
    * @return
    */
-  fun updateImagePath(systemAccount: SystemAccount): SystemAccount
+  fun updateImagePath(image: MultipartFile, systemAccount: SystemAccount): SystemAccount
+
+  /**
+   * <p> Created 28 June 2023
+   * <p> Method for user to modify password.
+   * <p> Parameter needed: username and password
+   * @param systemAccount
+   * @return
+   */
+  fun modifyPassword(systemAccount: SystemAccount): SystemAccount
 }

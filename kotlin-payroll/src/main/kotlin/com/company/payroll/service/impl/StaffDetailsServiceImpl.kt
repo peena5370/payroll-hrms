@@ -12,8 +12,10 @@ import com.company.payroll.service.StaffDetailsService
 import com.company.payroll.util.FileUtils
 import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
+import org.apache.tomcat.util.http.fileupload.InvalidFileNameException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import java.nio.file.Paths
 
 @Service
@@ -53,7 +55,15 @@ class StaffDetailsServiceImpl(@Autowired private val staffDetailsMapper: StaffDe
     return PageInfo<StaffDetails>(staffDetailsMapper.selectList())
   }
 
-  override fun addStaffDetails(staffDetails: StaffDetails): StaffDetails {
+  override fun addStaffDetails(staffImage: MultipartFile, staffDetails: StaffDetails): StaffDetails {
+    val filepath = "/staff/list"
+    val contentType = staffImage.contentType
+    if (contentType == "image/jpeg" || contentType == "image/png" || contentType == "image/gif") {
+      staffDetails.imgPath = fileUtils.imageUpload(staffImage, filepath)
+    } else {
+      throw InvalidFileNameException(staffImage.name, "File format are invalid.")
+    }
+
     staffDetails.staffBankingInfo?.let { staffBankingInfoMapper.insertSelective(it) }
     val bankingInfo: StaffBankingInfo? = staffDetails.staffBankingInfo?.bId?.let { staffBankingInfoMapper.selectByPrimaryKey(it) }
 

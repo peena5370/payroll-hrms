@@ -32,7 +32,8 @@ class StaffDetailsController(@Autowired private val staffDetailsService: StaffDe
 
   @Operation(summary = "Get employee list")
   @GetMapping
-  fun listStaff(@RequestParam(value = "page", required = true) page: Int, @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffDetails>> {
+  fun listStaff(@RequestParam(value = "page", required = true) page: Int,
+                @RequestParam(value = "size", required = true) offset: Int): ResponseEntity<PageInfo<StaffDetails>> {
     return ResponseEntity.ok(staffDetailsService.listStaffDetails(page, offset))
   }
 
@@ -61,15 +62,9 @@ class StaffDetailsController(@Autowired private val staffDetailsService: StaffDe
 
   @Operation(summary = "Insert employee info")
   @PostMapping
-  fun insert(@Parameter(description = "image file") @RequestPart("img") image: MultipartFile, @RequestPart("employee") staffDetails: StaffDetails): ResponseEntity<StaffDetails> {
-    val filepath = "/staff/list"
-    val contentType = image.contentType
-    if (contentType == "image/jpeg" || contentType == "image/png" || contentType == "image/gif") {
-      staffDetails.imgPath = fileUtils.imageUpload(image, filepath)
-    } else {
-      return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(null)
-    }
-    return ResponseEntity.ok(staffDetailsService.addStaffDetails(staffDetails))
+  fun insert(@Parameter(description = "image file") @RequestPart("img") image: MultipartFile,
+             @RequestPart("employee") staffDetails: StaffDetails): ResponseEntity<StaffDetails> {
+    return ResponseEntity.ok(staffDetailsService.addStaffDetails(image, staffDetails))
   }
 
   @Operation(summary = "Update employee info.")

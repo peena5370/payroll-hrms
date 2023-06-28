@@ -33,6 +33,7 @@ class FileUtils(@Value("\${file.upload.directory}") directory: String) {
       Files.createDirectories(this.storageLocation)
     } catch (e: Exception) {
       log.error { "Failed to create file directory. Error message: ${e.message}" }
+      throw e
     }
   }
 
@@ -72,6 +73,7 @@ class FileUtils(@Value("\${file.upload.directory}") directory: String) {
         uploadPath = dest.toString()
       } catch (e: IOException) {
         log.error { "Could not store file to directory. Error message: ${e.message}" }
+        throw e
       }
     }
     return uploadPath
@@ -101,6 +103,7 @@ class FileUtils(@Value("\${file.upload.directory}") directory: String) {
         uploadPath = dest.toString()
       } catch (e: IOException) {
         log.error { "Could not store file to directory. Error message: ${e.message}" }
+        throw e
       }
     }
 
@@ -125,6 +128,7 @@ class FileUtils(@Value("\${file.upload.directory}") directory: String) {
       }
     } catch (e: MalformedURLException) {
       log.warn { "File not found in directory. Error message: ${e.message}" }
+      throw e
     }
 
     return resource
