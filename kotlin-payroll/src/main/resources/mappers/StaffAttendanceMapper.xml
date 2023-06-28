@@ -16,26 +16,42 @@
     at_id, attendance_date, checkin_1, checkout_1, checkin_2, checkout_2, checkin_3, 
     checkout_3, staff_id
   </sql>
+  <select id="selectByStaffId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from staff_attendance
+    where staff_id = #{atId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from staff_attendance
     where at_id = #{atId,jdbcType=INTEGER}
   </select>
+  <select id="selectByStaffIdAndDate" parameterType="com.company.payroll.model.StaffAttendance" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from staff_attendance
+    where staff_id = #{staffId} and attendance_date between #{startDate} and #{endDate}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from staff_attendance
     where at_id = #{atId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.StaffAttendance">
-    insert into staff_attendance (at_id, attendance_date, checkin_1, 
-      checkout_1, checkin_2, checkout_2, 
-      checkin_3, checkout_3, staff_id
-      )
-    values (#{atId,jdbcType=INTEGER}, #{attendanceDate,jdbcType=DATE}, #{checkInOne,jdbcType=TIMESTAMP},
-      #{checkOutOne,jdbcType=TIMESTAMP}, #{checkInTwo,jdbcType=TIMESTAMP}, #{checkOutTwo,jdbcType=TIMESTAMP},
-      #{checkInThree,jdbcType=TIMESTAMP}, #{checkOutThree,jdbcType=TIMESTAMP}, #{staffId,jdbcType=INTEGER}
-      )
+    insert into staff_attendance (attendance_date, checkin_1, staff_id)
+    values (#{attendanceDate,jdbcType=DATE}, #{checkInOne,jdbcType=TIMESTAMP}, #{staffId,jdbcType=INTEGER})
   </insert>
+<!--  <insert id="insert" parameterType="com.company.payroll.model.StaffAttendance">-->
+<!--    insert into staff_attendance (at_id, attendance_date, checkin_1, -->
+<!--      checkout_1, checkin_2, checkout_2, -->
+<!--      checkin_3, checkout_3, staff_id-->
+<!--      )-->
+<!--    values (#{atId,jdbcType=INTEGER}, #{attendanceDate,jdbcType=DATE}, #{checkInOne,jdbcType=TIMESTAMP},-->
+<!--      #{checkOutOne,jdbcType=TIMESTAMP}, #{checkInTwo,jdbcType=TIMESTAMP}, #{checkOutTwo,jdbcType=TIMESTAMP},-->
+<!--      #{checkInThree,jdbcType=TIMESTAMP}, #{checkOutThree,jdbcType=TIMESTAMP}, #{staffId,jdbcType=INTEGER}-->
+<!--      )-->
+<!--  </insert>-->
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffAttendance">
     insert into staff_attendance
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -97,6 +113,30 @@
       </if>
     </trim>
   </insert>
+  <update id="updateCheckTime" parameterType="com.company.payroll.model.StaffAttendance">
+    update staff_attendance
+    <set>
+      <if test="checkInOne != null">
+        checkin_1 = #{checkInOne,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkOutOne != null">
+        checkout_1 = #{checkOutOne,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkInTwo != null">
+        checkin_2 = #{checkInTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkOutTwo != null">
+        checkout_2 = #{checkOutTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkInThree != null">
+        checkin_3 = #{checkInThree,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkOutThree != null">
+        checkout_3 = #{checkOutThree,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where staff_id = #{staffId,jdbcType=INTEGER} AND attendance_date=#{attendanceDate, jdbcType=DATE}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.StaffAttendance">
     update staff_attendance
     <set>

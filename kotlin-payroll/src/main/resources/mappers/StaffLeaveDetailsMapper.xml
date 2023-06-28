@@ -11,6 +11,11 @@
   <sql id="Base_Column_List">
     ld_id, annual_leave, hospitality_leave, maternity_leave, unpaid_leave
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from staff_leave_details
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -22,12 +27,18 @@
     where ld_id = #{ldId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.StaffLeaveDetails">
+    <selectKey keyProperty="ldId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_leave_details (ld_id, annual_leave, hospitality_leave, 
       maternity_leave, unpaid_leave)
     values (#{ldId,jdbcType=INTEGER}, #{annualLeave,jdbcType=INTEGER}, #{hospitalityLeave,jdbcType=INTEGER}, 
       #{maternityLeave,jdbcType=INTEGER}, #{unpaidLeave,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffLeaveDetails">
+    <selectKey keyProperty="ldId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_leave_details
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="ldId != null">

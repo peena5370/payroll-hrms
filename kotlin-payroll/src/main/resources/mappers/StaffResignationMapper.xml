@@ -10,10 +10,40 @@
     <result column="file_size" jdbcType="BIGINT" property="fileSize" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="staff_id" jdbcType="INTEGER" property="staffId" />
+    <association property="staffDetails" javaType="com.company.payroll.model.StaffDetails">
+      <id column="staff_id" jdbcType="INTEGER" property="staffId" />
+      <result column="staff_name" jdbcType="VARCHAR" property="staffName" />
+      <result column="gender" jdbcType="VARCHAR" property="gender" />
+      <result column="date_of_birth" jdbcType="DATE" property="dateOfBirth" />
+      <result column="age" jdbcType="INTEGER" property="age" />
+      <result column="martial_status" jdbcType="VARCHAR" property="martialStatus" />
+      <result column="education" jdbcType="VARCHAR" property="education" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="postal_code" jdbcType="INTEGER" property="postalCode" />
+      <result column="state" jdbcType="VARCHAR" property="state" />
+      <result column="country" jdbcType="VARCHAR" property="country" />
+      <result column="phone" jdbcType="VARCHAR" property="phone" />
+      <result column="email" jdbcType="VARCHAR" property="email" />
+      <result column="date_hired" jdbcType="DATE" property="dateHired" />
+      <result column="date_resign" jdbcType="DATE" property="dateResign" />
+      <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+      <result column="dept_no" jdbcType="INTEGER" property="deptNo" />
+      <result column="title_no" jdbcType="INTEGER" property="titleNo" />
+      <result column="manager_id" jdbcType="INTEGER" property="managerId" />
+      <result column="ld_id" jdbcType="INTEGER" property="ldId" />
+      <result column="s_id" jdbcType="INTEGER" property="sId" />
+      <result column="b_id" jdbcType="INTEGER" property="bId" />
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
     resign_id, reason, resign_date, resign_status, file_name, file_size, file_path, staff_id
   </sql>
+  <select id="selectList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select sr.resign_id, sr.reason, sr.resign_date, sr.resign_status, sr.file_name,
+    sd.staff_id, sd.staff_name
+    from staff_resignation sr
+    inner join staff_details sd on sr=staff_id=sd.staff_id
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -25,6 +55,9 @@
     where resign_id = #{resignId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.StaffResignation">
+    <selectKey keyProperty="resignId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_resignation (resign_id, reason, resign_date, 
       resign_status, file_name, file_size, 
       file_path, staff_id)
@@ -33,6 +66,9 @@
       #{filePath,jdbcType=VARCHAR}, #{staffId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffResignation">
+    <selectKey keyProperty="resignId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_resignation
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="resignId != null">

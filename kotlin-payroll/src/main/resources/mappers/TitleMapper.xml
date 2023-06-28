@@ -9,6 +9,11 @@
   <sql id="Base_Column_List">
     title_no, title_name, title_desc
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from title
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -20,12 +25,18 @@
     where title_no = #{titleNo,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Title">
+    <selectKey keyProperty="titleNo" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into title (title_no, title_name, title_desc
       )
     values (#{titleNo,jdbcType=INTEGER}, #{titleName,jdbcType=VARCHAR}, #{titleDesc,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Title">
+    <selectKey keyProperty="titleNo" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into title
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="titleNo != null">
@@ -68,40 +79,4 @@
       title_desc = #{titleDesc,jdbcType=VARCHAR}
     where title_no = #{titleNo,jdbcType=INTEGER}
   </update>
-  <resultMap id="BaseResultMap" type="com.company.payroll.model.Title">
-    <result column="titleno" jdbcType="INTEGER" property="titleno" />
-    <result column="titlename" jdbcType="VARCHAR" property="titlename" />
-    <result column="titledesc" jdbcType="VARCHAR" property="titledesc" />
-  </resultMap>
-  <insert id="insert" parameterType="com.company.payroll.model.Title">
-    insert into title (titleno, titlename, titledesc
-      )
-    values (#{titleno,jdbcType=INTEGER}, #{titlename,jdbcType=VARCHAR}, #{titledesc,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.company.payroll.model.Title">
-    insert into title
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="titleno != null">
-        titleno,
-      </if>
-      <if test="titlename != null">
-        titlename,
-      </if>
-      <if test="titledesc != null">
-        titledesc,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="titleno != null">
-        #{titleno,jdbcType=INTEGER},
-      </if>
-      <if test="titlename != null">
-        #{titlename,jdbcType=VARCHAR},
-      </if>
-      <if test="titledesc != null">
-        #{titledesc,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
 </mapper>

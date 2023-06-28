@@ -25,6 +25,17 @@
     employee_socso, employee_eis, employer_epf, employer_socso, employer_eis, mtd_pcb, 
     total_pay, pay_period, payment_date, staff_id
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from staff_payroll
+  </select>
+  <select id="selectListByStaffId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from staff_payroll
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -36,6 +47,9 @@
     where pr_id = #{prId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.StaffPayroll">
+    <selectKey keyProperty="prId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_payroll (pr_id, basic_pay, overtime_pay, 
       allowance, transport, other_deduction, 
       employee_epf, employee_socso, employee_eis, 
@@ -50,6 +64,9 @@
       #{paymentDate,jdbcType=DATE}, #{staffId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffPayroll">
+    <selectKey keyProperty="prId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_payroll
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="prId != null">

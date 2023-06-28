@@ -18,6 +18,12 @@
     <result column="date_hired" jdbcType="DATE" property="dateHired" />
     <result column="date_resign" jdbcType="DATE" property="dateResign" />
     <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+    <result column="dept_no" jdbcType="INTEGER" property="deptNo" />
+    <result column="title_no" jdbcType="INTEGER" property="titleNo" />
+    <result column="manager_id" jdbcType="INTEGER" property="managerId" />
+    <result column="ld_id" jdbcType="INTEGER" property="ldId" />
+    <result column="s_id" jdbcType="INTEGER" property="sId" />
+    <result column="b_id" jdbcType="INTEGER" property="bId" />
     <association property="department" javaType="com.company.payroll.model.Department">
       <id column="dept_no" jdbcType="INTEGER" property="deptNo" />
       <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
@@ -53,26 +59,7 @@
     </association>
     <association property="manager" javaType="com.company.payroll.model.StaffDetails">
       <id column="manager_id" jdbcType="INTEGER" property="staffId" />
-      <result column="staff_name" jdbcType="VARCHAR" property="staffName" />
-      <result column="gender" jdbcType="VARCHAR" property="gender" />
-      <result column="date_of_birth" jdbcType="DATE" property="dateOfBirth" />
-      <result column="age" jdbcType="INTEGER" property="age" />
-      <result column="martial_status" jdbcType="VARCHAR" property="martialStatus" />
-      <result column="education" jdbcType="VARCHAR" property="education" />
-      <result column="address" jdbcType="VARCHAR" property="address" />
-      <result column="postal_code" jdbcType="INTEGER" property="postalCode" />
-      <result column="state" jdbcType="VARCHAR" property="state" />
-      <result column="country" jdbcType="VARCHAR" property="country" />
-      <result column="phone" jdbcType="VARCHAR" property="phone" />
-      <result column="email" jdbcType="VARCHAR" property="email" />
-      <result column="date_hired" jdbcType="DATE" property="dateHired" />
-      <result column="date_resign" jdbcType="DATE" property="dateResign" />
-      <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
-      <result column="dept_no" jdbcType="INTEGER" property="deptNo" />
-      <result column="title_no" jdbcType="INTEGER" property="titleNo" />
-      <result column="ld_id" jdbcType="INTEGER" property="ldId" />
-      <result column="s_id" jdbcType="INTEGER" property="sId" />
-      <result column="b_id" jdbcType="INTEGER" property="bId" />
+      <result column="manager_name" jdbcType="VARCHAR" property="staffName" />
     </association>
   </resultMap>
   <sql id="Base_Column_List">
@@ -80,17 +67,38 @@
     postal_code, state, country, phone, email, date_hired, date_resign, img_path, dept_no, 
     title_no, manager_id, ld_id, s_id, b_id
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select sd.staff_id, sd.staff_name, dp.dept_name, tt.title_name, md.staff_name as manager_name
+    from staff_details sd
+    inner join department dp on sd.dept_no=dp.dept_no
+    inner join title tt on sd.title_no=tt.title_no
+    left join staff_details md on sd.manager_id=md.staff_id
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from staff_details
-    where staff_id = #{staffId,jdbcType=INTEGER}
+    select sd.staff_id, sd.staff_name, sd.gender, sd.date_of_birth, sd.age, sd.martial_status,
+    sd.education, sd.address, sd.postal_code, sd.state, sd.country, sd.phone, sd.email,
+    sd.date_hired, sd.date_resign, sd.img_path, dp.dept_no, dp.dept_name, tt.title_no, tt.title_name,
+    md.staff_id as manager_id, md.staff_name as manager_name,
+    ld.ld_id, ld.annual_leave, ld.hospitality_leave, ld.maternity_leave, ld.unpaid_leave,
+    sb.b_id, sb.bank_name, sb.bank_account, sb.income_tax_no, sb.epf_no,
+    sl.s_id, sl.monthly_salary, sl.annual_salary, sl.date_update
+    from staff_details sd
+    inner join department dp on sd.dept_no=dp.dept_no
+    inner join title tt on sd.title_no=tt.title_no
+    left join staff_details md on sd.manager_id=md.staff_id
+    inner join staff_leave_details ld on sd.ld_id=ld.ld_id
+    left join staff_banking_info sb on sd.b_id=sb.b_id
+    left join staff_salary sl on sd.s_id=sl.s_id
+    where sd.staff_id = #{staffId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from staff_details
     where staff_id = #{staffId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.StaffDetails">
+    <selectKey keyProperty="staffId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_details (staff_id, staff_name, gender, 
       date_of_birth, age, martial_status, 
       education, address, postal_code, 
@@ -109,6 +117,9 @@
       #{bId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffDetails">
+    <selectKey keyProperty="staffId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_details
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="staffId != null">

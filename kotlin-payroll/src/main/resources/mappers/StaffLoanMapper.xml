@@ -15,6 +15,16 @@
     loan_id, ref_num, reason, loan_amount, application_date, loan_status, approved_date, 
     staff_id
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from staff_loan
+  </select>
+  <select id="selectListByStaffId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select ref_num, reason, loan_amount, application_date, loan_status, approved_date
+    from staff_loan
+    where staff_id = #{staffId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -26,6 +36,9 @@
     where loan_id = #{loanId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.StaffLoan">
+    <selectKey keyProperty="loanId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_loan (loan_id, ref_num, reason, 
       loan_amount, application_date, loan_status, 
       approved_date, staff_id)
@@ -34,6 +47,9 @@
       #{approvedDate,jdbcType=DATE}, #{staffId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffLoan">
+    <selectKey keyProperty="loanId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into staff_loan
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="loanId != null">

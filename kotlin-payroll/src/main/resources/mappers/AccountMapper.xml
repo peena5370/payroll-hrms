@@ -19,17 +19,31 @@
     a_id, username, password, secret_key, roles, date_created, date_modified, last_login,
     last_attempt, account_status, img_path, staff_id
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select a_id, username, roles, date_created, date_modified, last_login, last_attempt,
+    account_status, staff_id
+    from account
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select a_id, username, roles, date_created, date_modified, last_login, last_attempt,
+    account_status, staff_id
     from account
     where a_id = #{aId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from account
+    where username = #{username,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from account
     where a_id = #{aId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.SystemAccount">
+    <selectKey keyProperty="aId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into account (a_id, username, password, 
       secret_key, roles, date_created,
       date_modified, last_login, last_attempt, 
@@ -40,6 +54,9 @@
       #{accountStatus,jdbcType=TINYINT}, #{imgPath,jdbcType=VARCHAR}, #{staffId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.SystemAccount">
+    <selectKey keyProperty="aId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into account
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="aId != null">
@@ -156,6 +173,18 @@
       </if>
     </set>
     where a_id = #{aId,jdbcType=INTEGER}
+  </update>
+  <update id="updateImagePathByUsername" parameterType="com.company.payroll.model.SystemAccount">
+    update account
+    img_path = #{imgPath,jdbcType=VARCHAR}
+    where username = #{username,jdbcType=CHAR}
+  </update>
+  <update id="updatePasswordByUsername" parameterType="com.company.payroll.model.SystemAccount">
+    update account
+    set password = #{password,jdbcType=CHAR},
+    secret_key = #{secretKey,jdbcType=CHAR},
+    date_modified = #{dateModified,jdbcType=TIMESTAMP}
+    where username = #{username,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.SystemAccount">
     update account

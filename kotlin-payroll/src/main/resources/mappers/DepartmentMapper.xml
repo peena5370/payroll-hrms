@@ -12,6 +12,11 @@
   <sql id="Base_Column_List">
     dept_no, dept_name, dept_address, postal_code, state, country
   </sql>
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from department
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -23,6 +28,9 @@
     where dept_no = #{deptNo,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.company.payroll.model.Department">
+    <selectKey keyProperty="deptNo" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into department (dept_no, dept_name, dept_address,
     postal_code, state, country
     )
@@ -31,6 +39,9 @@
     )
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.Department">
+    <selectKey keyProperty="deptNo" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into department
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="deptNo != null">
