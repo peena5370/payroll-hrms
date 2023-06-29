@@ -5,7 +5,6 @@ import com.company.payroll.mapper.TitleMapper
 import com.company.payroll.model.Department
 import com.company.payroll.model.Title
 import com.company.payroll.service.CompanyInfoService
-import com.github.pagehelper.Page
 import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
 import org.springframework.beans.factory.annotation.Autowired

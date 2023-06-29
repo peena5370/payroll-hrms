@@ -5,19 +5,18 @@ import jakarta.servlet.FilterConfig
 import jakarta.servlet.http.HttpFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import mu.KotlinLogging
 import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 
 class ServletFilter: HttpFilter() {
-    private val log = LoggerFactory.getLogger(this.javaClass)
+    private val log = KotlinLogging.logger {}
     override fun init(filterConfig: FilterConfig?) {
         super.init(filterConfig)
     }
 
-    override fun doFilter(request: HttpServletRequest?, response: HttpServletResponse?, chain: FilterChain?) {
-        if (request != null) {
-            log.info("Remote address: [{}] Filter starts at: {}", request.remoteAddr, LocalDateTime.now())
-        }
+    override fun doFilter(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
+        log.info { "Remote address: [${request.remoteAddr}] Filter starts at: ${LocalDateTime.now()}" }
         super.doFilter(request, response, chain)
     }
 

@@ -14,6 +14,7 @@ import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
 import org.apache.tomcat.util.http.fileupload.InvalidFileNameException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.nio.file.Paths
@@ -84,12 +85,16 @@ class StaffDetailsServiceImpl(@Autowired private val staffDetailsMapper: StaffDe
     }
 
     staffDetailsMapper.insertSelective(staffDetails)
-
     return staffDetails
   }
 
   override fun updateStaffDetails(staffDetails: StaffDetails): StaffDetails {
     staffDetailsMapper.updateByPrimaryKeySelective(staffDetails)
     return staffDetails
+  }
+
+  override fun loadStaffImage(staffId: Int): Resource? {
+    val staffDetails = staffDetailsMapper.selectByPrimaryKey(staffId)
+    return staffDetails.imgPath?.let { Paths.get(it) }?.let { fileUtils.download(it) }
   }
 }

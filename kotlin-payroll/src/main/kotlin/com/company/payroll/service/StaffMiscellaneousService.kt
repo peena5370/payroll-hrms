@@ -4,6 +4,7 @@ import com.company.payroll.model.StaffPromotion
 import com.company.payroll.model.StaffResignation
 import com.company.payroll.model.StaffTraining
 import com.github.pagehelper.PageInfo
+import org.springframework.core.io.Resource
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -137,4 +138,11 @@ interface StaffMiscellaneousService {
    * @return
    */
   fun updateTraining(staffTraining: StaffTraining): StaffTraining
+
+  /**
+   *
+   * @param resignId
+   * @return
+   */
+  fun downloadResignationAttachment(resignId: Int): Resource?
 }

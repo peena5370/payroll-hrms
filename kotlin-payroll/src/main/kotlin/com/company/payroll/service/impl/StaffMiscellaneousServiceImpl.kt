@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
 import org.apache.tomcat.util.http.fileupload.InvalidFileNameException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.math.BigDecimal
@@ -149,5 +150,10 @@ class StaffMiscellaneousServiceImpl(@Autowired private val staffPromotionMapper:
   override fun updateTraining(staffTraining: StaffTraining): StaffTraining {
     staffTrainingMapper.updateByPrimaryKeySelective(staffTraining)
     return staffTraining
+  }
+
+  override fun downloadResignationAttachment(resignId: Int): Resource? {
+    val resignationDetails = staffResignationMapper.selectByPrimaryKey(resignId)
+    return resignationDetails.filePath?.let { Paths.get(it) }?.let { fileUtils.download(it) }
   }
 }

@@ -26,7 +26,7 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select a_id, username, roles, date_created, date_modified, last_login, last_attempt,
-    account_status, staff_id
+    account_status, img_path, staff_id
     from account
     where a_id = #{aId,jdbcType=INTEGER}
   </select>

@@ -11,7 +11,9 @@ interface FileAttachmentMapper {
 
   fun insertSelective(row: FileAttachment): Int
 
-  fun selectByPrimaryKey(fId: Int): FileAttachment?
+  fun selectByPrimaryKey(fId: Int): FileAttachment
+
+  fun selectListByStaffId(staffId: Int): List<FileAttachment>
 
   fun updateByPrimaryKeySelective(row: FileAttachment): Int
 

@@ -20,16 +20,19 @@ import kotlin.math.pow
 
 
 class PasswordEncryption {
-  private val random: SecureRandom = SecureRandom()
-  private val characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-  private val defaultIterations = 310000
-  private val defaultSaltLength = 32
-  private val skfa = SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512
-  private val initStrength = 12
-  private val defaultProcessorCost = 2.0.pow(14.0).toInt()
-  private val defaultRamCost = 8
-  private val parallelization = 1
-  private val defaultKeyLength = 32
+  companion object {
+    private val random: SecureRandom = SecureRandom()
+    private const val characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    private const val defaultIterations = 310000
+    private const val defaultSaltLength = 32
+    private val skfa = SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512
+    private const val initStrength = 12
+    private val defaultProcessorCost = 2.0.pow(14.0).toInt()
+    private const val defaultRamCost = 8
+    private const val parallelization = 1
+    private const val defaultKeyLength = 32
+  }
+
 
   /**
    * Method to generate the salt value.

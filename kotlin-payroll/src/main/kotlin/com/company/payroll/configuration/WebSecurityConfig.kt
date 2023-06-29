@@ -1,14 +1,20 @@
 package com.company.payroll.configuration
 
-import org.springframework.security.config.annotation.web.invoke
 import com.company.payroll.filter.JwtAuthenticationFilter
+import com.company.payroll.service.impl.UserAccountServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.CorsDsl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
@@ -17,7 +23,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig(@Autowired private val jwtAuthenticationFilter: JwtAuthenticationFilter) {
+class WebSecurityConfig(@Autowired private val jwtAuthenticationFilter: JwtAuthenticationFilter,
+                        @Autowired private val userAccountServiceImpl: UserAccountServiceImpl) {
+
+  @Autowired
+  fun authenticationManagerBuilder(auth: AuthenticationManagerBuilder) {
+    auth.userDetailsService<UserDetailsService>(userAccountServiceImpl).passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder())
+  }
+
+  @Bean
+  fun getAuthenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager? {
+    return authenticationConfiguration.authenticationManager
+  }
 
   @Bean
   fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {

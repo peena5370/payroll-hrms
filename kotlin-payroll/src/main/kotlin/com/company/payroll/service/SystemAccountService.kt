@@ -2,6 +2,9 @@ package com.company.payroll.service
 
 import com.company.payroll.model.SystemAccount
 import com.github.pagehelper.PageInfo
+import org.springframework.core.io.Resource
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import java.security.NoSuchAlgorithmException
 
@@ -56,6 +59,7 @@ interface SystemAccountService {
    * @param aId
    * @return
    */
+  @Transactional(rollbackFor = [Exception::class], propagation = Propagation.REQUIRES_NEW)
   fun delete(aId: Int): Int
 
   /**
@@ -74,4 +78,12 @@ interface SystemAccountService {
    * @return
    */
   fun modifyPassword(systemAccount: SystemAccount): SystemAccount
+
+  /**
+   * <p> Created 29 June 2023
+   * <p> Method for user to download profile image
+   * @param username
+   * @return
+   */
+  fun downloadAccountImage(username: String): Resource?
 }

@@ -2,6 +2,7 @@ package com.company.payroll.service
 
 import com.company.payroll.model.StaffDetails
 import com.github.pagehelper.PageInfo
+import org.springframework.core.io.Resource
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -51,4 +52,11 @@ interface StaffDetailsService {
    * @return
    */
   fun updateStaffDetails(staffDetails: StaffDetails): StaffDetails
+
+  /**
+   *
+   * @param staffId
+   * @return
+   */
+  fun loadStaffImage(staffId: Int): Resource?
 }

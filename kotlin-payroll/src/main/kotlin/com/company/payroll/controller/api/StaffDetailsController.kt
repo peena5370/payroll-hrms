@@ -2,7 +2,6 @@ package com.company.payroll.controller.api
 
 import com.company.payroll.model.StaffDetails
 import com.company.payroll.service.StaffDetailsService
-import com.company.payroll.util.FileUtils
 import com.github.pagehelper.PageInfo
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -16,17 +15,14 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
-import java.nio.file.Paths
 
 /**
  * @author caroline
- * <p>Created: 23 June 2023
- * <p>to be implemented
+ * <p> Created: 23 June 2023
  */
 @RestController
 @RequestMapping("/api/staff")
-class StaffDetailsController(@Autowired private val staffDetailsService: StaffDetailsService,
-                             @Autowired private val fileUtils: FileUtils) {
+class StaffDetailsController(@Autowired private val staffDetailsService: StaffDetailsService) {
 
   private val log = KotlinLogging.logger {}
 
@@ -44,10 +40,9 @@ class StaffDetailsController(@Autowired private val staffDetailsService: StaffDe
   }
 
   @Operation(summary = "Load employee image")
-  @PostMapping("/{id}/image")
-  fun loadImage(@PathVariable("id") staffId: Int, request: HttpServletRequest): ResponseEntity<Resource> {
-    val staff: StaffDetails = staffDetailsService.findByStaffId(staffId)
-    val resource: Resource? = staff.imgPath?.let { Paths.get(it) }?.let { fileUtils.download(it) }
+  @PostMapping("/{staff_id}/image/loads")
+  fun loadStaffImage(@PathVariable("staff_id") staffId: Int, request: HttpServletRequest): ResponseEntity<Resource> {
+    val resource: Resource? = staffDetailsService.loadStaffImage(staffId)
     var contentType = ""
     if (resource != null) {
       contentType = try {

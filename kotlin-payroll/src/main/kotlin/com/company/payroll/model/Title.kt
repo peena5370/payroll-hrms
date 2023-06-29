@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor
 @NoArg
 data class Title(
     var titleNo: Int,
-    var titleName: String = "",
-    var titleDesc: String = ""
+    var titleName: String,
+    var titleDesc: String
 )

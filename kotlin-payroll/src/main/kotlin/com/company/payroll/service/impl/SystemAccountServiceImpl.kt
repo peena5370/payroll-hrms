@@ -10,10 +10,12 @@ import com.github.pagehelper.PageInfo
 import org.apache.tomcat.util.http.fileupload.InvalidFileNameException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.Resource
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import java.nio.file.Paths
 import java.time.LocalDateTime
 
 @Service
@@ -68,14 +70,23 @@ class SystemAccountServiceImpl(@Autowired private val accountMapper: AccountMapp
 
   override fun modifyStatusRoles(systemAccount: SystemAccount): SystemAccount {
     systemAccount.dateModified = LocalDateTime.now()
-
     accountMapper.updateByPrimaryKeySelective(systemAccount)
-
     return systemAccount
   }
 
   override fun delete(aId: Int): Int {
-    return accountMapper.deleteByPrimaryKey(aId)
+    var row = 0
+    val systemAccount = accountMapper.selectByPrimaryKey(aId)
+    if(systemAccount.imgPath.equals("$directory/account/default_img.png", true)) {
+      row += accountMapper.deleteByPrimaryKey(aId)
+    } else {
+      val bool = systemAccount.imgPath?.let { Paths.get(it) }?.let { fileUtils.delete(it) }
+      if(bool == true) {
+        row += accountMapper.deleteByPrimaryKey(aId)
+      }
+    }
+
+    return row
   }
 
   override fun updateImagePath(image: MultipartFile, systemAccount: SystemAccount): SystemAccount {
@@ -106,5 +117,10 @@ class SystemAccountServiceImpl(@Autowired private val accountMapper: AccountMapp
     accountMapper.updatePasswordByUsername(systemAccount)
 
     return systemAccount
+  }
+
+  override fun downloadAccountImage(username: String): Resource? {
+    val accountDetails = accountMapper.selectByUsername(username)
+    return accountDetails.imgPath?.let { Paths.get(it) }?.let { fileUtils.download(it) }
   }
 }

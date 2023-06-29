@@ -1,12 +1,10 @@
 package com.company.payroll.model
 
-import lombok.AllArgsConstructor
-import lombok.RequiredArgsConstructor
+import com.company.payroll.annotation.NoArg
 
-@AllArgsConstructor
-@RequiredArgsConstructor
+@NoArg
 data class FileAttachment(
-    var fId: Int,
+    var fId: Int?,
     var fileName: String,
     var fileSize: Long,
     var filePath: String,
