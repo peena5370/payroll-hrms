@@ -9,7 +9,7 @@
     <result column="application_date" jdbcType="DATE" property="applicationDate" />
     <result column="date_from" jdbcType="TIMESTAMP" property="dateFrom" />
     <result column="date_to" jdbcType="TIMESTAMP" property="dateTo" />
-    <result column="leave_status" jdbcType="TINYINT" property="leaveStatus" />
+    <result column="leave_status" property="leaveStatus" typeHandler="com.company.payroll.util.UByteTypeHandler" />
     <result column="approved_date" jdbcType="DATE" property="approvedDate" />
     <result column="staff_id" jdbcType="INTEGER" property="staffId" />
   </resultMap>
@@ -48,7 +48,7 @@
       staff_id)
     values (#{lId,jdbcType=INTEGER}, #{refNum,jdbcType=VARCHAR}, #{leaveType,jdbcType=VARCHAR}, 
       #{reason,jdbcType=VARCHAR}, #{applicationDate,jdbcType=DATE}, #{dateFrom,jdbcType=TIMESTAMP}, 
-      #{dateTo,jdbcType=TIMESTAMP}, #{leaveStatus,jdbcType=TINYINT}, #{approvedDate,jdbcType=DATE}, 
+      #{dateTo,jdbcType=TIMESTAMP}, #{leaveStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler}, #{approvedDate,jdbcType=DATE},
       #{staffId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffLeave">
@@ -111,7 +111,7 @@
         #{dateTo,jdbcType=TIMESTAMP},
       </if>
       <if test="leaveStatus != null">
-        #{leaveStatus,jdbcType=TINYINT},
+        #{leaveStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       </if>
       <if test="approvedDate != null">
         #{approvedDate,jdbcType=DATE},
@@ -143,7 +143,7 @@
         date_to = #{dateTo,jdbcType=TIMESTAMP},
       </if>
       <if test="leaveStatus != null">
-        leave_status = #{leaveStatus,jdbcType=TINYINT},
+        leave_status = #{leaveStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       </if>
       <if test="approvedDate != null">
         approved_date = #{approvedDate,jdbcType=DATE},
@@ -162,7 +162,7 @@
       application_date = #{applicationDate,jdbcType=DATE},
       date_from = #{dateFrom,jdbcType=TIMESTAMP},
       date_to = #{dateTo,jdbcType=TIMESTAMP},
-      leave_status = #{leaveStatus,jdbcType=TINYINT},
+      leave_status = #{leaveStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       approved_date = #{approvedDate,jdbcType=DATE},
       staff_id = #{staffId,jdbcType=INTEGER}
     where l_id = #{lId,jdbcType=INTEGER}

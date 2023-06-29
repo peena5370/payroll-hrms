@@ -7,7 +7,7 @@
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="loan_amount" jdbcType="DECIMAL" property="loanAmount" />
     <result column="application_date" jdbcType="DATE" property="applicationDate" />
-    <result column="loan_status" jdbcType="TINYINT" property="loanStatus" />
+    <result column="loan_status" property="loanStatus" typeHandler="com.company.payroll.util.UByteTypeHandler" />
     <result column="approved_date" jdbcType="DATE" property="approvedDate" />
     <result column="staff_id" jdbcType="INTEGER" property="staffId" />
   </resultMap>
@@ -43,7 +43,7 @@
       loan_amount, application_date, loan_status, 
       approved_date, staff_id)
     values (#{loanId,jdbcType=INTEGER}, #{refNum,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
-      #{loanAmount,jdbcType=DECIMAL}, #{applicationDate,jdbcType=DATE}, #{loanStatus,jdbcType=TINYINT}, 
+      #{loanAmount,jdbcType=DECIMAL}, #{applicationDate,jdbcType=DATE}, #{loanStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       #{approvedDate,jdbcType=DATE}, #{staffId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffLoan">
@@ -94,7 +94,7 @@
         #{applicationDate,jdbcType=DATE},
       </if>
       <if test="loanStatus != null">
-        #{loanStatus,jdbcType=TINYINT},
+        #{loanStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       </if>
       <if test="approvedDate != null">
         #{approvedDate,jdbcType=DATE},
@@ -120,7 +120,7 @@
         application_date = #{applicationDate,jdbcType=DATE},
       </if>
       <if test="loanStatus != null">
-        loan_status = #{loanStatus,jdbcType=TINYINT},
+        loan_status = #{loanStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       </if>
       <if test="approvedDate != null">
         approved_date = #{approvedDate,jdbcType=DATE},
@@ -137,7 +137,7 @@
       reason = #{reason,jdbcType=VARCHAR},
       loan_amount = #{loanAmount,jdbcType=DECIMAL},
       application_date = #{applicationDate,jdbcType=DATE},
-      loan_status = #{loanStatus,jdbcType=TINYINT},
+      loan_status = #{loanStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       approved_date = #{approvedDate,jdbcType=DATE},
       staff_id = #{staffId,jdbcType=INTEGER}
     where loan_id = #{loanId,jdbcType=INTEGER}

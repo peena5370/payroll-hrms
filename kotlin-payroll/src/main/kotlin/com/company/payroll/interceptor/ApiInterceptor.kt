@@ -11,7 +11,7 @@ import java.lang.Exception
 class ApiInterceptor: HandlerInterceptor {
   private val log = KotlinLogging.logger {}
   override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-    log.info("Pre handle trigger. Time: {}", System.currentTimeMillis())
+    log.info { "Pre handle trigger. Time: ${System.currentTimeMillis()}" }
 
     return super.preHandle(request, response, handler)
   }

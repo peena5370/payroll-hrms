@@ -6,7 +6,7 @@
     <result column="training_title" jdbcType="VARCHAR" property="trainingTitle" />
     <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
     <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
-    <result column="training_status" jdbcType="TINYINT" property="trainingStatus" />
+    <result column="training_status" property="trainingStatus" typeHandler="com.company.payroll.util.UByteTypeHandler" />
     <result column="staff_id" jdbcType="INTEGER" property="staffId" />
     <association property="staffDetails" javaType="com.company.payroll.model.StaffDetails">
       <id column="staff_id" jdbcType="INTEGER" property="staffId" />
@@ -73,7 +73,7 @@
       end_date, training_status, staff_id, 
       description)
     values (#{tId,jdbcType=INTEGER}, #{trainingTitle,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, 
-      #{endDate,jdbcType=TIMESTAMP}, #{trainingStatus,jdbcType=TINYINT}, #{staffId,jdbcType=INTEGER}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{trainingStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler}, #{staffId,jdbcType=INTEGER},
       #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffTraining">
@@ -118,7 +118,7 @@
         #{endDate,jdbcType=TIMESTAMP},
       </if>
       <if test="trainingStatus != null">
-        #{trainingStatus,jdbcType=TINYINT},
+        #{trainingStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       </if>
       <if test="staffId != null">
         #{staffId,jdbcType=INTEGER},
@@ -141,7 +141,7 @@
         end_date = #{endDate,jdbcType=TIMESTAMP},
       </if>
       <if test="trainingStatus != null">
-        training_status = #{trainingStatus,jdbcType=TINYINT},
+        training_status = #{trainingStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       </if>
       <if test="staffId != null">
         staff_id = #{staffId,jdbcType=INTEGER},
@@ -157,7 +157,7 @@
     set training_title = #{trainingTitle,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=TIMESTAMP},
       end_date = #{endDate,jdbcType=TIMESTAMP},
-      training_status = #{trainingStatus,jdbcType=TINYINT},
+      training_status = #{trainingStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       staff_id = #{staffId,jdbcType=INTEGER},
       description = #{description,jdbcType=LONGVARCHAR}
     where t_id = #{tId,jdbcType=INTEGER}
@@ -167,7 +167,7 @@
     set training_title = #{trainingTitle,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=TIMESTAMP},
       end_date = #{endDate,jdbcType=TIMESTAMP},
-      training_status = #{trainingStatus,jdbcType=TINYINT},
+      training_status = #{trainingStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       staff_id = #{staffId,jdbcType=INTEGER}
     where t_id = #{tId,jdbcType=INTEGER}
   </update>

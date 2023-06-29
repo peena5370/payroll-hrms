@@ -6,7 +6,9 @@ import com.company.payroll.service.StaffLeaveDetailsService
 import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
+@Service
 class StaffLeaveDetailsServiceImpl(@Autowired private val staffLeaveDetailsMapper: StaffLeaveDetailsMapper): StaffLeaveDetailsService {
   override fun list(page: Int, offset: Int): PageInfo<StaffLeaveDetails> {
     PageHelper.startPage<StaffLeaveDetails>(page, offset)

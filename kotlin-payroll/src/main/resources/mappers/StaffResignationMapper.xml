@@ -5,7 +5,7 @@
     <id column="resign_id" jdbcType="INTEGER" property="resignId" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="resign_date" jdbcType="DATE" property="resignDate" />
-    <result column="resign_status" jdbcType="TINYINT" property="resignStatus" />
+    <result column="resign_status" property="resignStatus" typeHandler="com.company.payroll.util.UByteTypeHandler" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="file_size" jdbcType="BIGINT" property="fileSize" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
@@ -62,7 +62,7 @@
       resign_status, file_name, file_size, 
       file_path, staff_id)
     values (#{resignId,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, #{resignDate,jdbcType=DATE}, 
-      #{resignStatus,jdbcType=TINYINT}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, 
+      #{resignStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT},
       #{filePath,jdbcType=VARCHAR}, #{staffId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.StaffResignation">
@@ -107,7 +107,7 @@
         #{resignDate,jdbcType=DATE},
       </if>
       <if test="resignStatus != null">
-        #{resignStatus,jdbcType=TINYINT},
+        #{resignStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       </if>
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
@@ -133,7 +133,7 @@
         resign_date = #{resignDate,jdbcType=DATE},
       </if>
       <if test="resignStatus != null">
-        resign_status = #{resignStatus,jdbcType=TINYINT},
+        resign_status = #{resignStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       </if>
       <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
@@ -154,7 +154,7 @@
     update staff_resignation
     set reason = #{reason,jdbcType=VARCHAR},
       resign_date = #{resignDate,jdbcType=DATE},
-      resign_status = #{resignStatus,jdbcType=TINYINT},
+      resign_status = #{resignStatus,jdbcType=TINYINT,typeHandler=com.company.payroll.util.UByteTypeHandler},
       file_name = #{fileName,jdbcType=VARCHAR},
       file_size = #{fileSize,jdbcType=BIGINT},
       file_path = #{filePath,jdbcType=VARCHAR},
