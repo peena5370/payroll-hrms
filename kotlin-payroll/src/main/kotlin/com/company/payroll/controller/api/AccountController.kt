@@ -11,22 +11,18 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.parameters.RequestBody
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.security.NoSuchAlgorithmException
 import java.util.*
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/api/system/accounts")
 class AccountController(@Autowired private val systemAccountService: SystemAccountService) {
   companion object {
-    private const val valueOne = """{"username": "string", "password": "string",
-                                    "roles": "string", "mid": null, "eid": null}"""
-    private const val valueTwo = """{"username": "string", "roles": "string", "mid": null, "eid": null, "aid": 0, 
-                                    "modified_date": "2023-04-28T11:38:12.262Z", "status": 0}"""
-    private const val valueThree = """{"username": "string", "password": "strings", "aid": 0, 
-                                      "modified_date": "2023-04-28T11:38:12.262Z"}"""
+    private const val valueOne = """{"username": "string", "password": "string", "roles": "string", "staffId": 0}"""
+    private const val valueTwo = """{"username": "string", "roles": "string", "lastAttempt": 1, "accountStatus": 1, "aid": 0}"""
+    private const val valueThree = """{"username": "string", "password": "strings", "aid": 0}"""
   }
 
   @GetMapping
@@ -36,7 +32,7 @@ class AccountController(@Autowired private val systemAccountService: SystemAccou
 
   @Operation(summary = "Get account info by id")
   @GetMapping("/{id}")
-  fun findById(@Parameter(description = "Account id") @PathVariable("id") id: Int): ResponseEntity<SystemAccount?> {
+  fun findById(@Parameter(description = "Account id") @PathVariable("id") id: Int): ResponseEntity<SystemAccount> {
     return ResponseEntity.ok(systemAccountService.findById(id))
   }
 
@@ -44,7 +40,14 @@ class AccountController(@Autowired private val systemAccountService: SystemAccou
   @RequestBody(content = [Content(mediaType = "application/json", schema = Schema(implementation = SystemAccount::class), examples = [ExampleObject(name = "Example 1", value = valueOne)])])
   @PostMapping
   @Throws(NoSuchAlgorithmException::class)
-  protected fun insert(@RequestBody systemAccount: SystemAccount): ResponseEntity<String> {
+  protected fun insert(@org.springframework.web.bind.annotation.RequestBody map: Map<String, Any>): ResponseEntity<String> {
+    println("map: $map")
+    val username = map["username"].toString()
+    val password = map["password"].toString()
+    val roles = map["roles"].toString()
+    val staffId = map["staffId"].toString().toInt()
+    val systemAccount = SystemAccount(0, username, password, null, roles, null, null,
+        null, null, null, null, staffId)
     systemAccountService.insert(systemAccount)
     return ResponseEntity.ok("register success")
   }
@@ -53,7 +56,12 @@ class AccountController(@Autowired private val systemAccountService: SystemAccou
   @RequestBody(required = true, content = [Content(mediaType = "application/json", schema = Schema(implementation = SystemAccount::class), examples = [ExampleObject(name = "Example 1", value = valueThree)])])
   @PutMapping("/{id}/password")
   @Throws(NoSuchAlgorithmException::class)
-  fun updateListPassword(@RequestBody systemAccount: SystemAccount): ResponseEntity<String> {
+  fun updateListPassword(@org.springframework.web.bind.annotation.RequestBody map: Map<String, Any>): ResponseEntity<String> {
+    val aId = map["aId"].toString().toInt()
+    val username = map["username"].toString()
+    val password = map["password"].toString()
+    val systemAccount = SystemAccount(aId, username, password, null, null, null, null,
+        null, null, null, null, null)
     systemAccountService.updateListPassword(systemAccount)
     return ResponseEntity.ok("update success")
   }
@@ -61,7 +69,7 @@ class AccountController(@Autowired private val systemAccountService: SystemAccou
   @Operation(summary = "Update account.")
   @RequestBody(required = true, content = [Content(mediaType = "application/json", schema = Schema(implementation = SystemAccount::class), examples = [ExampleObject(name = "Example 1", value = valueTwo)])])
   @PutMapping("/{id}")
-  fun updateStatusAndRoles(@RequestBody systemAccount: SystemAccount): ResponseEntity<String> {
+  fun updateStatusAndRoles(@org.springframework.web.bind.annotation.RequestBody systemAccount: SystemAccount): ResponseEntity<String> {
     systemAccountService.modifyStatusRoles(systemAccount)
     return ResponseEntity.ok("update success")
   }

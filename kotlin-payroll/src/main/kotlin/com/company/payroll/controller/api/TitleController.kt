@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/title")
+@RequestMapping("/api/system/title")
 class TitleController(@Autowired private val companyInfoService: CompanyInfoService) {
   @Operation(summary = "Get title list")
   @GetMapping

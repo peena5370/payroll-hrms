@@ -5,8 +5,8 @@ import com.company.payroll.model.SystemAccount
 import com.company.payroll.service.SystemAccountService
 import com.company.payroll.util.JwtTokenUtils
 import com.company.payroll.util.PasswordEncryption
+import com.github.pagehelper.PageInfo
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.ExampleObject
 import io.swagger.v3.oas.annotations.media.Schema
@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jakarta.servlet.http.HttpServletRequest
 import mu.KotlinLogging
+import org.slf4j.LoggerFactory.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
@@ -32,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.time.LocalDateTime
 
+
 @RestController
 @RequestMapping("/api/users")
 class LoginController(@Autowired private val systemAccountService: SystemAccountService,
@@ -41,29 +43,28 @@ class LoginController(@Autowired private val systemAccountService: SystemAccount
   private val log = KotlinLogging.logger {}
 
   companion object {
-    private const val VALUE_ONE = "{\"username\": \"string\", \"password\": \"string\"}"
-    private const val VALUE_TWO = "{\"username\": \"demouser123\", \"password\": \"Abcde@12345\"}"
-    private const val VALUE_THREE = "{\"code\": 200, \"msg\": \"Login Success.\"}"
-    private const val VALUE_FOUR = "{\"code\": 401, \"msg\": \"Account has reach max attempt login.\"}"
-    private const val VALUE_FIVE = "{\"code\": 401, \"msg\": \"Wrong user password.\"}"
-    private const val VALUE_SIX = "{\"code\": 500, \"msg\": \"The account does not exist.\"}"
+    private const val VALUE_ONE = """{"username": "string", "password": "string"}"""
+    private const val VALUE_TWO = """{"username": "account123", "password": "Abcde@12345"}"""
+    private const val VALUE_THREE = """{"code": 200, "msg": "Login Success."}"""
+    private const val VALUE_FOUR = """{"code": 401, "msg": "Account has reach max attempt login."}"""
+    private const val VALUE_FIVE = """{"code": 401, "msg": "Wrong user password."}"""
+    private const val VALUE_SIX = """{"code": 500, "msg": "The account does not exist."}"""
   }
-
 
   @Operation(summary = "System login API", description = """API will consist of the response status from back-end server.
 This API will also generate an authorization token for the client which saved at the response header('Authorization').""",
-      parameters = [Parameter(name = "username", required = true, description = "Username"), Parameter(name = "password", required = true, description = "Password")], responses = [ApiResponse(responseCode = "200", description = "Login success.", content = [Content(mediaType = "application/json", schema = Schema(implementation = ResponseObject::class), examples = [ExampleObject(value = VALUE_THREE)])]), ApiResponse(responseCode = "401", description = "Unauthorized request.", content = [Content(mediaType = "application/json", schema = Schema(implementation = ResponseObject::class), examples = [ExampleObject(name = "Example 1", value = VALUE_FOUR), ExampleObject(name = "Example 2", value = VALUE_FIVE)])]), ApiResponse(responseCode = "500", description = "Account not available in server.", content = [Content(mediaType = "application/json", schema = Schema(implementation = ResponseObject::class), examples = [ExampleObject(value = VALUE_SIX)])])])
+      responses = [ApiResponse(responseCode = "200", description = "Login success.", content = [Content(mediaType = "application/json", schema = Schema(implementation = ResponseObject::class), examples = [ExampleObject(value = VALUE_THREE)])]), ApiResponse(responseCode = "401", description = "Unauthorized request.", content = [Content(mediaType = "application/json", schema = Schema(implementation = ResponseObject::class), examples = [ExampleObject(name = "Example 1", value = VALUE_FOUR), ExampleObject(name = "Example 2", value = VALUE_FIVE)])]), ApiResponse(responseCode = "500", description = "Account not available in server.", content = [Content(mediaType = "application/json", schema = Schema(implementation = ResponseObject::class), examples = [ExampleObject(value = VALUE_SIX)])])])
   @RequestBody(required = true, content = [Content(mediaType = "application/json", schema = Schema(implementation = SystemAccount::class), examples = [ExampleObject(name = "Example 1", value = VALUE_ONE), ExampleObject(name = "Example 2", value = VALUE_TWO)])])
   @PostMapping("/login")
-  fun loginValidate(request: HttpServletRequest, @RequestBody systemAccount: SystemAccount): ResponseEntity<ResponseObject> {
+  fun loginValidate(@org.springframework.web.bind.annotation.RequestBody map: Map<String, String>, request: HttpServletRequest): ResponseEntity<ResponseObject> {
     val resp = ResponseObject(0, "")
     var token = ""
     val claims: MutableMap<String, String> = HashMap()
-    val authToken = UsernamePasswordAuthenticationToken(systemAccount.username, systemAccount.password)
+    val authToken = UsernamePasswordAuthenticationToken(map["username"], map["password"])
     try {
-      val accountDetails = systemAccountService.findByUsername(systemAccount.username)
-      val passwordEncoder: PasswordEncoder = DelegatingPasswordEncoder("bcrypt", PasswordEncryption().generatePasswordEncoder(accountDetails.secretKey.toString()))
-      val match = passwordEncoder.matches(systemAccount.password, accountDetails.password)
+      val accountDetails = systemAccountService.findByUsername(map["username"].toString())
+      val passwordEncoder: PasswordEncoder = DelegatingPasswordEncoder("bcrypt", accountDetails.secretKey?.let { PasswordEncryption().generatePasswordEncoder(it) })
+      val match = passwordEncoder.matches(map["password"], accountDetails.password)
       if (match && accountDetails.lastAttempt!! < 5u) {
         when (accountDetails.accountStatus) {
           0.toUByte() -> {
@@ -108,7 +109,7 @@ This API will also generate an authorization token for the client which saved at
       } else {
         val obj4 = SystemAccount(accountDetails.aId, accountDetails.username, null, null, null, null ,
             null, null, accountDetails.lastAttempt!!.inc(), null, null, null)
-        systemAccountService.modifyStatusRoles(obj4)
+        systemAccountService.setLastAttempt(obj4)
 
         resp.code = 401
         resp.msg = "Wrong user password."

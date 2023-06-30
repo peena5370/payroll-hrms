@@ -45,6 +45,7 @@ class SystemAccountServiceImpl(@Autowired private val accountMapper: AccountMapp
     systemAccount.password = encodedPassword
     systemAccount.secretKey = secretKey
     systemAccount.dateCreated = LocalDateTime.now()
+    systemAccount.lastAttempt = 0u
     systemAccount.accountStatus = 1u
     systemAccount.imgPath = defaultPath
 
@@ -70,6 +71,11 @@ class SystemAccountServiceImpl(@Autowired private val accountMapper: AccountMapp
 
   override fun modifyStatusRoles(systemAccount: SystemAccount): SystemAccount {
     systemAccount.dateModified = LocalDateTime.now()
+    accountMapper.updateByPrimaryKeySelective(systemAccount)
+    return systemAccount
+  }
+
+  override fun setLastAttempt(systemAccount: SystemAccount): SystemAccount {
     accountMapper.updateByPrimaryKeySelective(systemAccount)
     return systemAccount
   }

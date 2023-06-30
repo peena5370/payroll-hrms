@@ -21,17 +21,17 @@ class UByteTypeHandler : BaseTypeHandler<UByte>() {
   }
 
   override fun getNullableResult(rs: ResultSet, columnName: String): UByte? {
-    val value = rs.getInt(columnName)
+    val value = rs.getByte(columnName)
     return if (rs.wasNull()) null else value.toUByte()
   }
 
   override fun getNullableResult(rs: ResultSet, columnIndex: Int): UByte? {
-    val value = rs.getInt(columnIndex)
+    val value = rs.getByte(columnIndex)
     return if (rs.wasNull()) null else value.toUByte()
   }
 
   override fun getNullableResult(cs: CallableStatement, columnIndex: Int): UByte? {
-    val value = cs.getInt(columnIndex)
+    val value = cs.getByte(columnIndex)
     return if (cs.wasNull()) null else value.toUByte()
   }
 }

@@ -3,6 +3,7 @@ package com.company.payroll.service.impl
 import com.company.payroll.mapper.DepartmentMapper
 import com.company.payroll.mapper.TitleMapper
 import com.company.payroll.model.Department
+import com.company.payroll.model.PageWrapper
 import com.company.payroll.model.Title
 import com.company.payroll.service.CompanyInfoService
 import com.github.pagehelper.PageHelper
@@ -43,6 +44,7 @@ class CompanyInfoServiceImpl(@Autowired private val departmentMapper: Department
     PageHelper.startPage<Department>(page, offset)
     return PageInfo<Department>(departmentMapper.selectList())
   }
+
 
   override fun listTitle(page: Int, offset: Int): PageInfo<Title> {
     PageHelper.startPage<Title>(page, offset)

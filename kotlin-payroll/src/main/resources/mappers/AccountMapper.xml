@@ -107,7 +107,7 @@
         #{password,jdbcType=CHAR},
       </if>
       <if test="secretKey != null">
-        #{secret_key,jdbcType=CHAR},
+        #{secretKey,jdbcType=CHAR},
       </if>
       <if test="roles != null">
         #{roles,jdbcType=VARCHAR},

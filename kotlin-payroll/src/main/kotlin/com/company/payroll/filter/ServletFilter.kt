@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import mu.KotlinLogging
-import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 
 class ServletFilter: HttpFilter() {

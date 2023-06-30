@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/department")
+@RequestMapping("/api/system/department")
 class DepartmentController(@Autowired private val companyInfoService: CompanyInfoService) {
   @Operation(summary = "Get department list")
   @GetMapping

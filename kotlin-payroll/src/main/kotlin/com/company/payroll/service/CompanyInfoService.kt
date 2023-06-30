@@ -1,6 +1,7 @@
 package com.company.payroll.service
 
 import com.company.payroll.model.Department
+import com.company.payroll.model.PageWrapper
 import com.company.payroll.model.Title
 import com.github.pagehelper.PageInfo
 

@@ -46,9 +46,9 @@ dependencies {
 	runtimeOnly("io.github.microutils:kotlin-logging-jvm:3.0.5")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 configure<NoArgExtension> {

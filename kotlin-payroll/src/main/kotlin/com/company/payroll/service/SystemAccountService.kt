@@ -55,6 +55,13 @@ interface SystemAccountService {
   fun modifyStatusRoles(systemAccount: SystemAccount): SystemAccount
 
   /**
+   * <p> Method for user login setting last attempt when wrong password
+   * @param systemAccount
+   * @return
+   */
+  fun setLastAttempt(systemAccount: SystemAccount): SystemAccount
+
+  /**
    *
    * @param aId
    * @return

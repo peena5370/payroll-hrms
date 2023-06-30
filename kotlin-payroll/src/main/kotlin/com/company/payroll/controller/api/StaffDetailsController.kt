@@ -6,7 +6,7 @@ import com.github.pagehelper.PageInfo
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import jakarta.servlet.http.HttpServletRequest
-import mu.KotlinLogging
+//import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpStatus
@@ -24,7 +24,7 @@ import java.io.IOException
 @RequestMapping("/api/staff")
 class StaffDetailsController(@Autowired private val staffDetailsService: StaffDetailsService) {
 
-  private val log = KotlinLogging.logger {}
+//  private val log = KotlinLogging.logger {}
 
   @Operation(summary = "Get employee list")
   @GetMapping
@@ -48,7 +48,7 @@ class StaffDetailsController(@Autowired private val staffDetailsService: StaffDe
       contentType = try {
         request.servletContext.getMimeType(resource.file.absolutePath)
       } catch (e: IOException) {
-        log.info { "Could not determine file type. Exception message: ${e.message}" }
+//        log.info { "Could not determine file type. Exception message: ${e.message}" }
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(null)
       }
     }
