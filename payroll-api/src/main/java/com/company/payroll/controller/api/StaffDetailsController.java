@@ -33,38 +33,33 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/employee")
-public class EmployeeController {
+@RequestMapping("/api/staff/leave")
+public class StaffDetailsController {
 	
 	@Autowired
 	private StaffDetailsService staffDetailsService;
 	
-	@Autowired
-	private FileUtils fileUtils;
-	
 	@Operation(summary="Get employee list")
 	@GetMapping
 	public ResponseEntity<PageInfo<StaffDetails>> listEmployee(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(staffDetailsService.listEmployee(page, offset));
+		return ResponseEntity.ok(staffDetailsService.listStaffDetails(page, offset));
 	}
 	
 	@Operation(summary="Get employee info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<StaffDetails>> getById(@PathVariable("id") int eid) {
-		return ResponseEntity.ok(staffDetailsService.findEmployeeById(eid));
+	public ResponseEntity<Optional<StaffDetails>> findById(@PathVariable("id") Integer staffId) {
+		return ResponseEntity.ok(staffDetailsService.findByStaffId(staffId));
 	}
 	
 	@Operation(summary="Load employee image")
-	@PostMapping("/{id}/image")
-	public ResponseEntity<Resource> loadImage(@PathVariable("id") int eid, HttpServletRequest request) {
-		Optional<StaffDetails> employee = staffDetailsService.findEmployeeById(eid);
-		Resource resource = fileUtils.download(Paths.get(employee.get().getImgUser()));
-		
-		String contentType = null;
+	@PostMapping("/{staff_id}/image/loads")
+	public ResponseEntity<Resource> loadStaffImage(@PathVariable("staff_id") Integer staffId, HttpServletRequest request) {
+		Resource resource = staffDetailsService.loadStaffImage(staffId);
+		String contentType = "";
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
-        	log.info("Could not determine file type. Exception message: {}", e);
+        	log.info("Could not determine file type. Exception message: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(null);
         }
 
@@ -74,34 +69,25 @@ public class EmployeeController {
 
 	@Operation(summary="Insert staffDetails info")
 	@PostMapping
-	public ResponseEntity<StaffDetails> insert(@Parameter(description="image file") @RequestPart("img") MultipartFile image, @RequestPart("staffDetails") StaffDetails staffDetails) {
-		String filepath = "/files/employees/list";
-		String contentType = image.getContentType();
-		
-		if(contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/gif")) {
-			staffDetails.setImgUser(fileUtils.imageUpload(image, filepath));
-		} else {
-			return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(null);
-		}
-		
-		return ResponseEntity.ok(staffDetailsService.registerEmployee(staffDetails));
+	public ResponseEntity<StaffDetails> insert(@Parameter(description="image file") @RequestPart("img") MultipartFile image, @RequestPart("employee") StaffDetails staffDetails) {
+		return ResponseEntity.ok(staffDetailsService.addStaffDetails(image, staffDetails));
 	}
 	
 	@Operation(summary="Update staffDetails info.")
 	@PutMapping("/{id}")
 	public ResponseEntity<StaffDetails> update(@RequestBody StaffDetails staffDetails) {
-		return ResponseEntity.ok(staffDetailsService.updateEmployee(staffDetails));
+		return ResponseEntity.ok(staffDetailsService.updateStaffDetails(staffDetails));
 	}
 	
 	@Operation(summary="Delete employee info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@PathVariable("id") int eid) {
-		return ResponseEntity.ok(staffDetailsService.deleteEmployee(eid));
+	public ResponseEntity<Integer> delete(@PathVariable("id") Integer staffId) {
+		return ResponseEntity.ok(staffDetailsService.deleteStaffDetails(staffId));
 	}
 	
 	@Operation(summary="Get active employee count.")
-	@GetMapping("/count/{deptno}/active")
-	public ResponseEntity<Integer> count(@PathVariable("deptno") int deptno) {
-		return ResponseEntity.ok(staffDetailsService.countActiveEmployee(deptno));
+	@GetMapping("/count/{dept_no}/active")
+	public ResponseEntity<Integer> count(@PathVariable("dept_no") Integer deptNo) {
+		return ResponseEntity.ok(staffDetailsService.countActiveStaff(deptNo));
 	}
 }

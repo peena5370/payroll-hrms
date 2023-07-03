@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
+@Deprecated
 @Slf4j
 @RestController
 @RequestMapping("/api/manager")

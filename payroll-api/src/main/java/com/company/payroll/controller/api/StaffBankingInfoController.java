@@ -20,8 +20,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
-@RequestMapping("/api/banking")
-public class BankingController {
+@RequestMapping("/api/staff/banking")
+public class StaffBankingInfoController {
 	
 	@Autowired
 	private StaffBankingInfoService staffBankingInfoService;
@@ -34,7 +34,7 @@ public class BankingController {
 	
 	@Operation(summary="Get banking info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<StaffBankingInfo>> getById(@Parameter(description="Banking id") @PathVariable("id") int bid) {
+	public ResponseEntity<Optional<StaffBankingInfo>> findById(@Parameter(description="Banking id") @PathVariable("id") int bid) {
 		return ResponseEntity.ok(staffBankingInfoService.findById(bid));
 	}
 	

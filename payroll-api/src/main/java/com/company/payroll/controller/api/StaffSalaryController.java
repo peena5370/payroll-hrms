@@ -19,22 +19,23 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
-@RequestMapping("/api/salary")
-public class SalaryController {
+@RequestMapping("/api/staff/salary")
+public class StaffSalaryController {
 	
 	@Autowired
 	private StaffSalaryService staffSalaryService;
 	
 	@Operation(summary="Get salary list")
 	@GetMapping
-	public ResponseEntity<PageInfo<StaffSalary>> listSalary(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffSalary>> list(@RequestParam(value="page", required=true) int page,
+													  @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffSalaryService.list(page, offset));
 	}
 	
 	@Operation(summary="Get salary info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<StaffSalary>> getById(@PathVariable("id") int sid) {
-		return ResponseEntity.ok(staffSalaryService.findById(sid));
+	public ResponseEntity<Optional<StaffSalary>> findById(@PathVariable("id") Integer sId) {
+		return ResponseEntity.ok(staffSalaryService.findById(sId));
 	}
 	
 	@Operation(summary="Update staffSalary info.")

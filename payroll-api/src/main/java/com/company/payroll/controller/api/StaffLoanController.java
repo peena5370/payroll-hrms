@@ -24,28 +24,28 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
-@RequestMapping("/api/loan")
-public class LoanController {
+@RequestMapping("/api/application/loan")
+public class StaffLoanController {
 	
 	@Autowired
 	private StaffApplicationService staffApplicationService;
 
 	@Operation(summary="Get loan list")
 	@GetMapping
-	public ResponseEntity<PageInfo<StaffLoan>> listLoan(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffLoan>> list(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffApplicationService.listLoan(page, offset));
 	}
 	
 	@Operation(summary="Get loan list by employee id")
 	@GetMapping("/{id}/all")
-	public ResponseEntity<Optional<List<StaffLoan>>> listLoanByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
-		return ResponseEntity.ok(staffApplicationService.findLoanByEId(eid));
+	public ResponseEntity<Optional<List<StaffLoan>>> listLoanByStaffId(@Parameter(description="employee id") @PathVariable("id") Integer staffId) {
+		return ResponseEntity.ok(staffApplicationService.findLoanByStaffId(staffId));
 	}
 	
 	@Operation(summary="Get loan info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<StaffLoan>> getById(@PathVariable("id") int lid) {
-		return ResponseEntity.ok(staffApplicationService.findLoanById(lid));
+	public ResponseEntity<Optional<StaffLoan>> findById(@PathVariable("id") Integer loanId) {
+		return ResponseEntity.ok(staffApplicationService.findLoanById(loanId));
 	}
 	
 	@Operation(summary="Add staffLoan info")
@@ -62,12 +62,7 @@ public class LoanController {
 	
 	@Operation(summary="Delete loan info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@PathVariable("id") int lid) {
-		Integer status = staffApplicationService.deleteLoan(lid);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Integer> delete(@PathVariable("id") Integer loanId) {
+		return ResponseEntity.ok(staffApplicationService.deleteLoan(loanId));
 	}
 }

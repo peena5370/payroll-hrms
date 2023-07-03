@@ -1,6 +1,7 @@
 package com.company.payroll.filter;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
@@ -19,8 +20,9 @@ import jakarta.servlet.http.HttpServletResponse;
  * TODO to be implemented
  */
 public class ServletFilter extends HttpFilter {
+	@Serial
 	private static final long serialVersionUID = 2356342253571770847L;
-	private Logger log = LoggerFactory.getLogger(ServletFilter.class);
+	private final Logger log = LoggerFactory.getLogger(ServletFilter.class);
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {

@@ -24,28 +24,29 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
-@RequestMapping("/api/leave")
-public class LeaveController {
+@RequestMapping("/api/application/leave")
+public class StaffLeaveController {
 	
 	@Autowired
 	private StaffApplicationService staffApplicationService;
 
 	@Operation(summary="Get leave list")
 	@GetMapping
-	public ResponseEntity<PageInfo<StaffLeave>> listLeave(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffLeave>> list(@RequestParam(value="page", required=true) int page,
+													 @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffApplicationService.listLeave(page, offset));
 	}
 	
 	@Operation(summary="Get leave list by employee id")
 	@GetMapping("/{id}/all")
-	public ResponseEntity<Optional<List<StaffLeave>>> listByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
-		return ResponseEntity.ok(staffApplicationService.findLeaveByEId(eid));
+	public ResponseEntity<Optional<List<StaffLeave>>> listByStaffId(@Parameter(description="employee id") @PathVariable("id") Integer staffId) {
+		return ResponseEntity.ok(staffApplicationService.findLeaveByStaffId(staffId));
 	}
 	
 	@Operation(summary="Get leave info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<StaffLeave>> getById(@PathVariable("id") int lid) {
-		return ResponseEntity.ok(staffApplicationService.findLeaveById(lid));
+	public ResponseEntity<Optional<StaffLeave>> findById(@PathVariable("id") Integer lId) {
+		return ResponseEntity.ok(staffApplicationService.findLeaveById(lId));
 	}
 	
 	@Operation(summary="Add staffLeave info")
@@ -62,12 +63,7 @@ public class LeaveController {
 	
 	@Operation(summary="Delete leave info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@PathVariable("id") int lid) {
-		Integer status = staffApplicationService.deleteLeave(lid);
-		if(status==0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status);
+	public ResponseEntity<Integer> delete(@PathVariable("id") Integer lId) {
+		return ResponseEntity.ok(staffApplicationService.deleteLeave(lId));
 	}
 }

@@ -3,7 +3,6 @@ package com.company.payroll.controller.api;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +21,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
-@RequestMapping("/api/department")
+@RequestMapping("/api/system/department")
 public class DepartmentController {
 
 	@Autowired
@@ -30,36 +29,32 @@ public class DepartmentController {
 	
 	@Operation(summary="Get department list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Department>> listDepartment(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<Department>> list(@RequestParam(value="page", required=true) int page,
+															   @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(companyInfoService.listDepartment(page, offset));
 	}
 	
 	@Operation(summary="Get department info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Department>> getById(@PathVariable("id") int deptno) {
-		return ResponseEntity.ok(companyInfoService.findDepartmentById(deptno));
+	public ResponseEntity<Optional<Department>> findById(@PathVariable("id") Integer deptNo) {
+		return ResponseEntity.ok(companyInfoService.findDepartmentById(deptNo));
 	}
 	
 	@Operation(summary="Insert department info")
 	@PostMapping
 	public ResponseEntity<Department> insert(@RequestBody Department department) {
-		Department status = companyInfoService.insertDepartment(department);
-		if(status==null) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(status);
-		}
-		
-		return ResponseEntity.ok(status); 
+		return ResponseEntity.ok(companyInfoService.insertDepartment(department));
 	}
 	
 	@Operation(summary="Update department info.")
 	@PutMapping("/{id}")
-	public ResponseEntity<Department> update(@RequestBody Department department) {	
+	public ResponseEntity<Department> update(@RequestBody Department department) {
 		return ResponseEntity.ok(companyInfoService.updateDepartment(department)); 
 	}
 	
 	@Operation(summary="Delete department info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@PathVariable("id") int deptno) {		
-		return ResponseEntity.ok(companyInfoService.deleteDepartment(deptno)); 
+	public ResponseEntity<Integer> delete(@PathVariable("id") Integer deptNo) {
+		return ResponseEntity.ok(companyInfoService.deleteDepartment(deptNo));
 	}
 }

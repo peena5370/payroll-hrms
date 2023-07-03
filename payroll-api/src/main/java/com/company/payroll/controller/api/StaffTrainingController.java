@@ -23,34 +23,29 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
-@RequestMapping("/api/training")
-public class TrainingController {
+@RequestMapping("/api/staff/training")
+public class StaffTrainingController {
 	
 	@Autowired
 	private StaffMiscellaneousService staffMiscellaneousService;
 	
 	@Operation(summary="Get training list")
 	@GetMapping
-	public ResponseEntity<PageInfo<StaffTraining>> listTraining(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffTraining>> list(@RequestParam(value="page", required=true) int page,
+														@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffMiscellaneousService.listTraining(page, offset));
 	}
 	
 	@Operation(summary="Get training info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<StaffTraining>> getById(@PathVariable("id") int tId) {
+	public ResponseEntity<Optional<StaffTraining>> findById(@PathVariable("id") Integer tId) {
 		return ResponseEntity.ok(staffMiscellaneousService.findTrainingById(tId));
 	}
 	
 	@Operation(summary="Get training list by employee id")
-	@GetMapping("/employee/{id}/all")
-	public ResponseEntity<Optional<List<StaffTraining>>> getListByEId(@Parameter(description="employee id") @PathVariable("id") int eId) {
-		return ResponseEntity.ok(staffMiscellaneousService.findTrainingByEId(eId));
-	}
-	
-	@Operation(summary="Get training list by manager id")
-	@GetMapping("/manager/{id}/all")
-	public ResponseEntity<Optional<List<StaffTraining>>> getListByMId(@Parameter(description="manager id") @PathVariable("id") int mId) {
-		return ResponseEntity.ok(staffMiscellaneousService.findTrainingByMId(mId));
+	@GetMapping("/{staff_id}/all")
+	public ResponseEntity<List<StaffTraining>> listByStaffId(@Parameter(description="employee id") @PathVariable("staff_id") Integer staffId) {
+		return ResponseEntity.ok(staffMiscellaneousService.listTrainingByStaffId(staffId));
 	}
 	
 	@Operation(summary="Insert staffTraining info")

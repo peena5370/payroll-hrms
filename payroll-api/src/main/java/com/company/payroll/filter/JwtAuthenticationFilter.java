@@ -3,6 +3,7 @@ package com.company.payroll.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -25,11 +26,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+	@Autowired
     private JwtTokenUtils jwtTokenUtils;
-
-    public JwtAuthenticationFilter(JwtTokenUtils jwtTokenUtils) {
-    	this.jwtTokenUtils = jwtTokenUtils;
-    }
     
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -37,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		String header = request.getHeader("Authorization");
 		
 		// Token empty/null, pass the filter
-		if(header == null || header.isEmpty() || !header.startsWith("Bearer")) {
+		if(header == null || !header.startsWith("Bearer")) {
 			filterChain.doFilter(request, response);
 			return;
 		}

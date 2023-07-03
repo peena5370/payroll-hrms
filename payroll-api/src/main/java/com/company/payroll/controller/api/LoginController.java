@@ -1,13 +1,19 @@
 package com.company.payroll.controller.api;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
+import com.company.payroll.model.SystemAccount;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.payroll.model.Account;
 import com.company.payroll.model.ResponseObject;
 import com.company.payroll.service.SystemAccountService;
 import com.company.payroll.util.JwtTokenUtils;
@@ -33,7 +38,6 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @RestController
 @RequestMapping("/api/users")
@@ -46,7 +50,7 @@ public class LoginController {
 	private static final String VALUE_SIX = "{\"code\": 500, \"msg\": \"The account does not exist.\"}";
 	
 	@Autowired
-	private SystemAccountService accountService;
+	private SystemAccountService systemAccountService;
 	
 	@Autowired
 	private JwtTokenUtils jwtTokenUtils;
@@ -82,101 +86,79 @@ public class LoginController {
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(
 			   required= true,
 			   content= {@Content(mediaType="application/json", 
-			   			 schema= @Schema(implementation = Account.class),
+			   			 schema= @Schema(implementation = SystemAccount.class),
 			   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE),
 			   					 	@ExampleObject(name="Example 2", value=VALUE_TWO)}) })
 	@PostMapping("/login")
-	public ResponseEntity<ResponseObject> backendLoginValidate(HttpServletRequest request, @RequestBody Account account) {
+	public ResponseEntity<ResponseObject> backendLoginValidate(HttpServletRequest request, @RequestBody Map<String, String> map) {
 		ResponseObject resp = new ResponseObject();
-		String token = null;
+		String token = "";
 		Map<String, Object> claims = new HashMap<>();
 
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword());
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(map.get("username"), map.get("password"));
 		try {
-			Account obj = accountService.getByUsername(account.getUsername());
-			PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(obj.getSecretkey()));
-			Boolean match = passwordEncoder.matches(account.getPassword(), obj.getPassword());
-			
-			if(match && obj.getLastAttempt()<5) {
-				switch(obj.getAccountStatus()) {
-					case 0:
-						log.info("Inactive account has sucess login.");
-						resp.setCode(401);
-						resp.setMsg("Inactive account has sucess login.");
-						break;
-					case 1:
-						Account obj2 = new Account();
-						obj2.setAId(obj.getAId());
-						obj2.setLastAttempt((byte) 1);
-						obj2.setLastLogin(LocalDateTime.now());
-						
-						accountService.update(obj2);
-						
-						switch(obj.getRoles()) {
-							case "role_admin":
-								authenticationManager.authenticate(authToken);
-								
-								claims.put("roles", obj.getRoles());
-								claims.put("id", obj.getMId());
-								claims.put("client_address", request.getRemoteAddr());
-								
-								token = jwtTokenUtils.generateToken(account.getUsername(), claims);
-								break;
-							case "role_manager":
-								authenticationManager.authenticate(authToken);
-								
-								claims.put("roles", obj.getRoles());
-								claims.put("id", obj.getMId());
-								claims.put("client_address", request.getRemoteAddr());
-								
-								token = jwtTokenUtils.generateToken(account.getUsername(), claims);
-								break;
-							default:
-								authenticationManager.authenticate(authToken);
-								
-								claims.put("roles", obj.getRoles());
-								claims.put("id", obj.getEId());
-								claims.put("client_address", request.getRemoteAddr());
-								
-								token = jwtTokenUtils.generateToken(account.getUsername(), claims);
-								break;
+			Optional<SystemAccount> accountDetails = systemAccountService.findByUsername(map.get("username"));
+			if(accountDetails.isPresent()) {
+				SystemAccount account = accountDetails.get();
+				PasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", PasswordEncryption.generatePasswordEncoder(account.getSecretKey()));
+				boolean match = passwordEncoder.matches(map.get("password"), accountDetails.get().getPassword());
+
+				if(match && account.getLastAttempt()<5) {
+					switch (account.getAccountStatus()) {
+						case 0 -> {
+							log.info("Inactive account has success login.");
+							resp.setCode(401);
+							resp.setMsg("Inactive account has success login.");
 						}
-						
-						resp.setCode(200);
-						resp.setMsg("Login success.");
-						break;
-					case 2:
-						log.info("Locked account has success login.");
-						resp.setCode(401);
-						resp.setMsg("Locked account has success login.");
-						break;
-					default:
-						break;
+						case 1 -> {
+							SystemAccount obj2 = new SystemAccount();
+							obj2.setAId(account.getAId());
+							obj2.setLastLogin(LocalDateTime.now());
+							obj2.setLastAttempt((byte) 1);
+							systemAccountService.modifyStatusRoles(obj2);
+
+							authenticationManager.authenticate(authToken);
+							claims.put("id", account.getStaffId());
+							claims.put("roles", account.getRoles());
+							claims.put("client_address", request.getRemoteAddr());
+
+							token = jwtTokenUtils.generateToken(account.getUsername(), claims);
+
+							resp.setCode(200);
+							resp.setMsg("Login success.");
+						}
+						case 2 -> {
+							log.info("Locked account has success login.");
+							resp.setCode(401);
+							resp.setMsg("Locked account has success login.");
+						}
+						default -> {
+						}
+					}
+				} else if(account.getLastAttempt()>=6) {
+					SystemAccount obj3 = new SystemAccount();
+					obj3.setAId(account.getAId());
+					obj3.setAccountStatus((byte) 2);
+
+					systemAccountService.modifyStatusRoles(obj3);
+
+					resp.setCode(401);
+					resp.setMsg("Account has reach max attempt login.");
+
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resp);
+				} else {
+					SystemAccount obj4 = new SystemAccount();
+					obj4.setAId(account.getAId());
+					obj4.setLastAttempt((byte) (account.getLastAttempt() + 1));
+
+					systemAccountService.setLastAttempt(obj4);
+
+					resp.setCode(401);
+					resp.setMsg("Wrong user password.");
+
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resp);
 				}
-			} else if(obj.getLastAttempt()>=6) {
-				Account obj3 = new Account();
-				obj3.setAId(obj.getAId());
-				obj3.setAccountStatus((byte) 2);
-				
-				accountService.update(obj3);
-				
-				resp.setCode(401);
-				resp.setMsg("Account has reach max attempt login.");
-				
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resp);
-			} else {
-				Account obj4 = new Account();
-				obj4.setAId(obj.getAId());
-				obj4.setLastAttempt((byte) (obj.getLastAttempt() + 1));
-				
-				accountService.update(obj4);
-				
-				resp.setCode(401);
-				resp.setMsg("Wrong user password.");
-				
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resp);
 			}
-			
 		} catch(NullPointerException | NoSuchAlgorithmException e) {
 			log.error("Error message: {}", e.getMessage());
 			
@@ -192,7 +174,8 @@ public class LoginController {
 	@Operation(summary= "System logout API",
 			   description= "TODO")
 	@PostMapping("/logout")
-	public ResponseEntity<ResponseObject> logout() {
+	public ResponseEntity<ResponseObject> logout(HttpServletRequest request) {
+		String header = request.getHeader("Authorization");
 		ResponseObject resp = new ResponseObject();
 		resp.setCode(200);
 		resp.setMsg("Success logout.");
@@ -202,12 +185,31 @@ public class LoginController {
 		 * 1. remote address
 		 * 2. token
 		 * 3. redis cache token
-		 * 
+		 *
 		 * Blacklist token with Redis container
 		 * 1. replace Bearer header to Blacklist header
 		 * 2. save to Redis
 		 */
-		
+
 		return ResponseEntity.ok(resp);
+	}
+
+	@Operation(summary = "Load profile image")
+	@PostMapping("/image/download")
+	public ResponseEntity<Resource> downloadUserImage(HttpServletRequest request) {
+		String header = request.getHeader("Authorization");
+		Claims claims = jwtTokenUtils.getClaims(header.substring(7));
+		Resource resource = systemAccountService.downloadAccountImage(claims.getSubject());
+		String contentType = "";
+		if(resource!=null) {
+			try {
+				contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+			} catch (IOException e) {
+				log.error("Could not determine file type. Exception message: {}", e.getMessage());
+				return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(null);
+			}
+		}
+
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
 	}
 }

@@ -21,28 +21,31 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
-@RequestMapping("/api/promotion")
-public class PromotionController {
+@RequestMapping("/api/staff/promotion")
+public class StaffPromotionController {
 	
 	@Autowired
 	private StaffMiscellaneousService staffMiscellaneousService;
 
 	@Operation(summary="Get promotion list")
 	@GetMapping
-	public ResponseEntity<PageInfo<StaffPromotion>> listPromotion(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffPromotion>> listPromotion(@RequestParam(value="page", required=true) int page,
+																  @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffMiscellaneousService.listPromotion(page, offset));
 	}
 	
 	@Operation(summary="Get promotion list by eid")
 	@GetMapping("/{id}/all")
-	public ResponseEntity<PageInfo<StaffPromotion>> listByEId(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset, @PathVariable("id") int eid) {
-		return ResponseEntity.ok(staffMiscellaneousService.listPromotionByEId(page, offset, eid));
+	public ResponseEntity<PageInfo<StaffPromotion>> listByEId(@RequestParam(value="page", required=true) int page,
+															  @RequestParam(value="size", required=true) int offset,
+															  @PathVariable("id") Integer staffId) {
+		return ResponseEntity.ok(staffMiscellaneousService.listPromotionByStaffId(page, offset, staffId));
 	}
 	
 	@Operation(summary="Get promotion info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<StaffPromotion>> getById(@PathVariable("id") int pid) {
-		return ResponseEntity.ok(staffMiscellaneousService.findPromotionById(pid));
+	public ResponseEntity<Optional<StaffPromotion>> getById(@PathVariable("id") Integer pId) {
+		return ResponseEntity.ok(staffMiscellaneousService.findPromotionById(pId));
 	}
 	
 	@Operation(summary="Insert staffPromotion info")

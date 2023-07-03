@@ -23,6 +23,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
+@Deprecated
 @RestController
 @RequestMapping("/api/payroll/manager")
 public class PayrollManagerController {

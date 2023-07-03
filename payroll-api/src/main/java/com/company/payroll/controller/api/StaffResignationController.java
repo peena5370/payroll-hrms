@@ -33,64 +33,41 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/resign")
-public class ResignationController {
+@RequestMapping("/api/staff/resign")
+public class StaffResignationController {
 	
 	@Autowired
 	private StaffMiscellaneousService staffMiscellaneousService;
-	
-	@Autowired
-    private FileUtils fileUtils;
 
 	@Operation(summary="Get resignation list")
 	@GetMapping
-	public ResponseEntity<PageInfo<StaffResignation>> listResignation(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffResignation>> list(@RequestParam(value="page", required=true) int page,
+														   @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffMiscellaneousService.listResignation(page, offset));
 	}
 	
 	@Operation(summary="Get resign info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<StaffResignation>> getById(@PathVariable("id") int id) {
-		return ResponseEntity.ok(staffMiscellaneousService.findResignationById(id));
+	public ResponseEntity<Optional<StaffResignation>> findById(@PathVariable("id") Integer resignId) {
+		return ResponseEntity.ok(staffMiscellaneousService.findResignationById(resignId));
 	}
 
 	@Operation(summary="Insert resign info")
 	@PostMapping
-	public ResponseEntity<String> insert(@RequestPart("file") MultipartFile file, @RequestPart("staffResignation") StaffResignation staffResignation) {
-		String filepath = "";
-		
-		if(staffResignation.getEId()==null) {
-			filepath = "/resign_files/" + staffResignation.getMId();
-		} else {
-			filepath = "/resign_files/" + staffResignation.getEId();
-		}
-		
-		if(file.getContentType().equals("application/msword") || file.getContentType().equals("application/pdf") || 
-					file.getContentType().equals("application/wps-office.doc") || file.getContentType().equals("application/wps-office.docx")) {
-			staffResignation.setFileName(file.getOriginalFilename());
-			staffResignation.setFileSize(file.getSize());
-			staffResignation.setAttachment(fileUtils.fileUpload(file, filepath));
-			
-			staffMiscellaneousService.insertResignation(staffResignation);
-		} else {
-			return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("unsupported media type");
-		}
-		
-		return ResponseEntity.ok("success");
+	public ResponseEntity<StaffResignation> insert(@RequestPart("file") MultipartFile attachment,
+												   @RequestPart("resignation") StaffResignation staffResignation) {
+		return ResponseEntity.ok(staffMiscellaneousService.insertResignation(attachment, staffResignation));
 	}
 	
 	@Operation(summary="Download attachment")
 	@PostMapping("/{id}/attachment/download")
-	public ResponseEntity<Resource> downloadAttachment(@PathVariable("id") int id, HttpServletRequest request) {
-		Optional<StaffResignation> resign = staffMiscellaneousService.findResignationById(id);
-		
-		Resource resource = fileUtils.download(Paths.get(resign.get().getAttachment()));
-		
-		String contentType = null;
+	public ResponseEntity<Resource> downloadAttachment(@PathVariable("id") Integer resignId, HttpServletRequest request) {
+		Resource resource = staffMiscellaneousService.downloadResignationAttachment(resignId);
+		String contentType = "";
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
-            log.info("Could not determine file type. Exception message: {}", e);
+            log.info("Could not determine file type. Exception message: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(null);
         }
         
@@ -108,10 +85,7 @@ public class ResignationController {
 	
 	@Operation(summary="Delete resign info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
-		Optional<StaffResignation> resign = staffMiscellaneousService.findResignationById(id);
-		fileUtils.delete(Paths.get(resign.get().getAttachment()));
-		
-		return ResponseEntity.ok(staffMiscellaneousService.deleteResignation(id));
+	public ResponseEntity<Integer> delete(@PathVariable("id") Integer resignId) {
+		return ResponseEntity.ok(staffMiscellaneousService.deleteResignation(resignId));
 	}
 }

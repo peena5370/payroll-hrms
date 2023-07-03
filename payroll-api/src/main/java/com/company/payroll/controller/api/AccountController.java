@@ -1,8 +1,10 @@
 package com.company.payroll.controller.api;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 import java.util.Optional;
 
+import com.company.payroll.model.SystemAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/api/system/account")
 public class AccountController {
 	private static final String VALUE_ONE = "{\"username\": \"string\", \"password\": \"string\", "
 										  + "\"roles\": \"string\", \"mid\": null, \"eid\": null}";
@@ -38,31 +40,34 @@ public class AccountController {
 			  							  	+ "\"modified_date\": \"2023-04-28T11:38:12.262Z\"}";
 	
 	@Autowired
-	private SystemAccountService accountService;
+	private SystemAccountService systemAccountService;
 	
 	@Operation(summary="Get account list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Account>> listAccount(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(accountService.list(page, offset));	
+	public ResponseEntity<PageInfo<SystemAccount>> listAccount(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(systemAccountService.list(page, offset));
 	}
 	
 	@Operation(summary="Get account info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Account>> getById(@Parameter(description="Account id") @PathVariable("id")int id) {
-		return ResponseEntity.ok(accountService.findById(id));
+	public ResponseEntity<Optional<SystemAccount>> findById(@Parameter(description="Account id") @PathVariable("id") Integer id) {
+		return ResponseEntity.ok(systemAccountService.findById(id));
 	}
 	
 	@Operation(summary="Register new account")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(
 			   	 content= {@Content(mediaType="application/json", 
-	   			 schema= @Schema(implementation = Account.class),
+	   			 schema= @Schema(implementation = SystemAccount.class),
 	   			 examples= {@ExampleObject(name="Example 1", value=VALUE_ONE)})})
 	@PostMapping
-	public ResponseEntity<String> insert(@RequestBody Account account) throws NoSuchAlgorithmException {
-		Account row = accountService.insert(account);
-			if(row==null) {
-				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("register failed");
-			}
+	public ResponseEntity<String> insert(@RequestBody Map<String, Object> map) throws NoSuchAlgorithmException {
+		String username = map.get("username").toString();
+		String password = map.get("password").toString();
+		String roles = map.get("roles").toString();
+		Integer staffId = Integer.valueOf(map.get("staffId").toString());
+		SystemAccount systemAccount = new SystemAccount(null, username, password, null, roles, null, null, null, null, null, null, staffId);
+
+		systemAccountService.insert(systemAccount);
 		
 		return ResponseEntity.ok("register success");
 	}
@@ -76,14 +81,16 @@ public class AccountController {
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(required=true,
   	 	 content= {@Content(mediaType="application/json", 
-		 schema= @Schema(implementation = Account.class),
+		 schema= @Schema(implementation = SystemAccount.class),
 		 examples= {@ExampleObject(name="Example 1", value=VALUE_THREE)})})
 	@PutMapping("/{id}/password")
-	public ResponseEntity<String> listUpdatePassword(@RequestBody Account account) throws NoSuchAlgorithmException {
-		Account row = accountService.updateListPassword(account);
-		if(row==null) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("password update failed");
-		}
+	public ResponseEntity<String> listUpdatePassword(@RequestBody Map<String, Object> map) throws NoSuchAlgorithmException {
+		Integer aId = Integer.valueOf(map.get("aId").toString());
+		String username = map.get("username").toString();
+		String password = map.get("password").toString();
+
+		SystemAccount systemAccount = new SystemAccount(aId, username, password, null, null, null, null, null, null, null, null, null);
+		systemAccountService.updateListPassword(systemAccount);
 		
 		return ResponseEntity.ok("update success");
 	}
@@ -91,14 +98,11 @@ public class AccountController {
 	@Operation(summary="Update account.")
 	@io.swagger.v3.oas.annotations.parameters.RequestBody(required=true,
   	 	 content= {@Content(mediaType="application/json", 
-		 schema= @Schema(implementation = Account.class),
+		 schema= @Schema(implementation = SystemAccount.class),
 		 examples= {@ExampleObject(name="Example 1", value=VALUE_TWO)})})
 	@PutMapping("/{id}")
-	public ResponseEntity<String> update(@RequestBody Account account) {
-		Account row = accountService.update(account);
-		if(row==null) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("update failed");
-		}
+	public ResponseEntity<String> update(@RequestBody SystemAccount systemAccount) {
+		systemAccountService.modifyStatusRoles(systemAccount);
 		
 		return ResponseEntity.ok("update success");
 	}
@@ -111,7 +115,7 @@ public class AccountController {
 					   	  				description="Value return 0 for delete fail.",
 					   	  				content=@Content(examples= {@ExampleObject(value="0")}))})
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@Parameter(description="Account id") @PathVariable("id") int aid) {	
-		return ResponseEntity.ok(accountService.delete(aid));
+	public ResponseEntity<Integer> delete(@Parameter(description="Account id") @PathVariable("id") int aId) {
+		return ResponseEntity.ok(systemAccountService.delete(aId));
 	}
 }

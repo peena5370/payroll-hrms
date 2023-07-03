@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import com.company.payroll.model.JwtTokenProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class JwtTokenUtils {
 	private Instant issuedAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
 
 	@Autowired
-	private JwtConfig jwtTokenProperties;
+	private JwtTokenProperties jwtTokenProperties;
 
 	/**
 	 * Generate token

@@ -17,10 +17,8 @@ public class ApiInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		boolean bool = true;
 		log.info("Pre handle trigger. Time: {}", System.currentTimeMillis());
-		
-		return bool;
+		return true;
 	}
 
 	@Override

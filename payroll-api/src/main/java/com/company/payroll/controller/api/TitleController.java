@@ -22,7 +22,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
-@RequestMapping("/api/title")
+@RequestMapping("/api/system/title")
 public class TitleController {
 	
 	@Autowired
@@ -30,14 +30,15 @@ public class TitleController {
 
 	@Operation(summary="Get title list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Title>> listTitleByPage(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<Title>> list(@RequestParam(value="page", required=true) int page,
+												@RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(companyInfoService.listTitle(page, offset));
 	}
 
 	@Operation(summary="Get title info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Title>> getByTitleno(@PathVariable("id") int titleno) {
-		return ResponseEntity.ok(companyInfoService.findTitleById(titleno));
+	public ResponseEntity<Optional<Title>> findById(@PathVariable("id") Integer titleNo) {
+		return ResponseEntity.ok(companyInfoService.findTitleById(titleNo));
 	}
 	
 	@Operation(summary="Insert title info")
@@ -54,7 +55,7 @@ public class TitleController {
 	
 	@Operation(summary="Delete title info.")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Integer> delete(@PathVariable("id") int titleno) {
-		return ResponseEntity.ok(companyInfoService.deleteTitle(titleno));
+	public ResponseEntity<Integer> delete(@PathVariable("id") Integer titleNo) {
+		return ResponseEntity.ok(companyInfoService.deleteTitle(titleNo));
 	}
 }
