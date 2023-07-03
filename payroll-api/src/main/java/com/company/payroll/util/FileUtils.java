@@ -29,7 +29,7 @@ public class FileUtils {
 		try {
 			Files.createDirectories(this.storageLocation);
 		} catch(Exception e) {
-			log.warn("Failed to create file directory. Error message: {}", e);
+			log.error("Failed to create file directory. Error message: {}", e.getMessage());
 		}
 	}
 	

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
+import com.company.payroll.model.StaffDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.company.payroll.model.Employee;
 import com.company.payroll.service.StaffDetailsService;
 import com.company.payroll.util.FileUtils;
 import com.github.pagehelper.PageInfo;
@@ -44,20 +44,20 @@ public class EmployeeController {
 	
 	@Operation(summary="Get employee list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Employee>> listEmployee(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffDetails>> listEmployee(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffDetailsService.listEmployee(page, offset));
 	}
 	
 	@Operation(summary="Get employee info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Employee>> getById(@PathVariable("id") int eid) {
+	public ResponseEntity<Optional<StaffDetails>> getById(@PathVariable("id") int eid) {
 		return ResponseEntity.ok(staffDetailsService.findEmployeeById(eid));
 	}
 	
 	@Operation(summary="Load employee image")
 	@PostMapping("/{id}/image")
 	public ResponseEntity<Resource> loadImage(@PathVariable("id") int eid, HttpServletRequest request) {
-		Optional<Employee> employee = staffDetailsService.findEmployeeById(eid);
+		Optional<StaffDetails> employee = staffDetailsService.findEmployeeById(eid);
 		Resource resource = fileUtils.download(Paths.get(employee.get().getImgUser()));
 		
 		String contentType = null;
@@ -72,25 +72,25 @@ public class EmployeeController {
 		
 	}
 
-	@Operation(summary="Insert employee info")
+	@Operation(summary="Insert staffDetails info")
 	@PostMapping
-	public ResponseEntity<Employee> insert(@Parameter(description="image file") @RequestPart("img") MultipartFile image, @RequestPart("employee") Employee employee) {
+	public ResponseEntity<StaffDetails> insert(@Parameter(description="image file") @RequestPart("img") MultipartFile image, @RequestPart("staffDetails") StaffDetails staffDetails) {
 		String filepath = "/files/employees/list";
 		String contentType = image.getContentType();
 		
 		if(contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/gif")) {
-			employee.setImgUser(fileUtils.imageUpload(image, filepath));
+			staffDetails.setImgUser(fileUtils.imageUpload(image, filepath));
 		} else {
 			return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(null);
 		}
 		
-		return ResponseEntity.ok(staffDetailsService.registerEmployee(employee));
+		return ResponseEntity.ok(staffDetailsService.registerEmployee(staffDetails));
 	}
 	
-	@Operation(summary="Update employee info.")
+	@Operation(summary="Update staffDetails info.")
 	@PutMapping("/{id}")
-	public ResponseEntity<Employee> update(@RequestBody Employee employee) {
-		return ResponseEntity.ok(staffDetailsService.updateEmployee(employee));
+	public ResponseEntity<StaffDetails> update(@RequestBody StaffDetails staffDetails) {
+		return ResponseEntity.ok(staffDetailsService.updateEmployee(staffDetails));
 	}
 	
 	@Operation(summary="Delete employee info.")

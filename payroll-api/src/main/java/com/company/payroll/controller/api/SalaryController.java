@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.payroll.model.Salary;
-import com.company.payroll.service.SalaryService;
+import com.company.payroll.model.StaffSalary;
+import com.company.payroll.service.StaffSalaryService;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,23 +23,23 @@ import io.swagger.v3.oas.annotations.Operation;
 public class SalaryController {
 	
 	@Autowired
-	private SalaryService salaryService;
+	private StaffSalaryService staffSalaryService;
 	
 	@Operation(summary="Get salary list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Salary>> listSalary(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
-		return ResponseEntity.ok(salaryService.list(page, offset));
+	public ResponseEntity<PageInfo<StaffSalary>> listSalary(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+		return ResponseEntity.ok(staffSalaryService.list(page, offset));
 	}
 	
 	@Operation(summary="Get salary info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Salary>> getById(@PathVariable("id") int sid) {
-		return ResponseEntity.ok(salaryService.findById(sid));
+	public ResponseEntity<Optional<StaffSalary>> getById(@PathVariable("id") int sid) {
+		return ResponseEntity.ok(staffSalaryService.findById(sid));
 	}
 	
-	@Operation(summary="Update salary info.")
+	@Operation(summary="Update staffSalary info.")
 	@PutMapping("/{id}")
-	public ResponseEntity<Salary> update(@RequestBody Salary salary) {
-		return ResponseEntity.ok(salaryService.update(salary));
+	public ResponseEntity<StaffSalary> update(@RequestBody StaffSalary staffSalary) {
+		return ResponseEntity.ok(staffSalaryService.update(staffSalary));
 	}
 }

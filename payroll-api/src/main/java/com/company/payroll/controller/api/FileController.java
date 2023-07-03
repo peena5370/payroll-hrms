@@ -108,7 +108,7 @@ public class FileController {
     
     @Operation(summary="Get employee document list")
 	@GetMapping("/documents/employee/{id}/list")
-	public ResponseEntity<List<FileAttachment>> getEmployeeList(@Parameter(description="Employee id") @PathVariable("id") int id) {
+	public ResponseEntity<List<FileAttachment>> getEmployeeList(@Parameter(description="StaffDetails id") @PathVariable("id") int id) {
 		return ResponseEntity.ok(fileAttachmentService.getListByEId(id));
 	}
 	
@@ -121,7 +121,7 @@ public class FileController {
     @Operation(summary="Upload multiple employee documents")
 	@PostMapping("/documents/upload/employee/{id}")
 	public ResponseEntity<String> uploadEmployeeFiles(@Parameter(description="Files") @RequestParam("files") MultipartFile[] files, 
-													  @Parameter(description="Employee id") @PathVariable("id") int id) {
+													  @Parameter(description="StaffDetails id") @PathVariable("id") int id) {
 		String filepath = "/files/employees/" + String.valueOf(id);
 
 		FileAttachment obj = new FileAttachment();

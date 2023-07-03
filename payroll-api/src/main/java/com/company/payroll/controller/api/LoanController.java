@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.payroll.model.Loan;
+import com.company.payroll.model.StaffLoan;
 import com.company.payroll.service.StaffApplicationService;
 import com.github.pagehelper.PageInfo;
 
@@ -32,32 +32,32 @@ public class LoanController {
 
 	@Operation(summary="Get loan list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Loan>> listLoan(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffLoan>> listLoan(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffApplicationService.listLoan(page, offset));
 	}
 	
 	@Operation(summary="Get loan list by employee id")
 	@GetMapping("/{id}/all")
-	public ResponseEntity<Optional<List<Loan>>> listLoanByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
+	public ResponseEntity<Optional<List<StaffLoan>>> listLoanByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
 		return ResponseEntity.ok(staffApplicationService.findLoanByEId(eid));
 	}
 	
 	@Operation(summary="Get loan info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Loan>> getById(@PathVariable("id") int lid) {
+	public ResponseEntity<Optional<StaffLoan>> getById(@PathVariable("id") int lid) {
 		return ResponseEntity.ok(staffApplicationService.findLoanById(lid));
 	}
 	
-	@Operation(summary="Add loan info")
+	@Operation(summary="Add staffLoan info")
 	@PostMapping
-	public ResponseEntity<Loan> insert(@RequestBody Loan loan) {
-		return ResponseEntity.ok(staffApplicationService.insertLoan(loan));
+	public ResponseEntity<StaffLoan> insert(@RequestBody StaffLoan staffLoan) {
+		return ResponseEntity.ok(staffApplicationService.insertLoan(staffLoan));
 	}
 	
-	@Operation(summary="Update loan info.")
+	@Operation(summary="Update staffLoan info.")
 	@PutMapping("/{id}")
-	public ResponseEntity<Loan> update(@RequestBody Loan loan) {
-		return ResponseEntity.ok(staffApplicationService.updateLoan(loan));
+	public ResponseEntity<StaffLoan> update(@RequestBody StaffLoan staffLoan) {
+		return ResponseEntity.ok(staffApplicationService.updateLoan(staffLoan));
 	}
 	
 	@Operation(summary="Delete loan info.")

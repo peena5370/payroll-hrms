@@ -10,73 +10,73 @@ public interface CompanyInfoService {
 	
 	/**
 	 * 
-	 * @param deptno
-	 * @return
+	 * @param deptNo dept number
+	 * @return Deleted row
 	 */
-	Integer deleteDepartment(int deptno);
+	Integer deleteDepartment(Integer deptNo);
 	
 	/**
 	 * 
-	 * @param titleno
-	 * @return
+	 * @param titleNo title number
+	 * @return Deleted row
 	 */
-	Integer deleteTitle(int titleno);
+	Integer deleteTitle(Integer titleNo);
 	
 	/**
 	 * 
-	 * @param deptno
-	 * @return
+	 * @param deptNo dept number
+	 * @return {@link Department} object
 	 */
-	Optional<Department> findDepartmentById(int deptno);
+	Optional<Department> findDepartmentById(Integer deptNo);
 	
 	/**
 	 * 
-	 * @param titleno
-	 * @return
+	 * @param titleNo title number
+	 * @return {@link Title} object
 	 */
-	Optional<Title> findTitleById(int titleno);
+	Optional<Title> findTitleById(Integer titleNo);
 	
 	/**
 	 * 
-	 * @param department
-	 * @return
+	 * @param department {@link Department} object
+	 * @return After inserted {@link Department} object
 	 */
 	Department insertDepartment(Department department);
 	
 	/**
 	 * 
-	 * @param title
-	 * @return
+	 * @param title {@link Title} object
+	 * @return After inserted {@link Title} object
 	 */
 	Title insertTitle(Title title);
 	
 	/**
 	 * 
-	 * @param page
-	 * @param offset
-	 * @return
+	 * @param page page number
+	 * @param offset page data limit
+	 * @return List of Department
 	 */
 	PageInfo<Department> listDepartment(int page, int offset);
 	
 	/**
 	 * 
-	 * @param page
-	 * @param offset
-	 * @return
+	 * @param page page number
+	 * @param offset page data limit
+	 * @return List of Title
 	 */
 	PageInfo<Title> listTitle(int page, int offset);
 	
 	/**
 	 * 
-	 * @param department
-	 * @return
+	 * @param department {@link Department} object
+	 * @return After updated {@link Department} object
 	 */
 	Department updateDepartment(Department department);
 	
 	/**
 	 * 
-	 * @param title
-	 * @return
+	 * @param title {@link Title} object
+	 * @return After updated {@link Title} object
 	 */
 	Title updateTitle(Title title);
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import com.company.payroll.model.StaffResignation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.company.payroll.model.Resignation;
 import com.company.payroll.service.StaffMiscellaneousService;
 import com.company.payroll.util.FileUtils;
 import com.github.pagehelper.PageInfo;
@@ -44,34 +44,34 @@ public class ResignationController {
 
 	@Operation(summary="Get resignation list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Resignation>> listResignation(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffResignation>> listResignation(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffMiscellaneousService.listResignation(page, offset));
 	}
 	
 	@Operation(summary="Get resign info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Resignation>> getById(@PathVariable("id") int id) {
+	public ResponseEntity<Optional<StaffResignation>> getById(@PathVariable("id") int id) {
 		return ResponseEntity.ok(staffMiscellaneousService.findResignationById(id));
 	}
 
 	@Operation(summary="Insert resign info")
 	@PostMapping
-	public ResponseEntity<String> insert(@RequestPart("file") MultipartFile file, @RequestPart("resignation") Resignation resignation) {
+	public ResponseEntity<String> insert(@RequestPart("file") MultipartFile file, @RequestPart("staffResignation") StaffResignation staffResignation) {
 		String filepath = "";
 		
-		if(resignation.getEId()==null) {
-			filepath = "/resign_files/" + resignation.getMId();
+		if(staffResignation.getEId()==null) {
+			filepath = "/resign_files/" + staffResignation.getMId();
 		} else {
-			filepath = "/resign_files/" + resignation.getEId();
+			filepath = "/resign_files/" + staffResignation.getEId();
 		}
 		
 		if(file.getContentType().equals("application/msword") || file.getContentType().equals("application/pdf") || 
 					file.getContentType().equals("application/wps-office.doc") || file.getContentType().equals("application/wps-office.docx")) {
-			resignation.setFileName(file.getOriginalFilename());
-			resignation.setFileSize(file.getSize());
-			resignation.setAttachment(fileUtils.fileUpload(file, filepath));
+			staffResignation.setFileName(file.getOriginalFilename());
+			staffResignation.setFileSize(file.getSize());
+			staffResignation.setAttachment(fileUtils.fileUpload(file, filepath));
 			
-			staffMiscellaneousService.insertResignation(resignation);
+			staffMiscellaneousService.insertResignation(staffResignation);
 		} else {
 			return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("unsupported media type");
 		}
@@ -82,7 +82,7 @@ public class ResignationController {
 	@Operation(summary="Download attachment")
 	@PostMapping("/{id}/attachment/download")
 	public ResponseEntity<Resource> downloadAttachment(@PathVariable("id") int id, HttpServletRequest request) {
-		Optional<Resignation> resign = staffMiscellaneousService.findResignationById(id);
+		Optional<StaffResignation> resign = staffMiscellaneousService.findResignationById(id);
 		
 		Resource resource = fileUtils.download(Paths.get(resign.get().getAttachment()));
 		
@@ -102,14 +102,14 @@ public class ResignationController {
 	
 	@Operation(summary="Update resign info.")
 	@PutMapping("/{id}")
-	public ResponseEntity<Resignation> update(@RequestBody Resignation resignation) {	
-		return ResponseEntity.ok(staffMiscellaneousService.updateResignation(resignation));
+	public ResponseEntity<StaffResignation> update(@RequestBody StaffResignation staffResignation) {
+		return ResponseEntity.ok(staffMiscellaneousService.updateResignation(staffResignation));
 	}
 	
 	@Operation(summary="Delete resign info.")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
-		Optional<Resignation> resign = staffMiscellaneousService.findResignationById(id);
+		Optional<StaffResignation> resign = staffMiscellaneousService.findResignationById(id);
 		fileUtils.delete(Paths.get(resign.get().getAttachment()));
 		
 		return ResponseEntity.ok(staffMiscellaneousService.deleteResignation(id));

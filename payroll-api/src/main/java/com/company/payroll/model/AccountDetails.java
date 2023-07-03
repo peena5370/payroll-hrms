@@ -1,5 +1,6 @@
 package com.company.payroll.model;
 
+import java.io.Serial;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -7,9 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class AccountDetails implements UserDetails {
 
+	@Serial
 	private static final long serialVersionUID = 9130810278327198358L;
 	
-	private Account account;
+	private final Account account;
 	
 	public AccountDetails(Account account) {
 		this.account = account;
@@ -33,20 +35,12 @@ public class AccountDetails implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		if(account.getAccountStatus()==(byte) 1) {
-			return true;
-		} else {
-			return false;
-		}
+		return account.getAccountStatus() == (byte) 1;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		if(account.getAccountStatus()==(byte) 1) {
-			return true;
-		} else {
-			return false;
-		}
+		return account.getAccountStatus() == (byte) 1;
 	}
 
 	@Override
@@ -57,11 +51,7 @@ public class AccountDetails implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		if(account.getAccountStatus()==(byte) 1) {
-			return true;
-		} else {
-			return false;
-		}
+		return account.getAccountStatus() == (byte) 1;
 	}
 
 }

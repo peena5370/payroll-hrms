@@ -3,6 +3,7 @@ package com.company.payroll.controller.api;
 import java.util.List;
 import java.util.Optional;
 
+import com.company.payroll.model.StaffLeave;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.payroll.model.Leave;
 import com.company.payroll.service.StaffApplicationService;
 import com.github.pagehelper.PageInfo;
 
@@ -32,32 +32,32 @@ public class LeaveController {
 
 	@Operation(summary="Get leave list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Leave>> listLeave(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffLeave>> listLeave(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffApplicationService.listLeave(page, offset));
 	}
 	
 	@Operation(summary="Get leave list by employee id")
 	@GetMapping("/{id}/all")
-	public ResponseEntity<Optional<List<Leave>>> listByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
+	public ResponseEntity<Optional<List<StaffLeave>>> listByEId(@Parameter(description="employee id") @PathVariable("id") int eid) {
 		return ResponseEntity.ok(staffApplicationService.findLeaveByEId(eid));
 	}
 	
 	@Operation(summary="Get leave info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Leave>> getById(@PathVariable("id") int lid) {
+	public ResponseEntity<Optional<StaffLeave>> getById(@PathVariable("id") int lid) {
 		return ResponseEntity.ok(staffApplicationService.findLeaveById(lid));
 	}
 	
-	@Operation(summary="Add leave info")
+	@Operation(summary="Add staffLeave info")
 	@PostMapping
-	public ResponseEntity<Leave> insert(@RequestBody Leave leave) {
-		return ResponseEntity.ok(staffApplicationService.insertLeave(leave));
+	public ResponseEntity<StaffLeave> insert(@RequestBody StaffLeave staffLeave) {
+		return ResponseEntity.ok(staffApplicationService.insertLeave(staffLeave));
 	}
 	
-	@Operation(summary="Update leave info.")
+	@Operation(summary="Update staffLeave info.")
 	@PutMapping("/{id}")
-	public ResponseEntity<Leave> update(@RequestBody Leave leave) {
-		return ResponseEntity.ok(staffApplicationService.updateLeave(leave));
+	public ResponseEntity<StaffLeave> update(@RequestBody StaffLeave staffLeave) {
+		return ResponseEntity.ok(staffApplicationService.updateLeave(staffLeave));
 	}
 	
 	@Operation(summary="Delete leave info.")

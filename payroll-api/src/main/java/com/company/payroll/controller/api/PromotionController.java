@@ -2,6 +2,7 @@ package com.company.payroll.controller.api;
 
 import java.util.Optional;
 
+import com.company.payroll.model.StaffPromotion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.payroll.model.Promotion;
 import com.company.payroll.service.StaffMiscellaneousService;
 import com.github.pagehelper.PageInfo;
 
@@ -29,32 +29,32 @@ public class PromotionController {
 
 	@Operation(summary="Get promotion list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Promotion>> listPromotion(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffPromotion>> listPromotion(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffMiscellaneousService.listPromotion(page, offset));
 	}
 	
 	@Operation(summary="Get promotion list by eid")
 	@GetMapping("/{id}/all")
-	public ResponseEntity<PageInfo<Promotion>> listByEId(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset, @PathVariable("id") int eid) {
+	public ResponseEntity<PageInfo<StaffPromotion>> listByEId(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset, @PathVariable("id") int eid) {
 		return ResponseEntity.ok(staffMiscellaneousService.listPromotionByEId(page, offset, eid));
 	}
 	
 	@Operation(summary="Get promotion info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Promotion>> getById(@PathVariable("id") int pid) {
+	public ResponseEntity<Optional<StaffPromotion>> getById(@PathVariable("id") int pid) {
 		return ResponseEntity.ok(staffMiscellaneousService.findPromotionById(pid));
 	}
 	
-	@Operation(summary="Insert promotion info")
+	@Operation(summary="Insert staffPromotion info")
 	@PostMapping
-	public ResponseEntity<Promotion> insert(@RequestBody Promotion promotion) {
-		return ResponseEntity.ok(staffMiscellaneousService.insertPromotion(promotion));
+	public ResponseEntity<StaffPromotion> insert(@RequestBody StaffPromotion staffPromotion) {
+		return ResponseEntity.ok(staffMiscellaneousService.insertPromotion(staffPromotion));
 	}
 	
-	@Operation(summary="Update promotion info.")
+	@Operation(summary="Update staffPromotion info.")
 	@PutMapping("/{id}")
-	public ResponseEntity<Promotion> update(@RequestBody Promotion promotion) {
-		return ResponseEntity.ok(staffMiscellaneousService.updatePromotion(promotion));
+	public ResponseEntity<StaffPromotion> update(@RequestBody StaffPromotion staffPromotion) {
+		return ResponseEntity.ok(staffMiscellaneousService.updatePromotion(staffPromotion));
 	}
 	
 	@Operation(summary="Delete promotion info.")

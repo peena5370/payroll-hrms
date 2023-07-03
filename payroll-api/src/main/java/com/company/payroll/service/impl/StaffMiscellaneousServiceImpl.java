@@ -1,272 +1,226 @@
 package com.company.payroll.service.impl;
 
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import com.company.payroll.model.*;
+import com.company.payroll.util.FileUtils;
+import org.apache.tomcat.util.http.fileupload.InvalidFileNameException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import com.company.payroll.mapper.EmployeeMapper;
+import com.company.payroll.mapper.StaffDetailsMapper;
 import com.company.payroll.mapper.ManagerMapper;
-import com.company.payroll.mapper.PromotionMapper;
-import com.company.payroll.mapper.ResignationMapper;
-import com.company.payroll.mapper.SalaryMapper;
-import com.company.payroll.mapper.TrainingMapper;
-import com.company.payroll.model.Employee;
-import com.company.payroll.model.Manager;
-import com.company.payroll.model.Promotion;
-import com.company.payroll.model.Resignation;
-import com.company.payroll.model.Salary;
-import com.company.payroll.model.Training;
+import com.company.payroll.mapper.StaffPromotionMapper;
+import com.company.payroll.mapper.StaffResignationMapper;
+import com.company.payroll.mapper.StaffSalaryMapper;
+import com.company.payroll.mapper.StaffTrainingMapper;
+import com.company.payroll.model.StaffSalary;
 import com.company.payroll.service.StaffMiscellaneousService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class StaffMiscellaneousServiceImpl implements StaffMiscellaneousService {
 
 	@Autowired
-	private PromotionMapper promotionMapper;
+	private StaffDetailsMapper staffDetailsMapper;
+
+	@Autowired
+	private StaffPromotionMapper staffPromotionMapper;
+
+	@Autowired
+	private StaffSalaryMapper staffSalaryMapper;
 	
 	@Autowired
-	private ResignationMapper resignationMapper;
+	private StaffResignationMapper staffResignationMapper;
 	
 	@Autowired
-	private TrainingMapper trainingMapper;
+	private StaffTrainingMapper staffTrainingMapper;
 	
 	@Autowired
-	private EmployeeMapper employeeMapper;
-	
-	@Autowired
-	private ManagerMapper managerMapper;
-	
-	@Autowired
-	private SalaryMapper salaryMapper;
+	private FileUtils fileUtils;
 	
 	@Override
-	public Integer deletePromotion(int pid) {
-		return promotionMapper.deleteByPrimaryKey(pid);
+	public Integer deletePromotion(Integer pId) {
+		return staffPromotionMapper.deleteByPrimaryKey(pId);
 	}
 
 	@Override
-	public Integer deleteResignation(int resignid) {
-		Integer row = 0;
+	public Integer deleteResignation(Integer resignId) {
+		int row = 0;
 
-		Optional<Manager> manager = Optional.ofNullable(managerMapper.selectByResignId(resignid));
-		Optional<Employee> employee = Optional.ofNullable(employeeMapper.selectByResignId(resignid));
-		
-		if(manager.isPresent()) {
-			Manager managerUpdate = manager.get();
-			managerUpdate.setResignId(null);
-			managerUpdate.setDateresign(null);
-			managerMapper.updateByPrimaryKey(managerUpdate);
-			row = 1;
-		} else if(employee.isPresent()) {
-			Employee employeeUpdate = employee.get();
-			employeeUpdate.setResignId(null);
-			employeeUpdate.setDateresign(null);
-			employeeMapper.updateByPrimaryKey(employeeUpdate);
-			row = 1;
+		Optional<StaffResignation> staffResignation = Optional.ofNullable(staffResignationMapper.selectByPrimaryKey(resignId));
+		if(staffResignation.isPresent()) {
+			boolean bool = fileUtils.delete(Paths.get(staffResignation.get().getFilePath()));
+			if(bool) {
+				row += staffDetailsMapper.deleteByPrimaryKey(resignId);
+			}
 		} else {
-			throw new RuntimeException();
+			return null;
 		}
-		
-		resignationMapper.deleteByPrimaryKey(resignid);
-		
+
 		return row;
 	}
 
 	@Override
-	public Integer deleteTraining(int tId) {
-		return trainingMapper.deleteByPrimaryKey(tId);
+	public Integer deleteTraining(Integer tId) {
+		return staffTrainingMapper.deleteByPrimaryKey(tId);
 	}
 
 	@Override
-	public Optional<Promotion> findPromotionById(int pid) {
-		return Optional.ofNullable(promotionMapper.selectByPrimaryKey(pid));
+	public Optional<StaffPromotion> findPromotionById(Integer pId) {
+		return Optional.ofNullable(staffPromotionMapper.selectByPrimaryKey(pId));
 	}
 
 	@Override
-	public Optional<Resignation> findResignationById(int resignid) {
-		return Optional.ofNullable(resignationMapper.selectByPrimaryKey(resignid));
+	public Optional<StaffResignation> findResignationById(Integer resignId) {
+		return Optional.ofNullable(staffResignationMapper.selectByPrimaryKey(resignId));
 	}
 
 	@Override
-	public Optional<List<Training>> findTrainingByEId(int eId) {
-		return Optional.ofNullable(trainingMapper.selectListByEId(eId));
+	public Optional<List<StaffTraining>> findTrainingByEId(int eId) {
+		return Optional.empty();
 	}
 
 	@Override
-	public Optional<List<Training>> findTrainingByMId(int mId) {
-		return Optional.ofNullable(trainingMapper.selectListByMId(mId));
+	public Optional<List<StaffTraining>> findTrainingByMId(int mId) {
+		return Optional.empty();
 	}
 
 	@Override
-	public Optional<Training> findTrainingById(int tId) {
-		return Optional.ofNullable(trainingMapper.selectByPrimaryKey(tId));
+	public List<StaffTraining> listTrainingByStaffId(Integer staffId) {
+		return staffTrainingMapper.selectListByStaffId(staffId);
 	}
 
 	@Override
-	public Promotion insertPromotion(Promotion promotion) {
-		if(promotion.getEId()==null) {
-			Manager manager = managerMapper.selectByPrimaryKey(promotion.getMId());
-			manager.setTitleno(promotion.getTitleno());
-			
-			managerMapper.updateByPrimaryKey(manager);
-			
-			Salary salary = salaryMapper.selectByPrimaryKey(manager.getSId());
-			salary.setMonthlysalary(promotion.getPromotesalary());
-			salary.setDateupdate(promotion.getPromotedate());
-			BigDecimal annual = promotion.getPromotesalary().multiply(BigDecimal.valueOf(13));
-			salary.setAnnualsalary(annual);
-			
-			salaryMapper.updateByPrimaryKey(salary);
-			
-			promotionMapper.insertSelective(promotion);
-		} else if(promotion.getMId()==null) {
-			Employee employee = employeeMapper.selectByPrimaryKey(promotion.getEId());
-			employee.setTitleno(promotion.getTitleno());
-			
-			employeeMapper.updateByPrimaryKey(employee);
-			
-			Salary salary = salaryMapper.selectByPrimaryKey(employee.getSId());
-			salary.setMonthlysalary(promotion.getPromotesalary());
-			salary.setDateupdate(promotion.getPromotedate());
-			BigDecimal annual = promotion.getPromotesalary().multiply(BigDecimal.valueOf(13));
-			salary.setAnnualsalary(annual);
-			
-			salaryMapper.updateByPrimaryKey(salary);
-			
-			promotionMapper.insertSelective(promotion);
+	public Optional<StaffTraining> findTrainingById(Integer tId) {
+		return Optional.ofNullable(staffTrainingMapper.selectByPrimaryKey(tId));
+	}
+
+	@Override
+	public StaffPromotion insertPromotion(StaffPromotion staffPromotion) {
+		StaffDetails staffDetails = staffDetailsMapper.selectByPrimaryKey(staffPromotion.getStaffId());
+		staffDetails.setTitleNo(staffPromotion.getTitleNo());
+		staffDetailsMapper.updateByPrimaryKeySelective(staffDetails);
+
+		StaffSalary staffSalary = staffSalaryMapper.selectByPrimaryKey(staffDetails.getSId());
+		staffSalary.setMonthlySalary(staffPromotion.getPromoteSalary());
+		staffSalary.setAnnualSalary(staffSalary.getMonthlySalary().multiply(BigDecimal.valueOf(13)));
+		staffSalary.setDateUpdate(staffPromotion.getPromoteDate());
+		staffSalaryMapper.updateByPrimaryKeySelective(staffSalary);
+
+		staffPromotionMapper.insertSelective(staffPromotion);
+
+		return staffPromotion;
+	}
+
+	@Override
+	public StaffResignation insertResignation(StaffResignation resign) {
+		return null;
+	}
+
+	@Override
+	public StaffResignation insertResignation(MultipartFile attachment, StaffResignation staffResignation) {
+		StaffDetails staffDetails = staffDetailsMapper.selectByPrimaryKey(staffResignation.getStaffId());
+		staffDetails.setDateResign(staffResignation.getResignDate());
+		staffDetailsMapper.updateByPrimaryKeySelective(staffDetails);
+
+		String filePath = "/staffs/resign/" + staffResignation.getStaffId().toString();
+
+		if(Objects.equals(attachment.getContentType(), "application/msword") || Objects.equals(attachment.getContentType(), "application/pdf")
+				||Objects.equals(attachment.getContentType(), "application/wps-office.doc") || Objects.equals(attachment.getContentType(), "application/wps-office.docx")) {
+			staffResignation.setFileName(attachment.getOriginalFilename());
+			staffResignation.setFileSize(attachment.getSize());
+			staffResignation.setFilePath(fileUtils.fileUpload(attachment, filePath));
+
+			staffResignationMapper.insertSelective(staffResignation);
 		} else {
-			throw new RuntimeException();
+			throw new InvalidFileNameException(attachment.getOriginalFilename(), "Invalid file format");
 		}
-		
-		return promotion;
+
+		return staffResignation;
 	}
 
 	@Override
-	public Resignation insertResignation(Resignation resign) {
-		resignationMapper.insertSelective(resign);
-		
-		if(resign.getEId()==null) {
-			Manager manager = managerMapper.selectByPrimaryKey(resign.getMId());
-			manager.setResignId(resign.getResignId());
-			manager.setDateresign(resign.getResigndate());
-			
-			managerMapper.updateByPrimaryKey(manager);
-		} else if(resign.getMId()==null) {
-			Employee employee = employeeMapper.selectByPrimaryKey(resign.getEId());
-			employee.setResignId(resign.getResignId());
-			employee.setDateresign(resign.getResigndate());
-			
-			employeeMapper.updateByPrimaryKey(employee);
-		} else {
-			throw new RuntimeException();
-		}
-		
-		return resign;
+	public StaffTraining insertTraining(StaffTraining staffTraining) {
+		staffTrainingMapper.insertSelective(staffTraining);
+		return staffTraining;
 	}
 
 	@Override
-	public Training insertTraining(Training training) {
-		trainingMapper.insertSelective(training);
-		return training;
-	}
-
-	@Override
-	public PageInfo<Promotion> listPromotion(int page, int offset) {
+	public PageInfo<StaffPromotion> listPromotion(int page, int offset) {
 		PageHelper.startPage(page, offset);
-		List<Promotion> list = promotionMapper.selectList();
-		return new PageInfo<Promotion>(list);
+		return new PageInfo<StaffPromotion>(staffPromotionMapper.selectList());
 	}
 
 	@Override
-	public PageInfo<Promotion> listPromotionByEId(int page, int offset, int eId) {
+	public PageInfo<StaffPromotion> listPromotionByEId(int page, int offset, int eId) {
+		return null;
+	}
+
+	@Override
+	public PageInfo<StaffPromotion> listPromotionByStaffId(int page, int offset, Integer staffId) {
 		PageHelper.startPage(page, offset);
-		List<Promotion> list = promotionMapper.selectByEId(eId);
-		return new PageInfo<Promotion>(list);
+		return new PageInfo<StaffPromotion>(staffPromotionMapper.selectListByStaffId(staffId));
 	}
 
 	@Override
-	public PageInfo<Resignation> listResignation(int page, int offset) {
+	public PageInfo<StaffResignation> listResignation(int page, int offset) {
 		PageHelper.startPage(page, offset);
-		List<Resignation> list = resignationMapper.selectList();
-		return new PageInfo<Resignation>(list);
+		return new PageInfo<StaffResignation>(staffResignationMapper.selectList());
 	}
 
 	@Override
-	public PageInfo<Training> listTraining(int page, int offset) {
+	public PageInfo<StaffTraining> listTraining(int page, int offset) {
 		PageHelper.startPage(page, offset);
-		List<Training> list = trainingMapper.selectList();
-		return new PageInfo<Training>(list);
+		return new PageInfo<StaffTraining>(staffTrainingMapper.selectList());
 	}
 
 	@Override
-	public Promotion updatePromotion(Promotion promotion) {
-		if(promotion.getEId()==null) {
-			Manager manager = managerMapper.selectByPrimaryKey(promotion.getMId());
-			manager.setTitleno(promotion.getTitleno());
-			
-			managerMapper.updateByPrimaryKey(manager);
-			
-			Salary salary = salaryMapper.selectByPrimaryKey(manager.getSId());
-			salary.setMonthlysalary(promotion.getPromotesalary());
-			salary.setDateupdate(promotion.getPromotedate());
-			BigDecimal annual = promotion.getPromotesalary().multiply(BigDecimal.valueOf(13));
-			salary.setAnnualsalary(annual);
-			
-			salaryMapper.updateByPrimaryKey(salary);
-			
-			promotionMapper.updateByPrimaryKeySelective(promotion);
-		} else if(promotion.getMId()==null) {
-			Employee employee = employeeMapper.selectByPrimaryKey(promotion.getEId());
-			employee.setTitleno(promotion.getTitleno());
-			
-			employeeMapper.updateByPrimaryKey(employee);
-			
-			Salary salary = salaryMapper.selectByPrimaryKey(employee.getSId());
-			salary.setMonthlysalary(promotion.getPromotesalary());
-			salary.setDateupdate(promotion.getPromotedate());
-			BigDecimal annual = promotion.getPromotesalary().multiply(BigDecimal.valueOf(13));
-			salary.setAnnualsalary(annual);
-			
-			salaryMapper.updateByPrimaryKey(salary);
-			
-			promotionMapper.updateByPrimaryKeySelective(promotion);
-		} else {
-			throw new RuntimeException();
-		}
-		return promotion;
+	public StaffPromotion updatePromotion(StaffPromotion staffPromotion) {
+		StaffDetails staffDetails = staffDetailsMapper.selectByPrimaryKey(staffPromotion.getStaffId());
+		staffDetails.setTitleNo(staffPromotion.getTitleNo());
+		staffDetailsMapper.updateByPrimaryKeySelective(staffDetails);
+
+		StaffSalary staffSalary = staffSalaryMapper.selectByPrimaryKey(staffDetails.getSId());
+		staffSalary.setMonthlySalary(staffPromotion.getPromoteSalary());
+		staffSalary.setAnnualSalary(staffSalary.getMonthlySalary().multiply(BigDecimal.valueOf(13)));
+		staffSalary.setDateUpdate(staffPromotion.getPromoteDate());
+		staffSalaryMapper.updateByPrimaryKeySelective(staffSalary);
+
+		staffPromotionMapper.updateByPrimaryKeySelective(staffPromotion);
+
+		return staffPromotion;
 	}
 
 	@Override
-	public Resignation updateResignation(Resignation resign) {
-		Optional<Employee> employeePresent = Optional.ofNullable(employeeMapper.selectByResignId(resign.getResignId()));
-		Optional<Manager> managerPresent = Optional.ofNullable(managerMapper.selectByResignId(resign.getResignId()));
-		
-		if(employeePresent.isPresent()) {
-			Employee employee = employeePresent.get();
-			employee.setDateresign(resign.getResigndate());
-			employeeMapper.updateByPrimaryKeySelective(employee);
-		} else if(managerPresent.isPresent()) {
-			Manager manager = managerPresent.get();
-			manager.setDateresign(resign.getResigndate());
-			managerMapper.updateByPrimaryKeySelective(manager);
-		} else {
-			throw new RuntimeException();
-		}
-		
-		resignationMapper.updateByPrimaryKeySelective(resign);
-		
-		return resign;
+	public StaffResignation updateResignation(StaffResignation staffResignation) {
+		StaffDetails staffDetails = staffDetailsMapper.selectByPrimaryKey(staffResignation.getStaffId());
+		staffDetails.setDateResign(staffResignation.getResignDate());
+		staffDetailsMapper.updateByPrimaryKeySelective(staffDetails);
+
+		staffResignationMapper.updateByPrimaryKeySelective(staffResignation);
+		return staffResignation;
 	}
 
 	@Override
-	public Training updateTraining(Training training) {
-		trainingMapper.updateByPrimaryKeySelective(training);
-		return training;
+	public StaffTraining updateTraining(StaffTraining staffTraining) {
+		staffTrainingMapper.updateByPrimaryKeySelective(staffTraining);
+		return staffTraining;
+	}
+
+	@Override
+	public Resource downloadResignationAttachment(Integer resignId) {
+		StaffResignation resignationDetails = staffResignationMapper.selectByPrimaryKey(resignId);
+
+		return fileUtils.download(Paths.get(resignationDetails.getFilePath()));
 	}
 
 }

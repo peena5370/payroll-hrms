@@ -3,6 +3,7 @@ package com.company.payroll.service.impl;
 import java.util.Optional;
 import java.util.ArrayList;
 
+import com.company.payroll.model.SystemAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.company.payroll.mapper.AccountMapper;
-import com.company.payroll.model.Account;
 //import com.company.payroll.model.AccountDetails;
 
 /**
@@ -26,7 +26,7 @@ public class UserAccountServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<Account> account = Optional.ofNullable(accountMapper.selectByUsername(username));
+		Optional<SystemAccount> account = Optional.ofNullable(accountMapper.selectByUsername(username));
 		if(account.isEmpty()) {
 			throw new UsernameNotFoundException(username);
 		}

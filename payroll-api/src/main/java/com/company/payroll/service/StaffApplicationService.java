@@ -3,95 +3,111 @@ package com.company.payroll.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.company.payroll.model.Leave;
-import com.company.payroll.model.Loan;
+import com.company.payroll.model.StaffLeave;
+import com.company.payroll.model.StaffLoan;
 import com.github.pagehelper.PageInfo;
+
+import javax.swing.text.html.Option;
 
 public interface StaffApplicationService {
 
 	/**
-	 * 
-	 * @param lid
-	 * @return
+	 * Method of deleting leave detail based on leave id.
+	 * @param lId leave id
+	 * @return Deleted row
 	 */
-	Integer deleteLeave(int lid);
+	Integer deleteLeave(Integer lId);
 	
 	/**
-	 * 
-	 * @param lid
-	 * @return
+	 * Method of deleting loan detail based on loan id.
+	 * @param loanId loan id
+	 * @return Deleted row
 	 */
-	Integer deleteLoan(int lid);
+	Integer deleteLoan(Integer loanId);
 	
 	/**
-	 * 
+	 * @deprecated Renamed method to {@link #findLeaveByStaffId(Integer)}
 	 * @param eid
 	 * @return
 	 */
-	Optional<List<Leave>> findLeaveByEId(int eid);
-	
+	Optional<List<StaffLeave>> findLeaveByEId(int eid);
+
 	/**
-	 * 
-	 * @param lid
-	 * @return
+	 * Method of listing leave details by staff id
+	 * @param staffId staff id
+	 * @return List of staff leave
 	 */
-	Optional<Leave> findLeaveById(int lid);
+	Optional<List<StaffLeave>> findLeaveByStaffId(Integer staffId);
+
+	/**
+	 * Method of retrieve staff leave object based of leave id
+	 * @param lId Leave id
+	 * @return {@link StaffLeave} object
+	 */
+	Optional<StaffLeave> findLeaveById(Integer lId);
 	
 	/**
-	 * 
+	 * @deprecated Renamed method to {@link #findLoanByStaffId(Integer)}
 	 * @param eid
 	 * @return
 	 */
-	Optional<List<Loan>> findLoanByEId(int eid);
+	Optional<List<StaffLoan>> findLoanByEId(int eid);
+
+	/**
+	 * Method of listing loan details based on staff id
+	 * @param staffId staff id
+	 * @return List of staff loan
+	 */
+	Optional<List<StaffLoan>> findLoanByStaffId(Integer staffId);
+
+	/**
+	 * Method of retrieve staff loan object by loan id.
+	 * @param loanId loan id
+	 * @return {@link StaffLoan} object
+	 */
+	Optional<StaffLoan> findLoanById(Integer loanId);
 	
 	/**
-	 * 
-	 * @param lid
-	 * @return
+	 * Method of inserting staff leave into back end server.
+	 * @param staffLeave {@link StaffLeave} object
+	 * @return {@link StaffLeave} object after inserted.
 	 */
-	Optional<Loan> findLoanById(int lid);
+	StaffLeave insertLeave(StaffLeave staffLeave);
 	
 	/**
-	 * 
-	 * @param leave
-	 * @return
+	 * Method of inserting staff loan into back end server.
+	 * @param staffLoan {@link StaffLoan} object
+	 * @return {@link StaffLoan} object after inserted
 	 */
-	Leave insertLeave(Leave leave);
+	StaffLoan insertLoan(StaffLoan staffLoan);
 	
 	/**
-	 * 
-	 * @param loan
-	 * @return
+	 * Method of listing staff leave.
+	 * @param page page number
+	 * @param offset page data limit
+	 * @return List of staff leave
 	 */
-	Loan insertLoan(Loan loan);
+	PageInfo<StaffLeave> listLeave(int page, int offset);
 	
 	/**
-	 * 
-	 * @param page
-	 * @param offset
-	 * @return
+	 * Method of listing staff loan.
+	 * @param page page number
+	 * @param offset page data limit
+	 * @return List of staff loan
 	 */
-	PageInfo<Leave> listLeave(int page, int offset);
+	PageInfo<StaffLoan> listLoan(int page, int offset);
 	
 	/**
-	 * 
-	 * @param page
-	 * @param offset
-	 * @return
+	 * Method of update staff leave.
+	 * @param staffLeave {@link StaffLeave} object
+	 * @return {@link StaffLeave} after updated.
 	 */
-	PageInfo<Loan> listLoan(int page, int offset);
+	StaffLeave updateLeave(StaffLeave staffLeave);
 	
 	/**
-	 * 
-	 * @param leave
-	 * @return
+	 * Method of update staff loan.
+	 * @param staffLoan {@link StaffLoan} object
+	 * @return {@link StaffLoan} after updated.
 	 */
-	Leave updateLeave(Leave leave);
-	
-	/**
-	 * 
-	 * @param loan
-	 * @return
-	 */
-	Loan updateLoan(Loan loan);
+	StaffLoan updateLoan(StaffLoan staffLoan);
 }

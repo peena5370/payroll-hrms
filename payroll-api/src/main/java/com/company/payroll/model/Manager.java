@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+@Deprecated
 @Getter
 @Setter
 @AllArgsConstructor
@@ -64,9 +65,9 @@ public class Manager {
     
     private List<Department> department;
     
-    private Salary salary;
+    private StaffSalary staffSalary;
     
-    private BankingInfo bankingInfo;
+    private StaffBankingInfo bankingInfo;
     
     
 }

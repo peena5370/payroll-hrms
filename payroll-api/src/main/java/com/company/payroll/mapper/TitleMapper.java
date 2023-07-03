@@ -8,17 +8,11 @@ import com.company.payroll.model.Title;
 
 @Repository
 public interface TitleMapper {
-    int deleteByPrimaryKey(Integer titleno);
-
+    int deleteByPrimaryKey(Integer titleNo);
     int insert(Title row);
-
     int insertSelective(Title row);
-    
     List<Title> selectList();
-
-    Title selectByPrimaryKey(Integer titleno);
-
+    Title selectByPrimaryKey(Integer titleNo);
     int updateByPrimaryKeySelective(Title row);
-
     int updateByPrimaryKey(Title row);
 }

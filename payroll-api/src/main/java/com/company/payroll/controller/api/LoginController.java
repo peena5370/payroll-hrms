@@ -101,6 +101,8 @@ public class LoginController {
 				switch(obj.getAccountStatus()) {
 					case 0:
 						log.info("Inactive account has sucess login.");
+						resp.setCode(401);
+						resp.setMsg("Inactive account has sucess login.");
 						break;
 					case 1:
 						Account obj2 = new Account();
@@ -145,6 +147,8 @@ public class LoginController {
 						break;
 					case 2:
 						log.info("Locked account has success login.");
+						resp.setCode(401);
+						resp.setMsg("Locked account has success login.");
 						break;
 					default:
 						break;

@@ -10,10 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Title {
-    private Integer titleno;
-
-    private String titlename;
-
-    private String titledesc;
-
+    private Integer titleNo;
+    private String titleName;
+    private String titleDesc;
 }

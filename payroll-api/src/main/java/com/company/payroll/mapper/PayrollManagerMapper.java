@@ -6,6 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import com.company.payroll.model.PayrollManager;
 
+/**
+ * @deprecated will de deleted after StaffPayrollMapper success implement.
+ * <p> Please use {@link StaffPayrollMapper} instead of this interface</p>
+ */
+@Deprecated
 @Repository
 public interface PayrollManagerMapper {
     int deleteByPrimaryKey(Integer prMgrId);

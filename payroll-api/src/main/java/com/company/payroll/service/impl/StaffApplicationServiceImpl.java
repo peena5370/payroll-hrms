@@ -3,13 +3,13 @@ package com.company.payroll.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.company.payroll.model.StaffLeave;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.company.payroll.mapper.LeaveMapper;
-import com.company.payroll.mapper.LoanMapper;
-import com.company.payroll.model.Leave;
-import com.company.payroll.model.Loan;
+import com.company.payroll.mapper.StaffLeaveMapper;
+import com.company.payroll.mapper.StaffLoanMapper;
+import com.company.payroll.model.StaffLoan;
 import com.company.payroll.service.StaffApplicationService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -18,77 +18,85 @@ import com.github.pagehelper.PageInfo;
 public class StaffApplicationServiceImpl implements StaffApplicationService {
 
 	@Autowired
-	private LeaveMapper leaveMapper;
+	private StaffLeaveMapper staffLeaveMapper;
 	
 	@Autowired
-	private LoanMapper loanMapper;
+	private StaffLoanMapper staffLoanMapper;
 	
 	@Override
-	public Integer deleteLeave(int lid) {
-		return leaveMapper.deleteByPrimaryKey(lid);
+	public Integer deleteLeave(Integer lId) {
+		return staffLeaveMapper.deleteByPrimaryKey(lId);
 	}
 
 	@Override
-	public Integer deleteLoan(int lid) {
-		return loanMapper.deleteByPrimaryKey(lid);
+	public Integer deleteLoan(Integer loanId) {
+		return staffLoanMapper.deleteByPrimaryKey(loanId);
 	}
 
 	@Override
-	public Optional<List<Leave>> findLeaveByEId(int eid) {
-		return Optional.ofNullable(leaveMapper.selectListByEId(eid));
+	public Optional<List<StaffLeave>> findLeaveByEId(int eid) {
+		return Optional.empty();
 	}
 
 	@Override
-	public Optional<Leave> findLeaveById(int lid) {
-		return Optional.ofNullable(leaveMapper.selectByPrimaryKey(lid));
+	public Optional<List<StaffLeave>> findLeaveByStaffId(Integer staffId) {
+		return Optional.ofNullable(staffLeaveMapper.selectListByStaffId(staffId));
 	}
 
 	@Override
-	public Optional<List<Loan>> findLoanByEId(int eid) {
-		return Optional.ofNullable(loanMapper.selectListByEId(eid));
+	public Optional<StaffLeave> findLeaveById(Integer lId) {
+		return Optional.ofNullable(staffLeaveMapper.selectByPrimaryKey(lId));
 	}
 
 	@Override
-	public Optional<Loan> findLoanById(int lid) {
-		return Optional.ofNullable(loanMapper.selectByPrimaryKey(lid));
+	public Optional<List<StaffLoan>> findLoanByEId(int eid) {
+		return Optional.empty();
 	}
 
 	@Override
-	public Leave insertLeave(Leave leave) {
-		leaveMapper.insertSelective(leave);
-		return leave;
+	public Optional<List<StaffLoan>> findLoanByStaffId(Integer staffId) {
+		return Optional.ofNullable(staffLoanMapper.selectListByStaffId(staffId));
 	}
 
 	@Override
-	public Loan insertLoan(Loan loan) {
-		loanMapper.insertSelective(loan);
-		return loan;
+	public Optional<StaffLoan> findLoanById(Integer loanId) {
+		return Optional.ofNullable(staffLoanMapper.selectByPrimaryKey(loanId));
 	}
 
 	@Override
-	public PageInfo<Leave> listLeave(int page, int offset) {
+	public StaffLeave insertLeave(StaffLeave staffLeave) {
+		staffLeaveMapper.insertSelective(staffLeave);
+		return staffLeave;
+	}
+
+	@Override
+	public StaffLoan insertLoan(StaffLoan staffLoan) {
+		staffLoanMapper.insertSelective(staffLoan);
+		return staffLoan;
+	}
+
+	@Override
+	public PageInfo<StaffLeave> listLeave(int page, int offset) {
 		PageHelper.startPage(page, offset);
-		List<Leave> list = leaveMapper.selectList();
-		return new PageInfo<Leave>(list);
+		return new PageInfo<StaffLeave>(staffLeaveMapper.selectList());
 	}
 
 	@Override
-	public PageInfo<Loan> listLoan(int page, int offset) {
+	public PageInfo<StaffLoan> listLoan(int page, int offset) {
 		PageHelper.startPage(page, offset);
-		List<Loan> list = loanMapper.selectList();
-		return new PageInfo<Loan>(list);
+		return new PageInfo<StaffLoan>(staffLoanMapper.selectList());
 	}
 
 	@Override
-	public Leave updateLeave(Leave leave) {
-		leaveMapper.updateByPrimaryKeySelective(leave);
-		return leave;
+	public StaffLeave updateLeave(StaffLeave staffLeave) {
+		staffLeaveMapper.updateByPrimaryKeySelective(staffLeave);
+		return staffLeave;
 	}
 
 	@Override
-	public Loan updateLoan(Loan loan) {
-		loanMapper.updateByPrimaryKeySelective(loan);
-		return loan;
+	public StaffLoan updateLoan(StaffLoan staffLoan) {
+		staffLoanMapper.updateByPrimaryKeySelective(staffLoan);
+		return staffLoan;
 	}
 
 }

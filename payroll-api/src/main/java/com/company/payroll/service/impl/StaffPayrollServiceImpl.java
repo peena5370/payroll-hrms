@@ -3,12 +3,12 @@ package com.company.payroll.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.company.payroll.model.StaffPayroll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.company.payroll.mapper.PayrollEmployeeMapper;
+import com.company.payroll.mapper.StaffPayrollMapper;
 import com.company.payroll.mapper.PayrollManagerMapper;
-import com.company.payroll.model.PayrollEmployee;
 import com.company.payroll.model.PayrollManager;
 import com.company.payroll.service.StaffPayrollService;
 import com.github.pagehelper.PageHelper;
@@ -18,78 +18,100 @@ import com.github.pagehelper.PageInfo;
 public class StaffPayrollServiceImpl implements StaffPayrollService {
 
 	@Autowired
-	private PayrollEmployeeMapper payrollEmployeeMapper;
-	
-	@Autowired
-	private PayrollManagerMapper payrollManagerMapper;
+	private StaffPayrollMapper staffPayrollMapper;
+
 	
 	@Override
 	public Integer deletePayrollEmployee(int prid) {
-		return payrollEmployeeMapper.deleteByPrimaryKey(prid);
+		return null;
 	}
 
 	@Override
 	public Integer deletePayrollManager(int prMgrId) {
-		return payrollManagerMapper.deleteByPrimaryKey(prMgrId);
+		return null;
 	}
 
 	@Override
-	public Optional<List<PayrollEmployee>> findPayrollEmployeeByEId(int eid) {
-		// TODO Auto-generated method stub
-		return Optional.ofNullable(payrollEmployeeMapper.selectListByEId(eid));
+	public Integer deleteStaffPayroll(Integer prId) {
+		return staffPayrollMapper.deleteByPrimaryKey(prId);
 	}
 
 	@Override
-	public Optional<PayrollEmployee> findPayrollEmployeeById(int prid) {
-		return Optional.ofNullable(payrollEmployeeMapper.selectByPrimaryKey(prid));
+	public Optional<List<StaffPayroll>> findPayrollEmployeeByEId(int eid) {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<StaffPayroll> findPayrollEmployeeById(int prid) {
+		return Optional.empty();
 	}
 
 	@Override
 	public Optional<PayrollManager> findPayrollManagerById(int prMgrId) {
-		return Optional.ofNullable(payrollManagerMapper.selectByPrimaryKey(prMgrId));
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<StaffPayroll> findStaffPayrollById(Integer prId) {
+		return Optional.ofNullable(staffPayrollMapper.selectByPrimaryKey(prId));
 	}
 
 	@Override
 	public Optional<List<PayrollManager>> findPayrollManagerByMId(int mid) {
-		return Optional.ofNullable(payrollManagerMapper.selectListByMId(mid));
+		return Optional.empty();
 	}
 
 	@Override
-	public PayrollEmployee insertPayrollEmployee(PayrollEmployee payroll) {
-		payrollEmployeeMapper.insertSelective(payroll);
-		return payroll;
+	public List<StaffPayroll> findStaffPayrollByStaffId(Integer staffId) {
+		return staffPayrollMapper.selectListByStaffId(staffId);
+	}
+
+	@Override
+	public StaffPayroll insertPayrollEmployee(StaffPayroll payroll) {
+		return null;
 	}
 
 	@Override
 	public PayrollManager insertPayrollManager(PayrollManager payrollManager) {
-		payrollManagerMapper.insertSelective(payrollManager);
-		return payrollManager;
+		return null;
 	}
 
 	@Override
-	public PageInfo<PayrollEmployee> listPayrollEmployee(int page, int offset) {
-		PageHelper.startPage(page, offset);
-		List<PayrollEmployee> list = payrollEmployeeMapper.selectList();
-		return new PageInfo<PayrollEmployee>(list);
+	public StaffPayroll insertStaffPayroll(StaffPayroll staffPayroll) {
+		staffPayrollMapper.insertSelective(staffPayroll);
+		return staffPayroll;
+	}
+
+	@Override
+	public PageInfo<StaffPayroll> listPayrollEmployee(int page, int offset) {
+		return null;
 	}
 
 	@Override
 	public PageInfo<PayrollManager> listPayrollManager(int page, int offset) {
-		PageHelper.startPage(page, offset);
-		List<PayrollManager> list = payrollManagerMapper.selectList();
-		return new PageInfo<PayrollManager>(list);
+		return null;
 	}
 
 	@Override
-	public PayrollEmployee updatePayrollEmployee(PayrollEmployee payroll) {
-		payrollEmployeeMapper.updateByPrimaryKeySelective(payroll);
-		return payroll;
+	public PageInfo<StaffPayroll> listStaffPayroll(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		return new PageInfo<StaffPayroll>(staffPayrollMapper.selectList());
+	}
+
+	@Override
+	public StaffPayroll updatePayrollEmployee(StaffPayroll payroll) {
+		return null;
 	}
 
 	@Override
 	public PayrollManager updatePayrollManager(PayrollManager payrollManager) {
-		payrollManagerMapper.updateByPrimaryKeySelective(payrollManager);
-		return payrollManager;
+		return null;
+	}
+
+	@Override
+	public StaffPayroll updateStaffPayroll(StaffPayroll staffPayroll) {
+		staffPayrollMapper.updateByPrimaryKeySelective(staffPayroll);
+		return staffPayroll;
 	}
 
 }

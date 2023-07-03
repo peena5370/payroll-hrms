@@ -21,9 +21,11 @@ public class FileAttachment {
 	private long fileSize;
 	
 	@JsonProperty("path")
-	private String attachmentPath;
-	
-	private Integer mId;
-	
-	private Integer eId;
+//	private String attachmentPath;
+	private String filePath;
+
+//	private Integer mId;
+//
+//	private Integer eId;
+	private Integer staffId;
 }

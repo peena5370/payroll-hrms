@@ -1,153 +1,180 @@
 package com.company.payroll.service.impl;
 
-import java.util.List;
+import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Optional;
 
+import com.company.payroll.mapper.*;
+import com.company.payroll.model.*;
+import com.company.payroll.util.FileUtils;
+import org.apache.tomcat.util.http.fileupload.InvalidFileNameException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import com.company.payroll.mapper.BankingInfoMapper;
-import com.company.payroll.mapper.EmployeeMapper;
-import com.company.payroll.mapper.ManagerMapper;
-import com.company.payroll.mapper.SalaryMapper;
-import com.company.payroll.model.BankingInfo;
-import com.company.payroll.model.Employee;
-import com.company.payroll.model.Manager;
-import com.company.payroll.model.Salary;
 import com.company.payroll.service.StaffDetailsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class StaffDetailsServiceImpl implements StaffDetailsService {
 	
 	@Autowired
-	private EmployeeMapper employeeMapper;
+	private StaffDetailsMapper staffDetailsMapper;
 	
 	@Autowired
-	private ManagerMapper managerMapper;
+	private StaffBankingInfoMapper staffBankingInfoMapper;
 	
 	@Autowired
-	private BankingInfoMapper bankingInfoMapper;
-	
+	private StaffSalaryMapper staffSalaryMapper;
+
 	@Autowired
-	private SalaryMapper salaryMapper;
+	private StaffLeaveDetailsMapper staffLeaveDetailsMapper;
+
+	@Autowired
+	private FileUtils fileUtils;
 
 	@Override
 	public Integer countActiveEmployee(int deptno) {
-		return employeeMapper.countActiveDepartmentEmployee(deptno);
+		return null;
 	}
 	
 
 	@Override
 	public Integer countActiveManager(int deptno) {
-		return managerMapper.countActiveDepartmentManager(deptno);
+		return null;
+	}
+
+	@Override
+	public Integer countActiveStaff(Integer deptNo) {
+		return null;
 	}
 
 	@Override
 	public Integer deleteEmployee(int eid) {
-		Integer row = 0;
-		Employee info = employeeMapper.selectByPrimaryKey(eid);
-		Integer one = employeeMapper.deleteByPrimaryKey(info.getEId());
-		Integer two = bankingInfoMapper.deleteByPrimaryKey(info.getBId());
-		Integer three = salaryMapper.deleteByPrimaryKey(info.getSId());
-		
-		if(one==1&&two==1&&three==1) {
-			row = 1;
-		} else {
-			throw new RuntimeException();
-		}
-		
-		return row;
+		return null;
 	}
 
 	@Override
 	public Integer deleteManager(int mid) {
-		Integer row = 0;
-		
-		Manager info = managerMapper.selectByPrimaryKey(mid);
-		Integer one1 = managerMapper.deleteByPrimaryKey(info.getMId());
-		Integer two2 = bankingInfoMapper.deleteByPrimaryKey(info.getBId());
-		Integer three3 = salaryMapper.deleteByPrimaryKey(info.getSId());
-		
-		if(one1==1&&two2==1&&three3==1) {
-			row = 1;
-		} else {
-			throw new RuntimeException();
+		return null;
+	}
+
+	@Override
+	public Integer deleteStaffDetails(Integer staffId) {
+		int row = 0;
+		StaffDetails staffDetails = staffDetailsMapper.selectByPrimaryKey(staffId);
+
+		boolean status1 = fileUtils.delete(Paths.get(staffDetails.getImgPath()));
+		int status2 = staffDetailsMapper.deleteByPrimaryKey(staffDetails.getStaffId());
+		int status3 = staffBankingInfoMapper.deleteByPrimaryKey(staffDetails.getBId());
+		int status4 = staffSalaryMapper.deleteByPrimaryKey(staffDetails.getSId());
+		int status5 = staffLeaveDetailsMapper.deleteByPrimaryKey(staffDetails.getLdId());
+
+		if(status1 && status2==1 && status3==1 && status4==1 && status5==1) {
+			row += 1;
 		}
-		
+
 		return row;
 	}
 
 	@Override
-	public Optional<Employee> findEmployeeById(int eid) {
-		return Optional.ofNullable(employeeMapper.selectByPrimaryKey(eid));
+	public Optional<StaffDetails> findEmployeeById(int eid) {
+		return Optional.empty();
 	}
 
 	@Override
 	public Optional<Manager> findManagerById(int mid) {
-		return Optional.ofNullable(managerMapper.selectByPrimaryKey(mid));
+		return Optional.empty();
 	}
 
 	@Override
-	public PageInfo<Employee> listEmployee(int page, int offset) {
-		PageHelper.startPage(page, offset);
-		List<Employee> list = employeeMapper.selectList();
-		return new PageInfo<Employee>(list);
+	public Optional<StaffDetails> findByStaffId(Integer staffId) {
+		return Optional.ofNullable(staffDetailsMapper.selectByPrimaryKey(staffId));
+	}
+
+	@Override
+	public PageInfo<StaffDetails> listEmployee(int page, int offset) {
+		return null;
 	}
 
 	@Override
 	public PageInfo<Manager> listManager(int page, int offset) {
-		PageHelper.startPage(page, offset);
-		List<Manager> list = managerMapper.selectList();
-		return new PageInfo<Manager>(list);
+		return null;
 	}
 
 	@Override
-	public Employee registerEmployee(Employee employee) {
-		bankingInfoMapper.insertSelective(employee.getBankingInfo());
-		BankingInfo info = bankingInfoMapper.selectByPrimaryKey(employee.getBankingInfo().getBId());
-		
-		salaryMapper.insertSelective(employee.getSalary());
-		Salary salary = salaryMapper.selectByPrimaryKey(employee.getSalary().getSId());
-		employee.setBId(info.getBId());
-		employee.setSId(salary.getSId());
-		Integer row = employeeMapper.insertSelective(employee);
-		if(info==null || salary==null || row==0) {
-			throw new RuntimeException();
-		}
-		
-		return employee;
+	public PageInfo<StaffDetails> listStaffDetails(int page, int offset) {
+		PageHelper.startPage(page, offset);
+		return new PageInfo<StaffDetails>(staffDetailsMapper.selectList());
+	}
+
+	@Override
+	public StaffDetails registerEmployee(StaffDetails staffDetails) {
+		return null;
 	}
 
 	@Override
 	public Manager registerManager(Manager manager) {
-		bankingInfoMapper.insertSelective(manager.getBankingInfo());
-		BankingInfo info = bankingInfoMapper.selectByPrimaryKey(manager.getBankingInfo().getBId());
-		
-		salaryMapper.insertSelective(manager.getSalary());
-		Salary salary = salaryMapper.selectByPrimaryKey(manager.getSalary().getSId());
-		
-		manager.setBId(info.getBId());
-		manager.setSId(salary.getSId());
-		Integer row = managerMapper.insertSelective(manager);
-
-		if(info==null || salary==null || row==0) {
-			throw new RuntimeException();
-		}
-		
-		return manager;
+		return null;
 	}
 
 	@Override
-	public Employee updateEmployee(Employee employee) {
-		employeeMapper.updateByPrimaryKeySelective(employee);
-		return employee;
+	public StaffDetails addStaffDetails(MultipartFile staffImage, StaffDetails staffDetails) {
+		String filePath = "/staff/list";
+		String contentType = staffImage.getContentType();
+		if(Objects.equals(contentType, "image/jpeg") || Objects.equals(contentType, "image/png")
+				|| Objects.equals(contentType, "image/gif")) {
+			staffDetails.setImgPath(fileUtils.imageUpload(staffImage, filePath));
+		} else {
+			throw new InvalidFileNameException(staffImage.getOriginalFilename(), "Invalid file format");
+		}
+
+		staffBankingInfoMapper.insertSelective(staffDetails.getStaffBankingInfo());
+		StaffBankingInfo bankingInfo = staffBankingInfoMapper.selectByPrimaryKey(staffDetails.getStaffBankingInfo().getBId());
+
+		staffSalaryMapper.insertSelective(staffDetails.getStaffSalary());
+		StaffSalary salaryInfo = staffSalaryMapper.selectByPrimaryKey(staffDetails.getStaffSalary().getSId());
+
+		staffLeaveDetailsMapper.insertSelective(staffDetails.getStaffLeaveDetails());
+		StaffLeaveDetails leaveInfo = staffLeaveDetailsMapper.selectByPrimaryKey(staffDetails.getStaffLeaveDetails().getLdId());
+
+		StaffDetails manager = staffDetailsMapper.selectByPrimaryKey(staffDetails.getManagerId());
+		staffDetails.setManagerId(manager.getStaffId());
+
+		if(bankingInfo!=null && salaryInfo!=null && leaveInfo!=null) {
+			staffDetails.setLdId(leaveInfo.getLdId());
+			staffDetails.setSId(salaryInfo.getSId());
+			staffDetails.setBId(bankingInfo.getBId());
+		} else {
+			return null;
+		}
+
+		staffDetailsMapper.insertSelective(staffDetails);
+
+		return staffDetails;
+	}
+
+	@Override
+	public StaffDetails updateEmployee(StaffDetails staffDetails) {
+		return null;
 	}
 
 	@Override
 	public Manager updateManager(Manager manager) {
-		managerMapper.updateByPrimaryKeySelective(manager);
-		return manager;
+		return null;
+	}
+
+	@Override
+	public StaffDetails updateStaffDetails(StaffDetails staffDetails) {
+		staffDetailsMapper.updateByPrimaryKeySelective(staffDetails);
+		return staffDetails;
+	}
+
+	@Override
+	public Resource loadStaffImage(Integer staffId) {
+		StaffDetails staffDetails = staffDetailsMapper.selectByPrimaryKey(staffId);
+		return fileUtils.download(Paths.get(staffDetails.getImgPath()));
 	}
 }

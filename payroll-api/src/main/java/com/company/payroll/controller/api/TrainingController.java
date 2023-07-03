@@ -3,6 +3,7 @@ package com.company.payroll.controller.api;
 import java.util.List;
 import java.util.Optional;
 
+import com.company.payroll.model.StaffTraining;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.payroll.model.Training;
 import com.company.payroll.service.StaffMiscellaneousService;
 import com.github.pagehelper.PageInfo;
 
@@ -31,38 +31,38 @@ public class TrainingController {
 	
 	@Operation(summary="Get training list")
 	@GetMapping
-	public ResponseEntity<PageInfo<Training>> listTraining(@RequestParam(value="page", required=true) int page,  @RequestParam(value="size", required=true) int offset) {
+	public ResponseEntity<PageInfo<StaffTraining>> listTraining(@RequestParam(value="page", required=true) int page, @RequestParam(value="size", required=true) int offset) {
 		return ResponseEntity.ok(staffMiscellaneousService.listTraining(page, offset));
 	}
 	
 	@Operation(summary="Get training info by id")
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Training>> getById(@PathVariable("id") int tId) {
+	public ResponseEntity<Optional<StaffTraining>> getById(@PathVariable("id") int tId) {
 		return ResponseEntity.ok(staffMiscellaneousService.findTrainingById(tId));
 	}
 	
 	@Operation(summary="Get training list by employee id")
 	@GetMapping("/employee/{id}/all")
-	public ResponseEntity<Optional<List<Training>>> getListByEId(@Parameter(description="employee id") @PathVariable("id") int eId) {
+	public ResponseEntity<Optional<List<StaffTraining>>> getListByEId(@Parameter(description="employee id") @PathVariable("id") int eId) {
 		return ResponseEntity.ok(staffMiscellaneousService.findTrainingByEId(eId));
 	}
 	
 	@Operation(summary="Get training list by manager id")
 	@GetMapping("/manager/{id}/all")
-	public ResponseEntity<Optional<List<Training>>> getListByMId(@Parameter(description="manager id") @PathVariable("id") int mId) {
+	public ResponseEntity<Optional<List<StaffTraining>>> getListByMId(@Parameter(description="manager id") @PathVariable("id") int mId) {
 		return ResponseEntity.ok(staffMiscellaneousService.findTrainingByMId(mId));
 	}
 	
-	@Operation(summary="Insert training info")
+	@Operation(summary="Insert staffTraining info")
 	@PostMapping
-	public ResponseEntity<Training> insert(@RequestBody Training training) {
-		return ResponseEntity.ok(staffMiscellaneousService.insertTraining(training));
+	public ResponseEntity<StaffTraining> insert(@RequestBody StaffTraining staffTraining) {
+		return ResponseEntity.ok(staffMiscellaneousService.insertTraining(staffTraining));
 	}
 	
-	@Operation(summary="Update training info.")
+	@Operation(summary="Update staffTraining info.")
 	@PutMapping("/{id}")
-	public ResponseEntity<Training> update(@RequestBody Training training) {
-		return ResponseEntity.ok(staffMiscellaneousService.updateTraining(training));
+	public ResponseEntity<StaffTraining> update(@RequestBody StaffTraining staffTraining) {
+		return ResponseEntity.ok(staffMiscellaneousService.updateTraining(staffTraining));
 	}
 
 	@Operation(summary="Delete training info.")

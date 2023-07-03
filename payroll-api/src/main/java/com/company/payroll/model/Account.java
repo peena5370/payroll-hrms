@@ -33,8 +33,9 @@ import lombok.Setter;
  * Rename dateChanged to dateModified
  * 
  * Change accountStatus data type from int to Byte
- * 
+ * @deprecated will be removed after converted to new payroll schema
  */
+@Deprecated
 @Getter
 @Setter
 @AllArgsConstructor
