@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.HmsStaffDetailMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.HmsStaffDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fullname" jdbcType="VARCHAR" property="fullname" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="date_of_birth" jdbcType="DATE" property="dateOfBirth" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="marital_status" jdbcType="VARCHAR" property="maritalStatus" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="home_address" jdbcType="VARCHAR" property="homeAddress" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="hired_date" jdbcType="DATE" property="hiredDate" />
+    <result column="resign_date" jdbcType="DATE" property="resignDate" />
+    <result column="profile_image_path" jdbcType="VARCHAR" property="profileImagePath" />
+    <result column="dept_id" jdbcType="BIGINT" property="deptId" />
+    <result column="title_id" jdbcType="BIGINT" property="titleId" />
+    <result column="manager_id" jdbcType="BIGINT" property="managerId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, fullname, gender, date_of_birth, age, marital_status, education, home_address, 
+    phone, email, hired_date, resign_date, profile_image_path, dept_id, title_id, manager_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hms_staff_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from hms_staff_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.HmsStaffDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hms_staff_detail (fullname, gender, date_of_birth, 
+      age, marital_status, education, 
+      home_address, phone, email, 
+      hired_date, resign_date, profile_image_path, 
+      dept_id, title_id, manager_id
+      )
+    values (#{fullname,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{dateOfBirth,jdbcType=DATE}, 
+      #{age,jdbcType=INTEGER}, #{maritalStatus,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{homeAddress,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{hiredDate,jdbcType=DATE}, #{resignDate,jdbcType=DATE}, #{profileImagePath,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=BIGINT}, #{titleId,jdbcType=BIGINT}, #{managerId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.HmsStaffDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hms_staff_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fullname != null">
+        fullname,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="dateOfBirth != null">
+        date_of_birth,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="maritalStatus != null">
+        marital_status,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="homeAddress != null">
+        home_address,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="hiredDate != null">
+        hired_date,
+      </if>
+      <if test="resignDate != null">
+        resign_date,
+      </if>
+      <if test="profileImagePath != null">
+        profile_image_path,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="titleId != null">
+        title_id,
+      </if>
+      <if test="managerId != null">
+        manager_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fullname != null">
+        #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfBirth != null">
+        #{dateOfBirth,jdbcType=DATE},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="maritalStatus != null">
+        #{maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="homeAddress != null">
+        #{homeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="hiredDate != null">
+        #{hiredDate,jdbcType=DATE},
+      </if>
+      <if test="resignDate != null">
+        #{resignDate,jdbcType=DATE},
+      </if>
+      <if test="profileImagePath != null">
+        #{profileImagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="titleId != null">
+        #{titleId,jdbcType=BIGINT},
+      </if>
+      <if test="managerId != null">
+        #{managerId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.HmsStaffDetail">
+    update hms_staff_detail
+    <set>
+      <if test="fullname != null">
+        fullname = #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfBirth != null">
+        date_of_birth = #{dateOfBirth,jdbcType=DATE},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="maritalStatus != null">
+        marital_status = #{maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="homeAddress != null">
+        home_address = #{homeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="hiredDate != null">
+        hired_date = #{hiredDate,jdbcType=DATE},
+      </if>
+      <if test="resignDate != null">
+        resign_date = #{resignDate,jdbcType=DATE},
+      </if>
+      <if test="profileImagePath != null">
+        profile_image_path = #{profileImagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="titleId != null">
+        title_id = #{titleId,jdbcType=BIGINT},
+      </if>
+      <if test="managerId != null">
+        manager_id = #{managerId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.HmsStaffDetail">
+    update hms_staff_detail
+    set fullname = #{fullname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      date_of_birth = #{dateOfBirth,jdbcType=DATE},
+      age = #{age,jdbcType=INTEGER},
+      marital_status = #{maritalStatus,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      home_address = #{homeAddress,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      hired_date = #{hiredDate,jdbcType=DATE},
+      resign_date = #{resignDate,jdbcType=DATE},
+      profile_image_path = #{profileImagePath,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=BIGINT},
+      title_id = #{titleId,jdbcType=BIGINT},
+      manager_id = #{managerId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

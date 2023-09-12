@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <properties resource="db.properties"/>
+  
+  <context id="context1"  targetRuntime="MyBatis3" defaultModelType="flat">
+
+    <property name="beginningDelimiter" value="`"/>
+    <property name="endingDelimiter" value="`"/>
+    <property name="JavaFileEncoding" value="UTF-8"/>
+   		    
+	<commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+    </commentGenerator>
+    
+	 <jdbcConnection connectionURL="${spring.datasource.url}" 
+				    driverClass="${spring.datasource.driver-class-name}"
+				    password="${spring.datasource.password}" 
+				    userId="${spring.datasource.username}">
+		<property name="nullCatalogMeansCurrent" value="true"/>
+	</jdbcConnection>
+	
+	<javaTypeResolver>
+        <property name="forceBigDecimals" value="true"/>
+        <property name="useJSR310Types" value="true"/>
+    </javaTypeResolver>
+	
+    <javaModelGenerator targetPackage="com.company.payroll.model" targetProject="payroll_mbg/src/main/java" />
+    
+    <sqlMapGenerator targetPackage="mapper" targetProject="payroll_mbg/src/main/resources"/>
+    
+    <javaClientGenerator targetPackage="com.company.payroll.mapper" targetProject="payroll_mbg/src/main/java" type="XMLMAPPER" />
+    
+    <table schema="" tableName="sys_account" domainObjectName="SysAccount"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="sys_department" domainObjectName="SysDepartment"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="sys_profile" domainObjectName="SysProfile"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="hms_staff_banking" domainObjectName="HmsStaffBanking"
+   		enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="hms_staff_job_title" domainObjectName="HmsStaffJobTitle"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="pms_staff_leave_balance" domainObjectName="PmsStaffLeaveBalance"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="hms_staff_salary" domainObjectName="HmsStaffSalary"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="hms_staff_detail" domainObjectName="HmsStaffDetail"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="hms_staff_appraisal" domainObjectName="HmsStaffAppraisal"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="hms_staff_learning" domainObjectName="HmsStaffLeaning"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="hms_staff_learning_detail" domainObjectName="HmsStaffLeaningDetail"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="hms_file_attachment" domainObjectName="HmsFileAttachment"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="ams_time_off" domainObjectName="AmsTimeOff"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="ams_loan" domainObjectName="AmsLoan"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="ams_staff_attendance" domainObjectName="AmsStaffAttendance"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="ams_resignation" domainObjectName="AmsResignation"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="" tableName="pms_payroll" domainObjectName="PmsPayroll"
+    	enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false" selectByExampleQueryId="false">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+  </context>
+</generatorConfiguration>

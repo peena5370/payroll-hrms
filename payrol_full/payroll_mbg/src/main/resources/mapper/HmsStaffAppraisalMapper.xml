@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.HmsStaffAppraisalMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.HmsStaffAppraisal">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="current_salary" jdbcType="DECIMAL" property="currentSalary" />
+    <result column="promote_salary" jdbcType="DECIMAL" property="promoteSalary" />
+    <result column="promote_date" jdbcType="DATE" property="promoteDate" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="title_id" jdbcType="BIGINT" property="titleId" />
+    <result column="staff_id" jdbcType="BIGINT" property="staffId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, current_salary, promote_salary, promote_date, comment, status, title_id, staff_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hms_staff_appraisal
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from hms_staff_appraisal
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.HmsStaffAppraisal">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hms_staff_appraisal (current_salary, promote_salary, promote_date, 
+      comment, status, title_id, 
+      staff_id)
+    values (#{currentSalary,jdbcType=DECIMAL}, #{promoteSalary,jdbcType=DECIMAL}, #{promoteDate,jdbcType=DATE}, 
+      #{comment,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{titleId,jdbcType=BIGINT}, 
+      #{staffId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.HmsStaffAppraisal">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hms_staff_appraisal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="currentSalary != null">
+        current_salary,
+      </if>
+      <if test="promoteSalary != null">
+        promote_salary,
+      </if>
+      <if test="promoteDate != null">
+        promote_date,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="titleId != null">
+        title_id,
+      </if>
+      <if test="staffId != null">
+        staff_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="currentSalary != null">
+        #{currentSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="promoteSalary != null">
+        #{promoteSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="promoteDate != null">
+        #{promoteDate,jdbcType=DATE},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="titleId != null">
+        #{titleId,jdbcType=BIGINT},
+      </if>
+      <if test="staffId != null">
+        #{staffId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.HmsStaffAppraisal">
+    update hms_staff_appraisal
+    <set>
+      <if test="currentSalary != null">
+        current_salary = #{currentSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="promoteSalary != null">
+        promote_salary = #{promoteSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="promoteDate != null">
+        promote_date = #{promoteDate,jdbcType=DATE},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="titleId != null">
+        title_id = #{titleId,jdbcType=BIGINT},
+      </if>
+      <if test="staffId != null">
+        staff_id = #{staffId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.HmsStaffAppraisal">
+    update hms_staff_appraisal
+    set current_salary = #{currentSalary,jdbcType=DECIMAL},
+      promote_salary = #{promoteSalary,jdbcType=DECIMAL},
+      promote_date = #{promoteDate,jdbcType=DATE},
+      comment = #{comment,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      title_id = #{titleId,jdbcType=BIGINT},
+      staff_id = #{staffId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

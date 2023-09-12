@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.SysAccountMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.SysAccount">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="CHAR" property="username" />
+    <result column="password" jdbcType="CHAR" property="password" />
+    <result column="secret_key" jdbcType="CHAR" property="secretKey" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="date_created" jdbcType="TIMESTAMP" property="dateCreated" />
+    <result column="date_modified" jdbcType="TIMESTAMP" property="dateModified" />
+    <result column="last_login" jdbcType="TIMESTAMP" property="lastLogin" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, secret_key, role, date_created, date_modified, last_login, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_account
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_account
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.SysAccount">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_account (username, password, secret_key, 
+      role, date_created, date_modified, 
+      last_login, status)
+    values (#{username,jdbcType=CHAR}, #{password,jdbcType=CHAR}, #{secretKey,jdbcType=CHAR}, 
+      #{role,jdbcType=VARCHAR}, #{dateCreated,jdbcType=TIMESTAMP}, #{dateModified,jdbcType=TIMESTAMP}, 
+      #{lastLogin,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.SysAccount">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="secretKey != null">
+        secret_key,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+      <if test="dateCreated != null">
+        date_created,
+      </if>
+      <if test="dateModified != null">
+        date_modified,
+      </if>
+      <if test="lastLogin != null">
+        last_login,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=CHAR},
+      </if>
+      <if test="secretKey != null">
+        #{secretKey,jdbcType=CHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="dateCreated != null">
+        #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateModified != null">
+        #{dateModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null">
+        #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.SysAccount">
+    update sys_account
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=CHAR},
+      </if>
+      <if test="secretKey != null">
+        secret_key = #{secretKey,jdbcType=CHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="dateCreated != null">
+        date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateModified != null">
+        date_modified = #{dateModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null">
+        last_login = #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.SysAccount">
+    update sys_account
+    set username = #{username,jdbcType=CHAR},
+      password = #{password,jdbcType=CHAR},
+      secret_key = #{secretKey,jdbcType=CHAR},
+      role = #{role,jdbcType=VARCHAR},
+      date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      date_modified = #{dateModified,jdbcType=TIMESTAMP},
+      last_login = #{lastLogin,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

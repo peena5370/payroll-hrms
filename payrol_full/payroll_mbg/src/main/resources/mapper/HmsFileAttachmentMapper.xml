@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.HmsFileAttachmentMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.HmsFileAttachment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_size" jdbcType="BIGINT" property="fileSize" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="staff_id" jdbcType="BIGINT" property="staffId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, file_name, file_size, file_path, staff_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hms_file_attachment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from hms_file_attachment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.HmsFileAttachment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hms_file_attachment (file_name, file_size, file_path, 
+      staff_id)
+    values (#{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, #{filePath,jdbcType=VARCHAR}, 
+      #{staffId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.HmsFileAttachment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hms_file_attachment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="staffId != null">
+        staff_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="staffId != null">
+        #{staffId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.HmsFileAttachment">
+    update hms_file_attachment
+    <set>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="staffId != null">
+        staff_id = #{staffId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.HmsFileAttachment">
+    update hms_file_attachment
+    set file_name = #{fileName,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=BIGINT},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      staff_id = #{staffId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

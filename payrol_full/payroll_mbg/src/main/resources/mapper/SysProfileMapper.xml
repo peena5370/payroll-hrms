@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.SysProfileMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.SysProfile">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="about_profile" jdbcType="VARCHAR" property="aboutProfile" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="date_created" jdbcType="TIMESTAMP" property="dateCreated" />
+    <result column="date_modified" jdbcType="TIMESTAMP" property="dateModified" />
+    <result column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="staff_id" jdbcType="BIGINT" property="staffId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, about_profile, image_path, date_created, date_modified, account_id, staff_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_profile
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_profile
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.SysProfile">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_profile (about_profile, image_path, date_created, 
+      date_modified, account_id, staff_id
+      )
+    values (#{aboutProfile,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{dateCreated,jdbcType=TIMESTAMP}, 
+      #{dateModified,jdbcType=TIMESTAMP}, #{accountId,jdbcType=BIGINT}, #{staffId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.SysProfile">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_profile
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="aboutProfile != null">
+        about_profile,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="dateCreated != null">
+        date_created,
+      </if>
+      <if test="dateModified != null">
+        date_modified,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="staffId != null">
+        staff_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="aboutProfile != null">
+        #{aboutProfile,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="dateCreated != null">
+        #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateModified != null">
+        #{dateModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="staffId != null">
+        #{staffId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.SysProfile">
+    update sys_profile
+    <set>
+      <if test="aboutProfile != null">
+        about_profile = #{aboutProfile,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="dateCreated != null">
+        date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateModified != null">
+        date_modified = #{dateModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="staffId != null">
+        staff_id = #{staffId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.SysProfile">
+    update sys_profile
+    set about_profile = #{aboutProfile,jdbcType=VARCHAR},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      date_created = #{dateCreated,jdbcType=TIMESTAMP},
+      date_modified = #{dateModified,jdbcType=TIMESTAMP},
+      account_id = #{accountId,jdbcType=BIGINT},
+      staff_id = #{staffId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
