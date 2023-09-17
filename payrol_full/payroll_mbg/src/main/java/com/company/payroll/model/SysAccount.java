@@ -20,7 +20,7 @@ public class SysAccount {
 
     private String secretKey;
 
-    private String role;
+    private String roles;
 
     private LocalDateTime dateCreated;
 

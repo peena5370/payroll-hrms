@@ -40,13 +40,13 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pms_payroll (basic_pay, overtime_pay, allowance, 
+    insert into pms_payroll (id, basic_pay, overtime_pay, allowance, 
       transport, loan_deduction, other_deduction, 
       employee_epf, employee_socso, employee_eis, 
       employer_epf, employer_socso, employer_eis, 
       mtd_pcb, total, pay_period, 
       date_issue, staff_id)
-    values (#{basicPay,jdbcType=DECIMAL}, #{overtimePay,jdbcType=DECIMAL}, #{allowance,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=BIGINT}, #{basicPay,jdbcType=DECIMAL}, #{overtimePay,jdbcType=DECIMAL}, #{allowance,jdbcType=DECIMAL}, 
       #{transport,jdbcType=DECIMAL}, #{loanDeduction,jdbcType=DECIMAL}, #{otherDeduction,jdbcType=DECIMAL}, 
       #{employeeEpf,jdbcType=DECIMAL}, #{employeeSocso,jdbcType=DECIMAL}, #{employeeEis,jdbcType=DECIMAL}, 
       #{employerEpf,jdbcType=DECIMAL}, #{employerSocso,jdbcType=DECIMAL}, #{employerEis,jdbcType=DECIMAL}, 
@@ -59,6 +59,9 @@
     </selectKey>
     insert into pms_payroll
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="basicPay != null">
         basic_pay,
       </if>
@@ -112,6 +115,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="basicPay != null">
         #{basicPay,jdbcType=DECIMAL},
       </if>

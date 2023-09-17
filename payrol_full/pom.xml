@@ -15,6 +15,9 @@
     	<module>payroll_security</module>
     	<module>payroll_hrms</module>
     	<module>payroll_util</module>
+    	<module>payroll_attendance</module>
+    	<module>payroll_common</module>
+    	<module>payroll_sys</module>
     </modules>
   
     <parent>
@@ -122,6 +125,16 @@
 			<dependency>
 				<groupId>com.company.payroll</groupId>
 				<artifactId>payroll_hrms</artifactId>
+				<version>1.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.company.payroll</groupId>
+				<artifactId>payroll_attendance</artifactId>
+				<version>1.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.company.payroll</groupId>
+				<artifactId>payroll_sys</artifactId>
 				<version>1.0.1</version>
 			</dependency>
 			<!-- mybatis -->

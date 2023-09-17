@@ -18,11 +18,6 @@
     id, ref_num, reason, amount, date_repay_from, date_repay_to, repay_balance, date_apply, 
     date_approved, status, staff_id
   </sql>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from ams_loan
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -41,7 +36,7 @@
       date_repay_from, date_repay_to, repay_balance, 
       date_apply, date_approved, status, 
       staff_id)
-    values (#{id,jdbcType=BIGINT}, }#{refNum,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=BIGINT}, #{refNum,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
       #{dateRepayFrom,jdbcType=DATE}, #{dateRepayTo,jdbcType=DATE}, #{repayBalance,jdbcType=DECIMAL}, 
       #{dateApply,jdbcType=DATE}, #{dateApproved,jdbcType=DATE}, #{status,jdbcType=TINYINT}, 
       #{staffId,jdbcType=BIGINT})
@@ -87,7 +82,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="refNum != null">
+      <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
       <if test="refNum != null">

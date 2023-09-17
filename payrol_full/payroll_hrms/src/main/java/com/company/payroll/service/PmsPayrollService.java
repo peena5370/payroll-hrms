@@ -1,18 +1,22 @@
 package com.company.payroll.service;
 
-import java.util.List;
+import java.util.Optional;
 
 import com.company.payroll.model.PmsPayroll;
+import com.github.pagehelper.PageInfo;
 
 public interface PmsPayrollService {
 	
-	public int createPayroll(PmsPayroll payroll);
+	PageInfo<PmsPayroll> getAllPayroll(int page, int offset);
+
+	PageInfo<PmsPayroll> getAllPayrollByStaffId(Long staffId, int page, int offset);
 	
-	public int updatePayroll(PmsPayroll payroll);
+	Optional<PmsPayroll> getPayrollById(Long id);
 	
-	public PmsPayroll getPayrollById(Long id);
+	Integer insertPayroll(PmsPayroll pmsPayroll);
 	
-	public List<PmsPayroll> getAllPayroll();
+	Integer updatePayroll(PmsPayroll pmsPayroll);
 	
-	public int deletePayrollById(Long id);
+	Integer deletePayrollById(Long id);
+	
 }

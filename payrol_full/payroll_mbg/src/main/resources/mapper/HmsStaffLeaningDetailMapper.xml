@@ -30,8 +30,8 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into hms_staff_learning_detail (title, description)
-    values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR})
+    insert into hms_staff_learning_detail (id, title, description)
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.HmsStaffLeaningDetail">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -39,6 +39,9 @@
     </selectKey>
     insert into hms_staff_learning_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="title != null">
         title,
       </if>
@@ -47,6 +50,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>

@@ -32,6 +32,9 @@
     </selectKey>
     insert into hms_staff_job_title
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="name != null">
         name,
       </if>
@@ -40,6 +43,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>

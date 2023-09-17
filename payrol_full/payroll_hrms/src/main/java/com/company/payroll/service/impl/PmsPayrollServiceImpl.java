@@ -1,6 +1,6 @@
 package com.company.payroll.service.impl;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,41 +8,46 @@ import org.springframework.stereotype.Service;
 import com.company.payroll.mapper.PmsPayrollMapper;
 import com.company.payroll.model.PmsPayroll;
 import com.company.payroll.service.PmsPayrollService;
-import com.company.payroll.util.SnowFlakeIdGenerator;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class PmsPayrollServiceImpl implements PmsPayrollService {
 	
 	@Autowired
-	private SnowFlakeIdGenerator snowFlakeIdGenerator;
-	
-	@Autowired
 	private PmsPayrollMapper pmsPayrollMapper;
 
 	@Override
-	public int createPayroll(PmsPayroll payroll) {
-		payroll.setId(snowFlakeIdGenerator.nextId());
-		
-		return pmsPayrollMapper.insertSelective(payroll);
-	}
-
-	@Override
-	public int updatePayroll(PmsPayroll payroll) {
-		return pmsPayrollMapper.updateByPrimaryKeySelective(payroll);
-	}
-
-	@Override
-	public PmsPayroll getPayrollById(Long id) {
-		return pmsPayrollMapper.selectByPrimaryKey(id);
-	}
-
-	@Override
-	public List<PmsPayroll> getAllPayroll() {
+	public PageInfo<PmsPayroll> getAllPayroll(int page, int offset) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int deletePayrollById(Long id) {
+	public PageInfo<PmsPayroll> getAllPayrollByStaffId(Long staffId, int page, int offset) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<PmsPayroll> getPayrollById(Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public Integer insertPayroll(PmsPayroll pmsPayroll) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer updatePayroll(PmsPayroll pmsPayroll) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer deletePayrollById(Long id) {
 		return pmsPayrollMapper.deleteByPrimaryKey(id);
 	}
 

@@ -9,8 +9,8 @@ public class Generator {
 	 * */
 	public static String generateRandomString(int len) {
 		String randomChar = "ABCDFEGHIJKLMNOPQRSTUVWXYZ1234567890";
-//		for servlet use
-//		StringBuffer sb = new StringBuffer(7);
+		// for servlet use
+		// StringBuffer sb = new StringBuffer(7);
 		StringBuilder sb = new StringBuilder(len);
 		
 		for(int i=0; i<len; i++) {
@@ -18,6 +18,7 @@ public class Generator {
 			
 			sb.append(randomChar.charAt(index));
 		}
+		
 		return sb.toString();
 	}
 }

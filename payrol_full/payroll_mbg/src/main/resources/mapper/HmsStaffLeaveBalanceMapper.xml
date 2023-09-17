@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.payroll.mapper.HmsStaffLeaveBalanceMapper">
+  <resultMap id="BaseResultMap" type="com.company.payroll.model.HmsStaffLeaveBalance">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="annual_leave" jdbcType="INTEGER" property="annualLeave" />
+    <result column="hospitality_leave" jdbcType="INTEGER" property="hospitalityLeave" />
+    <result column="maternity_leave" jdbcType="INTEGER" property="maternityLeave" />
+    <result column="unpaid_leave" jdbcType="INTEGER" property="unpaidLeave" />
+    <result column="staff_id" jdbcType="BIGINT" property="staffId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, annual_leave, hospitality_leave, maternity_leave, unpaid_leave, staff_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hms_staff_leave_balance
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from hms_staff_leave_balance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.company.payroll.model.HmsStaffLeaveBalance">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hms_staff_leave_balance (id, annual_leave, hospitality_leave, maternity_leave, 
+      unpaid_leave, staff_id)
+    values (#{id,jdbcType=BIGINT}, #{annualLeave,jdbcType=INTEGER}, #{hospitalityLeave,jdbcType=INTEGER}, #{maternityLeave,jdbcType=INTEGER}, 
+      #{unpaidLeave,jdbcType=INTEGER}, #{staffId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.company.payroll.model.HmsStaffLeaveBalance">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hms_staff_leave_balance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="annualLeave != null">
+        annual_leave,
+      </if>
+      <if test="hospitalityLeave != null">
+        hospitality_leave,
+      </if>
+      <if test="maternityLeave != null">
+        maternity_leave,
+      </if>
+      <if test="unpaidLeave != null">
+        unpaid_leave,
+      </if>
+      <if test="staffId != null">
+        staff_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="annualLeave != null">
+        #{annualLeave,jdbcType=INTEGER},
+      </if>
+      <if test="hospitalityLeave != null">
+        #{hospitalityLeave,jdbcType=INTEGER},
+      </if>
+      <if test="maternityLeave != null">
+        #{maternityLeave,jdbcType=INTEGER},
+      </if>
+      <if test="unpaidLeave != null">
+        #{unpaidLeave,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null">
+        #{staffId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.payroll.model.HmsStaffLeaveBalance">
+    update hms_staff_leave_balance
+    <set>
+      <if test="annualLeave != null">
+        annual_leave = #{annualLeave,jdbcType=INTEGER},
+      </if>
+      <if test="hospitalityLeave != null">
+        hospitality_leave = #{hospitalityLeave,jdbcType=INTEGER},
+      </if>
+      <if test="maternityLeave != null">
+        maternity_leave = #{maternityLeave,jdbcType=INTEGER},
+      </if>
+      <if test="unpaidLeave != null">
+        unpaid_leave = #{unpaidLeave,jdbcType=INTEGER},
+      </if>
+      <if test="staffId != null">
+        staff_id = #{staffId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.payroll.model.HmsStaffLeaveBalance">
+    update hms_staff_leave_balance
+    set annual_leave = #{annualLeave,jdbcType=INTEGER},
+      hospitality_leave = #{hospitalityLeave,jdbcType=INTEGER},
+      maternity_leave = #{maternityLeave,jdbcType=INTEGER},
+      unpaid_leave = #{unpaidLeave,jdbcType=INTEGER},
+      staff_id = #{staffId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

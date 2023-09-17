@@ -6,14 +6,14 @@
     <result column="username" jdbcType="CHAR" property="username" />
     <result column="password" jdbcType="CHAR" property="password" />
     <result column="secret_key" jdbcType="CHAR" property="secretKey" />
-    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="roles" jdbcType="VARCHAR" property="roles" />
     <result column="date_created" jdbcType="TIMESTAMP" property="dateCreated" />
     <result column="date_modified" jdbcType="TIMESTAMP" property="dateModified" />
     <result column="last_login" jdbcType="TIMESTAMP" property="lastLogin" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, password, secret_key, role, date_created, date_modified, last_login, 
+    id, username, password, secret_key, roles, date_created, date_modified, last_login, 
     status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -30,11 +30,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into sys_account (username, password, secret_key, 
-      role, date_created, date_modified, 
+    insert into sys_account (id, username, password, secret_key, 
+      roles, date_created, date_modified, 
       last_login, status)
-    values (#{username,jdbcType=CHAR}, #{password,jdbcType=CHAR}, #{secretKey,jdbcType=CHAR}, 
-      #{role,jdbcType=VARCHAR}, #{dateCreated,jdbcType=TIMESTAMP}, #{dateModified,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=CHAR}, #{password,jdbcType=CHAR}, #{secretKey,jdbcType=CHAR}, 
+      #{roles,jdbcType=VARCHAR}, #{dateCreated,jdbcType=TIMESTAMP}, #{dateModified,jdbcType=TIMESTAMP}, 
       #{lastLogin,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.company.payroll.model.SysAccount">
@@ -43,6 +43,9 @@
     </selectKey>
     insert into sys_account
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="username != null">
         username,
       </if>
@@ -52,8 +55,8 @@
       <if test="secretKey != null">
         secret_key,
       </if>
-      <if test="role != null">
-        role,
+      <if test="roles != null">
+        roles,
       </if>
       <if test="dateCreated != null">
         date_created,
@@ -69,6 +72,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="username != null">
         #{username,jdbcType=CHAR},
       </if>
@@ -78,8 +84,8 @@
       <if test="secretKey != null">
         #{secretKey,jdbcType=CHAR},
       </if>
-      <if test="role != null">
-        #{role,jdbcType=VARCHAR},
+      <if test="roles != null">
+        #{roles,jdbcType=VARCHAR},
       </if>
       <if test="dateCreated != null">
         #{dateCreated,jdbcType=TIMESTAMP},
@@ -107,8 +113,8 @@
       <if test="secretKey != null">
         secret_key = #{secretKey,jdbcType=CHAR},
       </if>
-      <if test="role != null">
-        role = #{role,jdbcType=VARCHAR},
+      <if test="roles != null">
+        roles = #{roles,jdbcType=VARCHAR},
       </if>
       <if test="dateCreated != null">
         date_created = #{dateCreated,jdbcType=TIMESTAMP},
@@ -130,7 +136,7 @@
     set username = #{username,jdbcType=CHAR},
       password = #{password,jdbcType=CHAR},
       secret_key = #{secretKey,jdbcType=CHAR},
-      role = #{role,jdbcType=VARCHAR},
+      roles = #{roles,jdbcType=VARCHAR},
       date_created = #{dateCreated,jdbcType=TIMESTAMP},
       date_modified = #{dateModified,jdbcType=TIMESTAMP},
       last_login = #{lastLogin,jdbcType=TIMESTAMP},

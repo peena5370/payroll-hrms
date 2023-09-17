@@ -27,10 +27,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into sys_profile (about_profile, image_path, date_created, 
+    insert into sys_profile (id, about_profile, image_path, date_created, 
       date_modified, account_id, staff_id
       )
-    values (#{aboutProfile,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{dateCreated,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{aboutProfile,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{dateCreated,jdbcType=TIMESTAMP}, 
       #{dateModified,jdbcType=TIMESTAMP}, #{accountId,jdbcType=BIGINT}, #{staffId,jdbcType=BIGINT}
       )
   </insert>
@@ -40,6 +40,9 @@
     </selectKey>
     insert into sys_profile
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="aboutProfile != null">
         about_profile,
       </if>
@@ -60,6 +63,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="aboutProfile != null">
         #{aboutProfile,jdbcType=VARCHAR},
       </if>

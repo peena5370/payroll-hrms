@@ -31,11 +31,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ams_time_off (ref_num, type, reason, 
+    insert into ams_time_off (id, ref_num, type, reason, 
       date_apply, date_approved, date_start, 
       date_end, status, staff_id
       )
-    values (#{refNum,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{refNum,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
       #{dateApply,jdbcType=DATE}, #{dateApproved,jdbcType=DATE}, #{dateStart,jdbcType=TIMESTAMP}, 
       #{dateEnd,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{staffId,jdbcType=BIGINT}
       )
@@ -46,6 +46,9 @@
     </selectKey>
     insert into ams_time_off
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="refNum != null">
         ref_num,
       </if>
@@ -75,6 +78,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="refNum != null">
         #{refNum,jdbcType=VARCHAR},
       </if>

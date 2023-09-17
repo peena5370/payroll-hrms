@@ -28,10 +28,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into hms_staff_appraisal (current_salary, promote_salary, promote_date, 
+    insert into hms_staff_appraisal (id, current_salary, promote_salary, promote_date, 
       comment, status, title_id, 
       staff_id)
-    values (#{currentSalary,jdbcType=DECIMAL}, #{promoteSalary,jdbcType=DECIMAL}, #{promoteDate,jdbcType=DATE}, 
+    values (#{id,jdbcType=BIGINT}, #{currentSalary,jdbcType=DECIMAL}, #{promoteSalary,jdbcType=DECIMAL}, #{promoteDate,jdbcType=DATE}, 
       #{comment,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{titleId,jdbcType=BIGINT}, 
       #{staffId,jdbcType=BIGINT})
   </insert>
@@ -41,6 +41,9 @@
     </selectKey>
     insert into hms_staff_appraisal
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="currentSalary != null">
         current_salary,
       </if>
@@ -64,6 +67,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="currentSalary != null">
         #{currentSalary,jdbcType=DECIMAL},
       </if>

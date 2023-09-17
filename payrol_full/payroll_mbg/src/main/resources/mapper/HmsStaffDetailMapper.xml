@@ -37,13 +37,13 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into hms_staff_detail (fullname, gender, date_of_birth, 
+    insert into hms_staff_detail (id, fullname, gender, date_of_birth, 
       age, marital_status, education, 
       home_address, phone, email, 
       hired_date, resign_date, profile_image_path, 
       dept_id, title_id, manager_id
       )
-    values (#{fullname,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{dateOfBirth,jdbcType=DATE}, 
+    values (#{id,jdbcType=BIGINT}, #{fullname,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{dateOfBirth,jdbcType=DATE}, 
       #{age,jdbcType=INTEGER}, #{maritalStatus,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
       #{homeAddress,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{hiredDate,jdbcType=DATE}, #{resignDate,jdbcType=DATE}, #{profileImagePath,jdbcType=VARCHAR}, 
@@ -56,6 +56,9 @@
     </selectKey>
     insert into hms_staff_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="fullname != null">
         fullname,
       </if>
@@ -103,6 +106,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="fullname != null">
         #{fullname,jdbcType=VARCHAR},
       </if>
