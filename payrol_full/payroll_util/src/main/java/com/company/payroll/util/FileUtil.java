@@ -34,6 +34,10 @@ public class FileUtil {
 		}
 	}
 	
+	public static void main(String[] args) {
+		System.out.println("test method commit");
+	}
+	
 	/**
 	 * Image upload utility. Accepted image file format in (filename).(jpg/jpeg/png/gif)
 	 * Modified at 30 Apr 2023
