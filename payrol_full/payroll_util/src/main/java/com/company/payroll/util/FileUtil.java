@@ -34,10 +34,6 @@ public class FileUtil {
 		}
 	}
 	
-	public static void main(String[] args) {
-		System.out.println("test method commit");
-	}
-	
 	/**
 	 * Image upload utility. Accepted image file format in (filename).(jpg/jpeg/png/gif)
 	 * Modified at 30 Apr 2023
@@ -52,7 +48,7 @@ public class FileUtil {
 		
         String filename = StringUtils.cleanPath(image.getOriginalFilename());
         
-        Matcher regex = Pattern.compile("(\\w*)(\\.)(jpg|jpeg|png|gif)", Pattern.CASE_INSENSITIVE).matcher(filename);
+        Matcher regex = Pattern.compile("(\\w*)(\\.)(jpg|jpeg|png|gif)", Pattern.CASE_INSENSITIVE).matcher(filename.replaceAll(" ", ""));
 		if(!regex.matches()) {
 			return uploadPath;
 		} else {
