@@ -1,4 +1,4 @@
-# spring-boot-payroll
+# spring-boot-payroll (No More Updates)
 (FYP) SpringBoot Payroll Management System
 
 ## Tools & Frameworks
