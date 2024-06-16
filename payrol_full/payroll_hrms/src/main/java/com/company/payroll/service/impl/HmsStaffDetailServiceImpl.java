@@ -16,10 +16,14 @@ import com.company.payroll.model.HmsStaffJobTitle;
 import com.company.payroll.model.HmsStaffLeaveBalance;
 import com.company.payroll.model.HmsStaffSalary;
 import com.company.payroll.service.HmsStaffDetailService;
+import com.company.payroll.util.SnowFlakeIdGenerator;
 import com.github.pagehelper.PageInfo;
 
 @Service
 public class HmsStaffDetailServiceImpl implements HmsStaffDetailService {
+	
+	@Autowired
+	private SnowFlakeIdGenerator idGenerator;
 
 	@Autowired
 	private HmsStaffBankingMapper hmsStaffBankingMapper;
@@ -35,6 +39,7 @@ public class HmsStaffDetailServiceImpl implements HmsStaffDetailService {
 	
 	@Autowired
 	private HmsStaffSalaryMapper hmsStaffSalaryMapper;
+	
 	@Override
 	public PageInfo<HmsStaffBanking> getAllStaffbanking(int page, int offset) {
 		// TODO Auto-generated method stub
@@ -113,7 +118,7 @@ public class HmsStaffDetailServiceImpl implements HmsStaffDetailService {
 
 	@Override
 	public Integer insertJobTitle(HmsStaffJobTitle hmsStaffJobTitle) {
-		// TODO Auto-generated method stub
+		hmsStaffJobTitle.setId(idGenerator.nextId());
 		return null;
 	}
 
