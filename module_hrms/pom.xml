@@ -4,27 +4,28 @@
   
   <parent>
     <groupId>com.company.payroll</groupId>
-    <artifactId>payrol_full</artifactId>
+    <artifactId>payroll-hrms</artifactId>
     <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>payroll_hrms</artifactId>
+  <artifactId>module_hrms</artifactId>
   <version>1.0.1</version>
   <packaging>jar</packaging>
   
-  <name>payroll_hrms</name>
+  <name>module_hrms</name>
   
-  <description>payroll human resource api</description>
+  <description>payroll HRMS module</description>
 
   <dependencies>
-    <dependency>
-      <groupId>com.company.payroll</groupId>
-	    <artifactId>payroll_mbg</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.company.payroll</groupId>
-	    <artifactId>payroll_util</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.company.payroll</groupId>-->
+<!--	    <artifactId>payroll_mbg</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>com.company.payroll</groupId>-->
+<!--	    <artifactId>payroll_util</artifactId>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper-spring-boot-starter</artifactId>

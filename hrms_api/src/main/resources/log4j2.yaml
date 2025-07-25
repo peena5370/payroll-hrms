@@ -1,0 +1,101 @@
+Configuration:
+  status: info # Set this to 'trace', 'debug', 'info', 'warn', 'error', 'fatal' to control internal Log4j2 messages
+
+  Properties:
+    Property:
+      - name: logPath
+        value: "logs" # Define a property for your log directory
+      - name: logFileName
+        value: "application" # Base name for your log file
+
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        # Standard Log4j2 pattern for colored console output
+        # %highlight applies colors based on level, %d for date, %-5level for level,
+        # %c{1.} for abbreviated logger name, %t for thread, %msg for message, %n for new line, %throwable for stack trace
+        pattern: "%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %c{1.} [%t] %msg%n%throwable}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=blue}"
+
+    RollingFile:
+      - name: RollingFile_Appender
+        fileName: "${logPath}/${logFileName}.log" # Current log file
+        filePattern: "${logPath}/archive/${logFileName}-%d{yyyy-MM-dd}.%i.log.gz" # Pattern for rolled archives
+        PatternLayout:
+          # You can use a similar pattern here, or a simpler one for file logs
+          pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %c{1.} [%t] %msg%n%throwable"
+        Policies:
+          # TimeBasedTriggeringPolicy for daily rollover
+          TimeBasedTriggeringPolicy:
+            interval: 1 # Rollover every 1 unit of time
+            modulate: true # Align rollovers to the beginning of the period (e.g., midnight for daily)
+          # SizeBasedTriggeringPolicy (optional) - rolls if file size exceeds limit, within the time period
+          # SizeBasedTriggeringPolicy:
+          #   size: 10MB
+        DefaultRolloverStrategy:
+          # max: 30 means keep up to 30 archived files of this pattern.
+          # For daily, it means 30 days. Adjust as needed.
+          max: 30
+          # Delete old files using the Delete action (recommended for more precise retention)
+          # Note: The 'ifLastModified' ensures files older than a certain age are deleted.
+          # You can combine with 'ifFileName' if you need more specific naming matches.
+          Delete:
+            basePath: "${logPath}/archive"
+            maxDepth: 2 # How many subdirectories to search
+            IfFileName:
+              glob: "*" # Match all files
+            IfLastModified:
+              age: 30D # Delete files older than 30 days (e.g., 7D for 7 days, 1M for 1 month)
+
+  Loggers:
+    Root:
+      level: info # Default logging level for all loggers
+      AppenderRef:
+        - ref: Console_Appender
+        - ref: RollingFile_Appender
+
+    # Example: Adjust logging level for specific packages
+    # Set to 'debug' or 'trace' for more verbose output from your application code
+#    Logger:
+#      - name: com.company.payroll
+#        level: debug
+#        additivity: false # Prevents logs from being sent to parent loggers (e.g., Root)
+#        AppenderRef:
+#          - ref: Console_Appender
+#          - ref: RollingFile_Appender
+#
+#      - name: org.springframework.security
+#        level: info
+#        additivity: false
+#        AppenderRef:
+#          - ref: Console_Appender
+#          - ref: RollingFile_Appender
+#
+#      - name: org.springframework.web
+#        level: info
+#        additivity: false
+#        AppenderRef:
+#          - ref: Console_Appender
+#          - ref: RollingFile_Appender
+#
+#      - name: org.mariadb.jdbc # For MariaDB JDBC driver
+#        level: info
+#        additivity: false
+#        AppenderRef:
+#          - ref: Console_Appender
+#          - ref: RollingFile_Appender
+#
+#      - name: com.zaxxer.hikari # For HikariCP connection pool
+#        level: info
+#        additivity: false
+#        AppenderRef:
+#          - ref: Console_Appender
+#          - ref: RollingFile_Appender
+#
+#      - name: org.mybatis # For MyBatis
+#        level: info
+#        additivity: false
+#        AppenderRef:
+#          - ref: Console_Appender
+#          - ref: RollingFile_Appender

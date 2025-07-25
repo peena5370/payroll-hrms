@@ -3,25 +3,26 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.company.payroll</groupId>
-    <artifactId>payrol_full</artifactId>
+    <artifactId>payroll-hrms</artifactId>
     <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   
-  <artifactId>payroll_admin</artifactId>
+  <artifactId>hrms_api</artifactId>
   <version>1.0.1</version>
   <packaging>war</packaging>
 
-  <name>payroll_admin</name>
-  <description>Payroll back end admin</description>
+  <name>hrms_api</name>
+  <description>Payroll HRMS service</description>
 
   <dependencies>
-    <dependency>
-      <groupId>com.company.payroll</groupId>
-      <artifactId>payroll_hrms</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.company.payroll</groupId>
-      <artifactId>payroll_sys</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.company.payroll</groupId>-->
+<!--      <artifactId>payroll_hrms</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>com.company.payroll</groupId>-->
+<!--      <artifactId>payroll_sys</artifactId>-->
+<!--    </dependency>-->
   </dependencies>
 </project>

@@ -3,15 +3,16 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.company.payroll</groupId>
-    <artifactId>payrol_full</artifactId>
+    <artifactId>payroll-hrms</artifactId>
     <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>payroll_security</artifactId>
+  <artifactId>module_security</artifactId>
   <version>1.0.1</version>
   <packaging>jar</packaging>
   
-  <name>payroll_security</name>
+  <name>module_security</name>
   <description>Payroll security configuration</description>
 
   <dependencies>

@@ -3,14 +3,15 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.company.payroll</groupId>
-    <artifactId>payrol_full</artifactId>
+    <artifactId>payroll-hrms</artifactId>
     <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>payroll_util</artifactId>
+  <artifactId>module_util</artifactId>
   <version>1.0.1</version>
   <packaging>jar</packaging>
 
-  <name>payroll_util</name>
+  <name>module_util</name>
   
-  <description>payroll utilities module</description>
+  <description>Payroll utilities module</description>
 </project>
