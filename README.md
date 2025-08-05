@@ -1,4 +1,4 @@
-# spring-boot-payroll (No More Updates)
+# A Human Resource Payroll microservices
 (FYP) SpringBoot Payroll Management System
 
 ## Tools & Frameworks

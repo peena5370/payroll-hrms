@@ -22,8 +22,6 @@ public class SnowFlakeIdGeneratorWorkerConfig {
 	
 	@Bean
 	SnowFlakeIdGenerator createSnowFlakeIdGenerator() {
-		SnowFlakeIdGenerator snowFlakeIdGenerator = new SnowFlakeIdGenerator(Long.valueOf(workerId), Long.valueOf(datacenterId));
-		
-		return snowFlakeIdGenerator;
+        return new SnowFlakeIdGenerator(Long.parseLong(workerId), Long.parseLong(datacenterId));
 	}
 }

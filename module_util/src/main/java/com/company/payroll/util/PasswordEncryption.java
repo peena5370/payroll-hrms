@@ -35,7 +35,7 @@ public class PasswordEncryption {
     
     /**
      * Method to generate the salt value.
-     * @param	lentgh			Salt value length
+     * @param	length			Salt value length
      * @return	salt string
      */
     public static String getSaltvalue(int length) {  

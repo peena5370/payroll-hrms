@@ -16,13 +16,9 @@
   <description>Payroll HRMS service</description>
 
   <dependencies>
-<!--    <dependency>-->
-<!--      <groupId>com.company.payroll</groupId>-->
-<!--      <artifactId>payroll_hrms</artifactId>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>com.company.payroll</groupId>-->
-<!--      <artifactId>payroll_sys</artifactId>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>com.company.payroll</groupId>
+      <artifactId>module_hrms</artifactId>
+    </dependency>
   </dependencies>
 </project>

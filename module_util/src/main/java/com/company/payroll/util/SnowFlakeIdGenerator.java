@@ -46,7 +46,7 @@ public class SnowFlakeIdGenerator {
 			sequence = (sequence + 1) & MAX_SEQUENCE;
 
 			if (sequence == 0L) {
-				currentTimestamp = getNextMill(lastTimestamp);
+				currentTimestamp = getNextMillis(lastTimestamp);
 			}
 		} else {
 			sequence = 0L;
@@ -58,14 +58,14 @@ public class SnowFlakeIdGenerator {
 		        | workerId << WORKER_ID_SHIFT | sequence;
 	}
 
-	protected long getNextMill(long lastTimestamp) {
-		long mill = generateNewTimestamp();
+	protected long getNextMillis(long lastTimestamp) {
+		long millis = generateNewTimestamp();
 
-		while (mill <= lastTimestamp) {
-			mill = generateNewTimestamp();
+		while (millis <= lastTimestamp) {
+			millis = generateNewTimestamp();
 		}
 
-		return mill;
+		return millis;
 	}
 
 	private long generateNewTimestamp() {
