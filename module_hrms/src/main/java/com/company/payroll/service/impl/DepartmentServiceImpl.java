@@ -8,8 +8,8 @@ import com.company.payroll.model.Employee;
 import com.company.payroll.repository.DepartmentRepository;
 import com.company.payroll.repository.EmployeeRepository;
 import com.company.payroll.service.DepartmentService;
-import com.company.payroll.util.PageHelper;
 import com.company.payroll.util.SnowFlakeIdGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
@@ -24,14 +24,15 @@ import java.util.Optional;
 
 import static com.company.payroll.util.PageHelper.buildSortFromSortField;
 
+@Slf4j
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    private SnowFlakeIdGenerator snowFlakeIdGenerator;
+    private final SnowFlakeIdGenerator snowFlakeIdGenerator;
 
-    private DepartmentRepository departmentRepository;
+    private final DepartmentRepository departmentRepository;
 
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
     public DepartmentServiceImpl(SnowFlakeIdGenerator snowFlakeIdGenerator,
@@ -84,17 +85,15 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Optional<DepartmentInfoDTO> getDepartmentInfoByDepartmentId(long departmentId) {
-        System.out.println("service departmentId: " + departmentId);
+        log.info("\"getDepartmentInfoByDepartmentId\" departmentId: {}", departmentId);
         Optional<Department> department = departmentRepository.findById(departmentId);
 
         if (department.isPresent()) {
-            System.out.println("is department is present");
             Long parentDepartmentId = department.get().getParentDepartmentId();
             String parentDepartmentName = null;
             if (parentDepartmentId != null) {
                 Optional<Department> parentDepartment = departmentRepository.findById(parentDepartmentId);
 
-                System.out.println("parentDepartment is null?" + parentDepartment.isPresent());
                 if (parentDepartment.isPresent()) {
                     parentDepartmentName = parentDepartment.get().getDepartmentName();
                 }
@@ -104,10 +103,10 @@ public class DepartmentServiceImpl implements DepartmentService {
             Optional<Employee> managerInfo = employeeRepository.findById(department.get().getManagerId());
 
             if (managerInfo.isPresent()) {
-                System.out.println("come here for manager info");
                 managerName = managerInfo.get().getFirstName() + " " + managerInfo.get().getLastName();
             }
 
+            log.info("\"getDepartmentInfoByDepartmentId\" query result success. {}", departmentId);
             return Optional.of(new DepartmentInfoDTO(department.get().getDepartmentName(), department.get().getDescription(),
                     managerName, parentDepartmentName,
                     department.get().getLocation(), department.get().getPhoneExtensionCode(), department.get().getDepartmentEmail()));

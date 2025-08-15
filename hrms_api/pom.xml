@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.company.payroll</groupId>
-    <artifactId>payroll-hrms</artifactId>
-    <version>1.0.0</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-  
-  <artifactId>hrms_api</artifactId>
-  <version>1.0.1</version>
-  <packaging>war</packaging>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.company.payroll</groupId>
+        <artifactId>payroll-hrms</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-  <name>hrms_api</name>
-  <description>Payroll HRMS service</description>
+    <artifactId>hrms_api</artifactId>
+    <version>1.0.1</version>
+    <packaging>war</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.company.payroll</groupId>
-      <artifactId>module_hrms</artifactId>
-    </dependency>
-  </dependencies>
+    <name>hrms_api</name>
+    <description>Payroll HRMS service</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.company.payroll</groupId>
+            <artifactId>module_security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.company.payroll</groupId>
+            <artifactId>module_hrms</artifactId>
+        </dependency>
+    </dependencies>
 </project>

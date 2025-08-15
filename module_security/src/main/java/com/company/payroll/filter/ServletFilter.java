@@ -1,32 +1,29 @@
 package com.company.payroll.filter;
 
 import java.io.IOException;
-import java.io.Serial;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.HttpFilter;
+import lombok.extern.slf4j.Slf4j;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 
-/**
- * 
- * Created 26 Apr 2023
- * TODO to be implemented
- */
+@Slf4j
+@Component
 public class ServletFilter extends HttpFilter {
-	@Serial
-	private static final long serialVersionUID = 2356342253571770847L;
-	private final Logger log = LoggerFactory.getLogger(ServletFilter.class);
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		super.init(filterConfig);
+        log.info("Servlet filter initialized at:{} ", ZonedDateTime.now());
+        log.info("Servlet filter name: {} ", filterConfig.getFilterName());
+        super.init(filterConfig);
 	}
 
 	@Override
@@ -39,6 +36,6 @@ public class ServletFilter extends HttpFilter {
 	
 	@Override
 	public void destroy() {
-		super.destroy();
+		log.info("Servlet filter destroyed.");
 	}
 }
