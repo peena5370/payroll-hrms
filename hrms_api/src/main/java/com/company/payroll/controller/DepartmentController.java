@@ -5,6 +5,7 @@ import com.company.payroll.dto.DepartmentInfoDTO;
 import com.company.payroll.dto.DepartmentInfosDTO;
 import com.company.payroll.response.CommonResponse;
 import com.company.payroll.service.DepartmentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +16,12 @@ import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.*;
 
+@Slf4j
 @RestController
 @RequestMapping("api/department")
 public class DepartmentController {
 
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
 
     @Autowired
     public DepartmentController(DepartmentService departmentService) {
@@ -31,6 +33,8 @@ public class DepartmentController {
             (@RequestParam(value = "offset", required = false, defaultValue = "0") String offset,
              @RequestParam(value = "limit", required = false, defaultValue = "5") String limit,
              @RequestParam(value = "field", required = false, defaultValue = "departmentId-asc") String sortOrder) {
+        log.info("\"getDepartmentInfoByOffsetLimitWithOrderField\" started. Queried param: offset: {0}, limit: {1}, field: {2}",
+                new Object[]{offset, limit, sortOrder});
 
         List<DepartmentInfosDTO> departmentList = departmentService.getAllDepartmentInfoByOffsetLimitAndSortOrder(Integer.parseInt(offset),
                 Integer.parseInt(limit), sortOrder);
@@ -47,8 +51,7 @@ public class DepartmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CommonResponse> getDepartmentInfoById(@PathVariable("id") String departmentId) {
-
-        System.out.println("departmentId: " + departmentId);
+        log.info("\"getDepartmentInfoById\" started. departmentId: {}", departmentId);
 
         Optional<DepartmentInfoDTO> departmentInfo = departmentService.getDepartmentInfoByDepartmentId(Long.parseLong(departmentId));
 
@@ -60,11 +63,13 @@ public class DepartmentController {
             response = new CommonResponse(NOT_FOUND.value(), "info not found", null);
         }
 
+        log.info("\"getDepartmentInfoById\" ended. Response: {}", response.statusCode());
         return ResponseEntity.status(response.statusCode()).body(response);
     }
 
     @PostMapping
     public ResponseEntity<CommonResponse> createDepartment(@RequestBody DepartmentDTO departmentDTO) {
+        log.info("\"createDepartment\" started.");
         int result = departmentService.createDepartmentInfo(departmentDTO);
 
         Map<Integer, CommonResponse> responses = Map.ofEntries(
@@ -78,12 +83,13 @@ public class DepartmentController {
         CommonResponse response = responses.getOrDefault(result, new CommonResponse(INTERNAL_SERVER_ERROR.value(),
                 "API returned uncommon status. Please check backend log for status", null));
 
+        log.info("\"createDepartment\" ended. Response: {}", response.statusCode());
         return ResponseEntity.status(response.statusCode()).body(response);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateDepartmentInfoById(@PathVariable("id") String departmentId, @RequestBody DepartmentDTO departmentDTO) {
-
+        log.info("\"updateDepartmentInfoById\" started. departmentId: {}", departmentId);
         int updatedResult = departmentService.updateDepartmentInfoById(Long.parseLong(departmentId), departmentDTO);
 
         Map<Integer, CommonResponse> responses = Map.ofEntries(
@@ -98,12 +104,13 @@ public class DepartmentController {
         CommonResponse response = responses.getOrDefault(updatedResult, new CommonResponse(INTERNAL_SERVER_ERROR.value(),
                 "API returned uncommon status. Please check backend log for status", null));
 
+        log.info("\"updateDepartmentInfoById\" ended. Response: {}", response.statusCode());
         return ResponseEntity.status(response.statusCode()).body(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<CommonResponse> deleteDepartmentInfoById(@PathVariable("id") String departmentId) {
-
+        log.info("\"deleteDepartmentInfoById\" started. departmentId: {}", departmentId);
         CommonResponse response = null;
 
         int deletedResult = departmentService.deleteDepartmentInfoById(Long.parseLong(departmentId));
@@ -114,6 +121,7 @@ public class DepartmentController {
             response = new CommonResponse(BAD_REQUEST.value(), "Failed to delete department info", null);
         }
 
+        log.info("\"deleteDepartmentInfoById\" ended. Response: {}", response.statusCode());
         return ResponseEntity.status(response.statusCode()).body(response);
     }
 }

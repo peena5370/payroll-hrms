@@ -10,11 +10,11 @@ import com.company.payroll.filter.ServletFilter;
 public class FilterConfig {
 	
 	@Bean
-	FilterRegistrationBean<ServletFilter> testFilterRegister() {
+	FilterRegistrationBean<ServletFilter> servletFilterFilterRegistrationBean() {
 		FilterRegistrationBean<ServletFilter> register = new FilterRegistrationBean<>();
 		register.setFilter(new ServletFilter());
 		register.addUrlPatterns("/*");
-		register.setName("Servlet-Filter");
+		register.setName("Servlet-HttpFilter");
 		register.setOrder(1);
 		
 		return register;

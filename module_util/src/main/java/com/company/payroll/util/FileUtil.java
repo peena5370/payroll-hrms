@@ -39,8 +39,8 @@ public class FileUtil {
 	 * Modified at 30 Apr 2023
 	 * <p> Change from upload(MultipartFile file, String path, int id) to imageUpload(MultipartFile file, String impPath)
 	 * 
-	 * @param file
-	 * @param imgPath
+	 * @param image
+	 * @param path
 	 * @return String upload path
 	 */
 	public String uploadImage(MultipartFile image, String path) {
@@ -107,7 +107,7 @@ public class FileUtil {
 	 * Modified at 30 Apr 2022
 	 * <p> Change from download(String filename, Path path) to download(Path path)
 	 * 
-	 * @param imgPath
+	 * @param path
 	 * @return Resource
 	 */
 	public Resource downloadFile(Path path) {

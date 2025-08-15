@@ -1,96 +1,102 @@
 package com.company.payroll.util;
 
-import java.security.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.SecretKey;
 
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
+@Slf4j
 @Component
 public class JwtTokenUtil {
-	
+
 	@Value("${jwt.config.key}")
-	private String key;
+	private String keyString;
 	@Value("${jwt.config.ttl}")
-	private String ttl;
-	
-	private SignatureAlgorithm ALG = SignatureAlgorithm.HS256;
-	private Instant issuedAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+	private long ttl;
+
+	private SecretKey key;
+
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(keyString.getBytes());
+    }
 
 	/**
-	 * Generate token
-	 * @param Claims
-	 * @return Token
+	 * Generate authorization token
+     * @param username token subject
+	 * @param claims Map of claims which stored inside the token
+	 * @return authorization token
 	 */
 	public String generateToken(String username, Map<String, Object> claims) {
-		Key key = new SecretKeySpec(Base64.getEncoder().encode(this.key.getBytes()), 
-									ALG.getJcaName());
-		Instant expiration = issuedAt.plus(Long.valueOf(this.ttl), 
-											ChronoUnit.SECONDS);
+        Instant issuedAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+        Instant expiration = issuedAt.plus(this.ttl, ChronoUnit.SECONDS);
 
 		return Jwts.builder()
-					.setClaims(claims)
-					.setSubject(username)
-					.setExpiration(Date.from(expiration))
-					.signWith(key, ALG)
-					.compact();
+                .claims(claims)
+                .subject(username)
+                .expiration(Date.from(expiration))
+                .signWith(this.key)
+                .compact();
 	}
-	
+
 	/**
 	 * Get claims from token
-	 * @param token
+	 * @param token authorization token
 	 * @return Claims
 	 */
 	public Claims getClaims(String token) {
-		return Jwts.parserBuilder()
-				.setSigningKey(Base64.getEncoder().encode(this.key.getBytes()))
-				.build()
-				.parseClaimsJws(token)
-				.getBody();
+        try {
+            Jws<Claims> jws = Jwts.parser()
+                    .verifyWith(this.key)
+                    .build()
+                    .parseSignedClaims(token);
+
+            return jws.getPayload();
+        } catch (ExpiredJwtException e) {
+            log.warn("Token has expired: {}", e.getMessage());
+            return e.getClaims();
+        } catch (MalformedJwtException | UnsupportedJwtException e) {
+            log.error("Token invalid and encountered exception: {}", e.getMessage());
+            return null;
+        }
 	}
-	
+
 	/**
-	 * Get subject username
-	 * @param token
-	 * @return
+	 * Get token subject
+	 * @param token authorization token
+	 * @return return token username
 	 */
 	public String getUsername(String token) {
 		Claims claims = getClaims(token);
-		
-		return claims.getSubject();
+
+		return (claims != null) ? claims.getSubject() : null;
 	}
-	
-	/**
-	 * validate token
-	 * @param token
-	 * @return
-	 */
+
+    /**
+     * Validate token expiry
+     * @param token authorization token
+     * @return validate status
+     */
 	public boolean validateToken(String token) {
-		if(getUsername(token) != null && isExpired(token)) {
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * Validate token is expired
-	 * @param token
-	 * @return
-	 */
-	public boolean isExpired(String token) {
-		Claims claims = getClaims(token);
-		return claims.getExpiration().after(Date.from(Instant.now()
-															 .truncatedTo(ChronoUnit.SECONDS)));
+        try {
+            Jwts.parser()
+                    .verifyWith(this.key)
+                    .build()
+                    .parseSignedClaims(token);
+
+            return true;
+        } catch (Exception e) {
+            log.error("Token validation failed: {}", e.getMessage());
+
+            return false;
+        }
 	}
 }
