@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @Table(name = "employee_resignation")
 public class EmployeeResignation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resignation_id")
     private long resignationId;
 

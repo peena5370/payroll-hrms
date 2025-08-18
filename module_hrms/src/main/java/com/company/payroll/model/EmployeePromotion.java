@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @Table(name = "employee_promotion")
 public class EmployeePromotion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "promotion_id")
     private long promotionId;
 
