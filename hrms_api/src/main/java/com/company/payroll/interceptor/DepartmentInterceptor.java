@@ -24,9 +24,10 @@ public class DepartmentInterceptor implements HandlerInterceptor {
 
         log.info("interceptor preHandle executed");
         // check rights here, return true if allow access the api, return false if the user not allow to access the api
-        String token = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader("Authorization");
 
-        if(token != null) {
+        if(authorizationHeader != null) {
+            String token = authorizationHeader.substring(7);
             Claims claims = jwtTokenUtil.getClaims(token);
 
             if (claims != null) {

@@ -14,7 +14,6 @@ import lombok.Setter;
 @Table(name = "employee_emergency_contact")
 public class EmployeeEmergencyContact {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id")
     private long contactId;
 

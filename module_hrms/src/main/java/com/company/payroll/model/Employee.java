@@ -16,9 +16,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Table(name = "employee")
 public class Employee {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
     private long employeeId;
 
