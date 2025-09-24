@@ -51,3 +51,4 @@ A FYP project during degress study
 
 # Project architecture the Human Resource Payroll Management System
 <img src="./doc/resources/payroll_architecture.jpg" alt="payroll-architecture" style="width:100%; height: 650px;"/>
+*** Greyed icon to be implement
