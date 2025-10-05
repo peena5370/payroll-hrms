@@ -5,7 +5,7 @@ A FYP project during degress study
 ### Programming Languages
 | Programming Language | Version |
 | :------------------- | :------ |
-| Java | 17 |
+| Java | 21 |
 | Python | 3.12 |
 | Javascript | - |
 | Groovy | - |
