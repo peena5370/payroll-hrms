@@ -52,5 +52,5 @@ A FYP project during degress study
 | Momentjs | Datetime parsing library |
 
 # Project architecture the Human Resource Payroll Management System
-<img src="./doc/resources/payroll_architecture.jpg" alt="payroll-architecture" style="width:100%; height: 650px;"/>
+<img src="./doc/resources/payroll_architecture.jpg?v=2" alt="payroll-architecture" style="width:100%; height: 650px;"/>
 *** Greyed icon to be implement
