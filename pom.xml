@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.4</version>
+        <version>3.5.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -27,7 +27,7 @@
 
     <properties>
         <jakarta-servlet.version>5.0.0</jakarta-servlet.version>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
     </properties>
 
     <dependencies>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>2.19.2</version>
+            <version>2.20.0</version>
         </dependency>
     </dependencies>
 
@@ -132,7 +132,7 @@
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter-test</artifactId>
-                <version>3.0.5</version>
+                <version>3.5.6</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -144,33 +144,24 @@
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-api</artifactId>
-                <version>0.12.6</version>
+                <version>0.13.0</version>
             </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-impl</artifactId>
-                <version>0.12.6</version>
+                <version>0.13.0</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-jackson</artifactId>
-                <version>0.12.6</version>
+                <version>0.13.0</version>
                 <scope>runtime</scope>
             </dependency>
-            <!-- OpenAPI documentation -->
-            <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
-            <!-- dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
-                <version>1.7.0</version>
-            </dependency -->
-            <!-- For Spring boot 3 please use OpenAPI v2 dependency below -->
-            <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>2.1.0</version>
+                <version>2.8.13</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -198,7 +189,7 @@
                         <dependency>
                             <groupId>org.mariadb.jdbc</groupId>
                             <artifactId>mariadb-java-client</artifactId>
-                            <version>3.5.4</version>
+                            <version>3.5.6</version>
                             <scope>runtime</scope>
                         </dependency>
                     </dependencies>
