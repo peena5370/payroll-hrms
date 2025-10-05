@@ -33,13 +33,15 @@ A FYP project during degress study
 | FastAPI | Python HTTP framework |
 | Pydantic | Python data validation library |
 | MariaDB | MariaDB Database server |
+| Redis | Redis in-memory database |
 | SQLAlchemy | Object-Relational Mapping (ORM) tool |
 | Uvicorn | ASGI web server |
 | PyJWT | Python Json Web Token library |
 | Asyncio | Python asynchorize library for concurrent programming |
+| theine | Python caching library |
 
 3. payroll-stock-management (To be implement)
-4. payroll-stock-management (To be implement)
+4. payroll-order-management (To be implement)
 
 ### Front-end
 | Tools | Description |
