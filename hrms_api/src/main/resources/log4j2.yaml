@@ -13,8 +13,6 @@ Configuration:
       name: Console_Appender
       target: SYSTEM_OUT
       PatternLayout:
-        # Standard Log4j2 pattern for colored console output
-        # %highlight applies colors based on level, %d for date, %-5level for level,
         # %c{1.} for abbreviated logger name, %t for thread, %msg for message, %n for new line, %throwable for stack trace
         pattern: "%highlight{%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %c{1.} [%t] %msg%n%throwable}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=blue}"
 

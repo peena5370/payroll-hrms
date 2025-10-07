@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>com.company.payroll</groupId>
+    <artifactId>payroll-hrms</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>module_employee</artifactId>
+  <version>1.0.1</version>
+  <packaging>jar</packaging>
+  
+  <name>module_hrms</name>
+  
+  <description>payroll HRMS module</description>
+
+  <dependencies>
+<!--    <dependency>-->
+<!--      <groupId>com.company.payroll</groupId>-->
+<!--	    <artifactId>payroll_mbg</artifactId>-->
+<!--    </dependency>-->
+    <dependency>
+      <groupId>com.company.payroll</groupId>
+	    <artifactId>module_util</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+  </dependencies>
+</project>

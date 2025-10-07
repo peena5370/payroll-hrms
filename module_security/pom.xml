@@ -28,5 +28,9 @@
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt-jackson</artifactId>
     </dependency>
+      <dependency>
+          <groupId>com.company.payroll</groupId>
+          <artifactId>module_user</artifactId>
+      </dependency>
   </dependencies>
 </project>

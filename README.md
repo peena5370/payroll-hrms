@@ -13,18 +13,19 @@ A FYP project during degress study
 ### Back-end Microservices
 1. payroll-hrms-service
 
-| Tools | Description |
-| :---- | :---------- |
-| SpringBoot | Spring Boot version 3 |
-| Spring Security | Spring Security Framework |
-| MariaDB | MariaDB Database server |
-| Hibernate | Object-Relational Mapping (ORM) tool |
-| MyBatis | Object-Relational Mapping (ORM) tool |
-| MyBatis Generator | MyBatis mapper generator |
-| Apache Tomcat | Apache tomcat server |
-| Lombok | Getter/Setter library |
-| JWT | Json Web Token |
-| OpenAPI | API documentation generator |
+| Tools             | Description                          |
+|:------------------|:-------------------------------------|
+| SpringBoot        | Spring Boot version 3                |
+| Spring Security   | Spring Security Framework            |
+| MariaDB           | MariaDB Database server              |
+| Hibernate         | Object-Relational Mapping (ORM) tool |
+| MyBatis           | Object-Relational Mapping (ORM) tool |
+| MyBatis Generator | MyBatis mapper generator             |
+| Apache Tomcat     | Apache tomcat server                 |
+| Lombok            | Getter/Setter library                |
+| JWT               | Json Web Token                       |
+| OpenAPI           | API documentation generator          |
+| Caffeine          | Java caching library                 |
 
 2. payroll-user-service
 
