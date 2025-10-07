@@ -19,11 +19,25 @@
     <dependencies>
         <dependency>
             <groupId>com.company.payroll</groupId>
-            <artifactId>module_security</artifactId>
+            <artifactId>module_department</artifactId>
         </dependency>
         <dependency>
             <groupId>com.company.payroll</groupId>
-            <artifactId>module_hrms</artifactId>
+            <artifactId>module_employee</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.company.payroll</groupId>
+            <artifactId>module_user</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.company.payroll</groupId>
+            <artifactId>module_security</artifactId>
+        </dependency>
+        <!-- tomcat -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <!--            <scope>Provided</scope>-->
         </dependency>
     </dependencies>
 </project>

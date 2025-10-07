@@ -21,11 +21,15 @@
     <modules>
         <module>module_util</module>
         <module>module_security</module>
-        <module>module_hrms</module>
+        <module>module_employee</module>
         <module>hrms_api</module>
+        <module>module_user</module>
+        <module>module_department</module>
+        <module>module_facility</module>
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jakarta-servlet.version>5.0.0</jakarta-servlet.version>
         <java.version>21</java.version>
     </properties>
@@ -62,12 +66,6 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-        <!-- tomcat -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-<!--            <scope>Provided</scope>-->
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -76,6 +74,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
@@ -105,17 +111,32 @@
         <dependencies>
             <dependency>
                 <groupId>com.company.payroll</groupId>
+                <artifactId>module_department</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.company.payroll</groupId>
+                <artifactId>module_employee</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.company.payroll</groupId>
+                <artifactId>module_facility</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.company.payroll</groupId>
+                <artifactId>module_user</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.company.payroll</groupId>
                 <artifactId>module_security</artifactId>
                 <version>1.0.1</version>
             </dependency>
             <dependency>
                 <groupId>com.company.payroll</groupId>
                 <artifactId>module_util</artifactId>
-                <version>1.0.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.company.payroll</groupId>
-                <artifactId>module_hrms</artifactId>
                 <version>1.0.1</version>
             </dependency>
             <!-- mybatis -->
