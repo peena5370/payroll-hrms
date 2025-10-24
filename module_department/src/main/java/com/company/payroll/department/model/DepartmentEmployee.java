@@ -25,8 +25,14 @@ public class DepartmentEmployee {
     @Column(name = "department_id", nullable = false)
     private long departmentId;
 
+    @Column(name = "department_uid", nullable = false)
+    private long departmentUnitId;
+
     @Column(name = "employee_id", nullable = false)
     private String employeeId;
+
+    @Column(name = "is_primary")
+    private boolean isPrimary;
 
     @Column(name = "is_manager")
     private boolean isManager;

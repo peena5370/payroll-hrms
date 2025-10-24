@@ -1,11 +1,13 @@
 package com.company.payroll.util.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class PageHelper {
 
     private PageHelper() {
@@ -36,7 +38,7 @@ public class PageHelper {
                     Sort.Direction direction = fieldParts[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
                     orders.add(new Sort.Order(direction, entityFieldName));
                 } else {
-                    System.err.println("Unknown sort parameter: " + frontendFieldName);
+                    log.error("[PageHelper] \"buildSortFromSortField\" Unknown sort parameter: {}", frontendFieldName);
                 }
             }
         }

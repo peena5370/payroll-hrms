@@ -22,14 +22,14 @@ public class Department {
     @Column(name = "department_id")
     private long departmentId;
 
-    @Column(name = "department_name", unique = true, nullable = false)
+    @Column(name = "department_name", nullable = false)
     private String departmentName;
+
+    @Column(name = "cost_center_code", unique = true)
+    private String costCenterCode;
 
     @Column(name = "description")
     private String description;
-
-    @Column(name = "manager_id")
-    private Long managerId;
 
     @Column(name = "parent_department_id")
     private Long parentDepartmentId;
