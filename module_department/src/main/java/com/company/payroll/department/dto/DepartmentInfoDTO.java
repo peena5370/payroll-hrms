@@ -1,6 +1,15 @@
 package com.company.payroll.department.dto;
 
-public record DepartmentInfoDTO(String departmentName, String description, String departmentManagerName,
-                             String parentDepartmentName, String location, String phoneExtensionCode,
-                             String departmentEmail) {
+import java.time.LocalDateTime;
+
+public record DepartmentInfoDTO(
+        Long departmentId,
+        String departmentName,
+        String costCenterCode,
+        String description,
+        Long parentDepartmentId,
+        String location,
+        String phoneExtensionCode,
+        String departmentEmail,
+        LocalDateTime createdAt) {
 }

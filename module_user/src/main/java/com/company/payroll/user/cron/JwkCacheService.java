@@ -39,13 +39,14 @@ public class JwkCacheService {
 
             log.info("Successfully refreshed JWK URI.");
 
-
-            return response.data().keys();
+            if(response != null) {
+                return response.data().keys();
+            }
         } catch (RuntimeException e) {
             log.error("FATAL: Failed to refresh JWK URI cache.", e);
-
-            return null;
         }
+
+        return null;
     }
 
     @Cacheable(value = JWK_URI_CACHE, key = "'jwkUri'")

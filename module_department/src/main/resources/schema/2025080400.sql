@@ -1,6 +1,7 @@
 CREATE TABLE `department` (
-  `department_id` bigint NOT NULL AUTO_INCREMENT COMMENT 'Department table id',
+  `department_id` bigint NOT NULL COMMENT 'Department table id',
   `department_name` varchar(100) NOT NULL COMMENT 'Department name',
+  `cost_center_code` varchar(50) NOT NULL UNIQUE COMMENT 'Department cost center code',
   `description` TEXT NULL COMMENT 'Description',
   `parent_department_id` bigint NULL COMMENT 'Parent department id from department table',
   `location` varchar(255) NULL COMMENT 'Department location',
