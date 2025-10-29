@@ -25,11 +25,11 @@ public class DepartmentEmployee {
     @Column(name = "department_id", nullable = false)
     private long departmentId;
 
-    @Column(name = "department_uid", nullable = false)
-    private long departmentUnitId;
+    @Column(name = "department_fuid", nullable = false)
+    private long departmentFUId;
 
     @Column(name = "employee_id", nullable = false)
-    private String employeeId;
+    private long employeeId;
 
     @Column(name = "is_primary")
     private boolean isPrimary;

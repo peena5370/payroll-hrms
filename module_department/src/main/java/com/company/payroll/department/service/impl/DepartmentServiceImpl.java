@@ -21,7 +21,6 @@ import java.util.*;
 @Slf4j
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
-
     public static final String CLASS_NAME = "[DepartmentServiceImpl]";
     private final SnowFlakeIdGenerator snowFlakeIdGenerator;
     private final DepartmentRepository departmentRepository;
@@ -52,16 +51,19 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         if (!departments.isEmpty()) {
             for (Department department : departments) {
-                DepartmentInfoDTO departmentInfoDTO = new DepartmentInfoDTO(
-                        department.getDepartmentId(),
+                DepartmentDTO detail = new DepartmentDTO(
                         department.getDepartmentName(),
                         department.getCostCenterCode(),
                         department.getDescription(),
                         department.getParentDepartmentId(),
                         department.getLocation(),
                         department.getPhoneExtensionCode(),
-                        department.getDepartmentEmail(),
-                        department.getCreatedAt()
+                        department.getDepartmentEmail());
+
+                DepartmentInfoDTO departmentInfoDTO = new DepartmentInfoDTO(
+                        department.getDepartmentId(),
+                        department.getCreatedAt(),
+                        detail
                 );
 
                 departmentInfoDTOList.add(departmentInfoDTO);
@@ -85,16 +87,19 @@ public class DepartmentServiceImpl implements DepartmentService {
         if (department.isPresent()) {
             Department result = department.get();
 
-            DepartmentInfoDTO departmentInfoDTO = new DepartmentInfoDTO(
-                    result.getDepartmentId(),
+            DepartmentDTO detail = new DepartmentDTO(
                     result.getDepartmentName(),
                     result.getCostCenterCode(),
                     result.getDescription(),
                     result.getParentDepartmentId(),
                     result.getLocation(),
                     result.getPhoneExtensionCode(),
-                    result.getDepartmentEmail(),
-                    result.getCreatedAt()
+                    result.getDepartmentEmail());
+
+            DepartmentInfoDTO departmentInfoDTO = new DepartmentInfoDTO(
+                    result.getDepartmentId(),
+                    result.getCreatedAt(),
+                    detail
             );
 
             log.info("{} {} success for departmentId={}.", params);
@@ -197,10 +202,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         Optional<Department> department = departmentRepository.findById(departmentId);
         if (department.isPresent()) {
-            Optional<List<DepartmentEmployee>> departmentEmployees = departmentEmployeeRepository.getAllByDepartmentId(departmentId);
-            Optional<List<DepartmentFacilityUnit>> departmentFacilityUnits = departmentFacilityUnitRepository.getAllByDepartmentId(departmentId);
+            List<DepartmentEmployee> departmentEmployees = departmentEmployeeRepository.getAllByDepartmentId(departmentId);
+            List<DepartmentFacilityUnit> departmentFacilityUnits = departmentFacilityUnitRepository.getAllByDepartmentId(departmentId);
 
-            if(departmentEmployees.isPresent() || departmentFacilityUnits.isPresent()) {
+            if(!departmentEmployees.isEmpty() || !departmentFacilityUnits.isEmpty()) {
                 log.info("{} {} for departmentId={} is in used, not allow to delete.", new Object[]{CLASS_NAME, functionName, departmentId});
                 status = -2;
             } else {

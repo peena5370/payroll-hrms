@@ -23,6 +23,10 @@
         </dependency>
         <dependency>
             <groupId>com.company.payroll</groupId>
+            <artifactId>module_facility</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.company.payroll</groupId>
             <artifactId>module_employee</artifactId>
         </dependency>
         <dependency>

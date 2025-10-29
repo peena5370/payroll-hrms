@@ -6,13 +6,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface DepartmentEmployeeRepository extends JpaRepository<DepartmentEmployee, Long> {
 
     @Query("SELECT de FROM DepartmentEmployee de WHERE de.departmentId = :departmentId")
-    Optional<List<DepartmentEmployee>> getAllByDepartmentId(@Param("departmentId") Long departmentId);
+    List<DepartmentEmployee> getAllByDepartmentId(@Param("departmentId") Long departmentId);
 
-    @Query("SELECT de FROM DepartmentEmployee de WHERE de.departmentId IN :departmentIds AND de.isManager = :isManager")
-    Optional<List<DepartmentEmployee>> getAllByDepartmentIdsAndIsManager(@Param("departmentIds") List<Long> departmentIds, @Param("isManager") boolean isManager);
+    @Query("SELECT de FROM DepartmentEmployee de " +
+            "WHERE de.departmentId IN :departmentIds " +
+            "AND de.departmentFUId IN :departmentFUIds " +
+            "AND de.isPrimary = :isPrimary " +
+            "AND de.isManager = :isManager")
+    List<DepartmentEmployee> getAllByDepartmentIdsAndDepartmentFacilityUnitIdsAndIsPrimaryAndIsManager(@Param("departmentIds") List<Long> departmentIds,
+                                                                         @Param("departmentFUIds") List<Long> departmentFUIds,
+                                                                         @Param("isPrimary") boolean isPrimary,
+                                                                         @Param("isManager") boolean isManager);
 }

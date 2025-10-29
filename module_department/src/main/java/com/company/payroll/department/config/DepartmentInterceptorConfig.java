@@ -6,11 +6,11 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class HRMSInterceptorConfig implements WebMvcConfigurer {
+public class DepartmentInterceptorConfig implements WebMvcConfigurer {
 
     private final DepartmentInterceptor departmentInterceptor;
 
-    public HRMSInterceptorConfig(DepartmentInterceptor departmentInterceptor) {
+    public DepartmentInterceptorConfig(DepartmentInterceptor departmentInterceptor) {
         this.departmentInterceptor = departmentInterceptor;
     }
 

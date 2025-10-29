@@ -17,12 +17,12 @@ import lombok.Setter;
 @Table(name = "department_facility_unit")
 public class DepartmentFacilityUnit {
     @Id
-    @Column(name = "department_uid")
-    private long departmentUId;
+    @Column(name = "department_fuid")
+    private long departmentFUId;
 
     @Column(name = "department_id", nullable = false)
-    private String departmentId;
+    private long departmentId;
 
     @Column(name = "facility_id", nullable = false)
-    private String facilityId;
+    private long facilityId;
 }

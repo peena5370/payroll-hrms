@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface DepartmentFacilityUnitRepository extends JpaRepository<DepartmentFacilityUnit, Long> {
 
     @Query("SELECT dfu FROM DepartmentFacilityUnit dfu WHERE dfu.departmentId = :departmentId")
-    Optional<List<DepartmentFacilityUnit>> getAllByDepartmentId(@Param("departmentId") Long departmentId);
+    List<DepartmentFacilityUnit> getAllByDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT dfu FROM DepartmentFacilityUnit dfu WHERE dfu.facilityId = :facilityId")
+    List<DepartmentFacilityUnit> getAllByFacilityId(@Param("facilityId") Long facilityId);
 }

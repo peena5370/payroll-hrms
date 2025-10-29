@@ -24,6 +24,10 @@
             <groupId>com.company.payroll</groupId>
             <artifactId>module_util</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.company.payroll</groupId>
+            <artifactId>module_common</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
