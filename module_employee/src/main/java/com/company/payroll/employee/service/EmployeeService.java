@@ -10,7 +10,7 @@ public interface EmployeeService {
 
     int createEmployeeInfo(EmployeeDTO employeeDTO);
 
-    List<EmployeeInfoDTO> getAllEmployeesByOffsetAndLimitAndOrder(int offset, int limit);
+    List<EmployeeInfoDTO> getAllEmployeesByOffsetAndLimit(int offset, int limit);
 
     Optional<EmployeeInfoDTO> getEmployeeInfoById(long employeeId);
 

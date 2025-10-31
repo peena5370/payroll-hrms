@@ -27,6 +27,8 @@
         <module>module_department</module>
         <module>module_facility</module>
         <module>module_common</module>
+        <module>module_promotion</module>
+        <module>module_resignation</module>
     </modules>
 
     <properties>
@@ -128,6 +130,16 @@
             <dependency>
                 <groupId>com.company.payroll</groupId>
                 <artifactId>module_facility</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.company.payroll</groupId>
+                <artifactId>module_promotion</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.company.payroll</groupId>
+                <artifactId>module_resignation</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>

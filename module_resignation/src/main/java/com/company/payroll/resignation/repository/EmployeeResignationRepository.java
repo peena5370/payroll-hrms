@@ -1,6 +1,6 @@
-package com.company.payroll.employee.repository;
+package com.company.payroll.resignation.repository;
 
-import com.company.payroll.employee.model.EmployeeResignation;
+import com.company.payroll.resignation.model.EmployeeResignation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmployeeResignationRepository extends JpaRepository<EmployeeResignation, Long> {
