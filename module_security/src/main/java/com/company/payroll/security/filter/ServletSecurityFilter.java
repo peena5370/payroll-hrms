@@ -1,7 +1,6 @@
 package com.company.payroll.security.filter;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
@@ -17,25 +16,29 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class ServletFilter extends HttpFilter {
+public class ServletSecurityFilter extends HttpFilter {
+    private static final String CLASS_NAME = "[ServletSecurityFilter]";
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("Servlet filter initialized at:{} ", ZonedDateTime.now());
-        log.info("Servlet filter name: {} ", filterConfig.getFilterName());
+        log.info("{} initialized at={} ", new Object[]{CLASS_NAME, ZonedDateTime.now()});
+        log.info("{} filter name={} ", new Object[]{CLASS_NAME, filterConfig.getFilterName()});
+        log.info("{} servlet context={}", new Object[]{CLASS_NAME, filterConfig.getServletContext().getContextPath()});
+
         super.init(filterConfig);
 	}
 
 	@Override
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+        final String functionName = Thread.currentThread().getStackTrace()[1].getMethodName();
+        log.info("{} {} Remote address: [{}] accessed at: {}", new Object[]{CLASS_NAME, functionName, request.getRemoteAddr(), LocalDateTime.now()});
 
-		log.info("Remote address: [{}] Filter starts at: {}", request.getRemoteAddr(), LocalDateTime.now());
 		super.doFilter(request, response, chain);
 	}
 	
 	@Override
 	public void destroy() {
-		log.info("Servlet filter destroyed.");
+        log.info("{} destroyed at: {}", new Object[]{CLASS_NAME, LocalDateTime.now()});
 	}
 }
