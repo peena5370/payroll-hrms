@@ -1,4 +1,4 @@
-package com.company.payroll.employee.model;
+package com.company.payroll.resignation.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

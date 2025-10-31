@@ -31,6 +31,14 @@
         </dependency>
         <dependency>
             <groupId>com.company.payroll</groupId>
+            <artifactId>module_promotion</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.company.payroll</groupId>
+            <artifactId>module_resignation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.company.payroll</groupId>
             <artifactId>module_user</artifactId>
         </dependency>
         <dependency>

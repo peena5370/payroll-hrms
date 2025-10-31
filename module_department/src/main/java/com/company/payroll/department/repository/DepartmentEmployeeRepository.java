@@ -21,4 +21,7 @@ public interface DepartmentEmployeeRepository extends JpaRepository<DepartmentEm
                                                                          @Param("departmentFUIds") List<Long> departmentFUIds,
                                                                          @Param("isPrimary") boolean isPrimary,
                                                                          @Param("isManager") boolean isManager);
+
+    @Query("SELECT de FROM DepartmentEmployee de WHERE de.employeeId = :employeeId")
+    List<DepartmentEmployee> getAllByDepartmentEmployeeId(@Param("employeeId") Long employeeId);
 }

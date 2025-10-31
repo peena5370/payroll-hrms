@@ -23,6 +23,10 @@
 <!--      <groupId>com.company.payroll</groupId>-->
 <!--	    <artifactId>payroll_mbg</artifactId>-->
 <!--    </dependency>-->
+      <dependency>
+          <groupId>com.company.payroll</groupId>
+          <artifactId>module_common</artifactId>
+      </dependency>
     <dependency>
       <groupId>com.company.payroll</groupId>
 	    <artifactId>module_util</artifactId>
