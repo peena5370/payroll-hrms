@@ -27,6 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Slf4j
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private static final String CLASS_NAME = "[JwtAuthenticationFilter]";
 
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwkCacheService jwkCacheService;
@@ -39,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        log.info("JwtAuthenticationFilter started.");
+        log.info("{} started.", CLASS_NAME);
         String header = request.getHeader("Authorization");
 
         if (header != null && header.startsWith("Bearer ")) {
@@ -72,16 +73,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 } else {
-                    log.warn("JwtAuthenticationFilter token not valid or expired");
+                    log.warn("{} token not valid or expired", CLASS_NAME);
                     throw new BadCredentialsException("Invalid or expired JWT token provided.");
                 }
             } catch (Exception e) {
                 // Log and handle invalid or expired tokens
-                log.error("JWT authentication failed: {}", e.getMessage());
+                log.error("{} JWT authentication failed={}", new Object[]{CLASS_NAME, e.getMessage()});
             }
         }
 
-        log.info("JwtAuthenticationFilter ended.");
+        log.info("{} end.", CLASS_NAME);
         filterChain.doFilter(request, response);
     }
 }

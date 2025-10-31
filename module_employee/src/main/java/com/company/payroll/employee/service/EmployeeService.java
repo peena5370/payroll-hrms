@@ -8,15 +8,13 @@ import java.util.Optional;
 
 public interface EmployeeService {
 
-    Optional<List<EmployeeInfoDTO>> getAllEmployeesByOffsetAndLimitAndOrder(int offset, int limit, String sortOrder);
+    int createEmployeeInfo(EmployeeDTO employeeDTO);
+
+    List<EmployeeInfoDTO> getAllEmployeesByOffsetAndLimitAndOrder(int offset, int limit);
 
     Optional<EmployeeInfoDTO> getEmployeeInfoById(long employeeId);
 
-    Optional<List<Object>> getAllManagerInfosByIds(List<Long> employeeIds);
-
-    int createEmployeeInfo(EmployeeDTO employeeInfo);
-
-    int updateEmployeeInfoById(long employeeId, EmployeeDTO employeeInfo);
+    int updateEmployeeInfoById(long employeeId, EmployeeDTO employeeDTO);
 
     int deleteEmployeeInfoById(long employeeId);
 }

@@ -148,7 +148,8 @@ public class DepartmentFacilityServiceImpl implements DepartmentFacilityService 
                                 return new DepartmentDetailDTO(
                                         unit.getDepartmentFUId(),
                                         unit.getDepartmentId(),
-                                        departmentEmployeeMap.get(dept.getDepartmentId()).getEmployeeId(),
+                                        departmentEmployeeMap.get(dept.getDepartmentId()) != null ?
+                                        departmentEmployeeMap.get(dept.getDepartmentId()).getEmployeeId() : null,
                                         detail
                                 );
                             })
